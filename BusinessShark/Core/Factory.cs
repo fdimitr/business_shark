@@ -2,14 +2,24 @@
 
 namespace BusinessShark.Core
 {
-    internal class Factory(ItemDefinition productDefinition)
+    internal class Factory
     {
-        public ItemDefinition ProductDefinition = productDefinition;
+        public ItemDefinition ProductDefinition;
         public float ProgressProduction;
         public float ProgressQuality;
+        public float TechLevel;
+        public Tool ToolPark;
 
         public Dictionary<Enums.ItemType, Item.Item> WarehouseProducts = new();
         public Dictionary<Enums.ItemType, Item.Item> WarehouseResources = new();
+
+        public Factory(ItemDefinition productDefinition, float techLevel, Tool toolPark)
+        {
+            ProductDefinition = productDefinition;
+            TechLevel = techLevel;
+            ToolPark = toolPark;
+        }
+
         public void Production()
         {
             if (ProgressProduction == 0)
@@ -35,7 +45,7 @@ namespace BusinessShark.Core
                 }
             }
 
-            ProgressProduction += productDefinition.IdealProductionCount;
+            ProgressProduction += ProductDefinition.IdealProductionCount;
 
             // Completion of production
             if (ProgressProduction >= 1)
