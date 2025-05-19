@@ -13,7 +13,7 @@ namespace BusinessShark
                     new ProductionUnit(Enums.ItemType.Leather, 1, 0.1f)
             ], 5, 0.3f, 0.2f, 0.1f);
 
-            var factory = new Factory(bedDefinition, 0, new Tool());
+            var factory = new Factory(bedDefinition, 0, new Tools(), new  Workers());
             factory.WarehouseResources.Add(Enums.ItemType.Wood,
                 new Item(new ItemDefinition(Enums.ItemType.Wood, 1, [], 1, 0.3f, 0.3f, 0.4f), 18, 5.0f));
             factory.WarehouseResources.Add(Enums.ItemType.Leather,

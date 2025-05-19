@@ -2,23 +2,17 @@
 
 namespace BusinessShark.Core
 {
-    internal class Factory
+    internal class Factory(ItemDefinition productDefinition, float techLevel, Tools toolPark, Workers workers)
     {
-        public ItemDefinition ProductDefinition;
+        public ItemDefinition ProductDefinition = productDefinition;
         public float ProgressProduction;
         public float ProgressQuality;
-        public float TechLevel;
-        public Tool ToolPark;
+        public float TechLevel = techLevel;
+        public Tools ToolPark = toolPark;
+        public Workers FactoryWorkers = workers;
 
         public Dictionary<Enums.ItemType, Item.Item> WarehouseProducts = new();
         public Dictionary<Enums.ItemType, Item.Item> WarehouseResources = new();
-
-        public Factory(ItemDefinition productDefinition, float techLevel, Tool toolPark)
-        {
-            ProductDefinition = productDefinition;
-            TechLevel = techLevel;
-            ToolPark = toolPark;
-        }
 
         public void Production()
         {
@@ -83,14 +77,18 @@ namespace BusinessShark.Core
 
         private float CalculateProductionQuality(List<Item.Item> items)
         {
-            float totalImpact = ProductDefinition.ProductionUnits.Sum(e => e.QualityImpact);
+            float totalImpact = ProductDefinition.ProductionUnits.Sum(e => e.QualityImpact) +
+                                ProductDefinition.ToolImpact + ProductDefinition.TechImpact +
+                                ProductDefinition.WorkerImpact;
 
             if (totalImpact == 0)
                 throw new InvalidOperationException("Суммарное влияние не может быть равно нулю.");
 
-            var numerator = items.Sum(e => e.Quality * e.Quantity * ProductDefinition.ProductionUnits.First(p => p.ItemType == e.Definition.ItemType).QualityImpact);
-            var denominator = items.Sum(e => e.Quantity * ProductDefinition.ProductionUnits.First(p => p.ItemType == e.Definition.ItemType).QualityImpact);
-            return numerator / denominator;
+            var numerator = items.Sum(e => e.Quality * ProductDefinition.ProductionUnits.First(p => p.ItemType == e.Definition.ItemType).QualityImpact)
+                            + TechLevel * ProductDefinition.TechImpact
+                            + ToolPark.TechLevel * ProductDefinition.ToolImpact
+                            + FactoryWorkers.TechLevel * ProductDefinition.WorkerImpact;
+            return numerator / totalImpact;
         }
 
         public static float CalculateWarehouseQuality(float existingQuality, int existingQuantity,

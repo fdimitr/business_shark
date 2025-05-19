@@ -1,6 +1,6 @@
 ﻿namespace BusinessShark.Core
 {
-    internal class Tool
+    internal class Tools
     {
         public int TotalQuantity;
         public float TechLevel;
