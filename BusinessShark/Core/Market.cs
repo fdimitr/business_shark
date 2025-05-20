@@ -75,6 +75,11 @@ namespace BusinessShark.Core
 
                     return definition;
                 }, splitOn: "ItemDefinitionId");
+
+            foreach (var kvp in ItemDefinitions)
+            {
+                kvp.Value.CheckTotalImpact();
+            }
         }
     }
 }

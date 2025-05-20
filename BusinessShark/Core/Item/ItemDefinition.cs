@@ -24,13 +24,6 @@ namespace BusinessShark.Core.Item
             TechImpactQuantity = techImpactQuantity;
             ToolImpactQuantity = toolImpactQuantity;
             WorkerImpactQuantity = workerImpactQuantity;
-
-            //var totalImpact = (productionUnits != null ? productionUnits.Sum(p => p.QualityImpact) : 0)
-            //                  + techImpactQuality
-            //                  + toolImpactQuality
-            //                  + workerImpactQuality;
-            //if (Math.Abs(totalImpact - 1) > 0.0001)
-            //    throw new Exception("The total coefficient of influence on quality should be equal to 1");
         }
 
         public ItemType ItemDefinitionId { get; }
@@ -46,6 +39,17 @@ namespace BusinessShark.Core.Item
         public float TechImpactQuantity { get; }
         public float ToolImpactQuantity { get; }
         public float WorkerImpactQuantity { get; }
+
+        public void CheckTotalImpact()
+        {
+            var totalImpact = ProductionUnits.Sum(p => p.QualityImpact)
+                              + TechImpactQuality
+                              + ToolImpactQuality
+                              + WorkerImpactQuality
+                              + SourceImpactQuality;
+            if (Math.Abs(totalImpact - 1) > 0.0001)
+                throw new Exception($"Item: {Name}. The total coefficient of influence on quality should be equal to 1. But now it equal to {totalImpact}");
+        }
 
     }
 

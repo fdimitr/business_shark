@@ -75,7 +75,7 @@ namespace BusinessShark.Core
             return true;
         }
 
-        private float CalculateProductionQuality(List<Item.Item> items)
+        internal float CalculateProductionQuality(List<Item.Item> items)
         {
             float totalImpact = ProductDefinition.ProductionUnits.Sum(e => e.QualityImpact) +
                                 ProductDefinition.ToolImpactQuality + ProductDefinition.TechImpactQuality +
@@ -91,7 +91,7 @@ namespace BusinessShark.Core
             return numerator / totalImpact;
         }
 
-        public static float CalculateWarehouseQuality(float existingQuality, int existingQuantity,
+        internal static float CalculateWarehouseQuality(float existingQuality, int existingQuantity,
             float addedQuality, int addedQuantity)
         {
             float totalWeight = existingQuantity + addedQuantity;
