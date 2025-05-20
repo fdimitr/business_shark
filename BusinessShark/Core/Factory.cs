@@ -39,7 +39,7 @@ namespace BusinessShark.Core
                 }
             }
 
-            ProgressProduction += ProductDefinition.ProductionCount;
+            ProgressProduction += CalculateProductionQuantity(ProductDefinition.BaseProductionCount);
 
             // Completion of production
             if (ProgressProduction >= 1)
@@ -82,13 +82,27 @@ namespace BusinessShark.Core
                                 ProductDefinition.WorkerImpactQuality;
 
             if (totalImpact == 0)
-                throw new InvalidOperationException("Суммарное влияние не может быть равно нулю.");
+                throw new InvalidOperationException("Суммарное влияние на качество не может быть равно нулю.");
 
             var numerator = items.Sum(e => e.Quality * ProductDefinition.ProductionUnits.First(p => p.ComponentDefinitionId == e.Definition.ItemDefinitionId).QualityImpact)
                             + TechLevel * ProductDefinition.TechImpactQuality
                             + ToolPark.TechLevel * ProductDefinition.ToolImpactQuality
                             + FactoryWorkers.TechLevel * ProductDefinition.WorkerImpactQuality;
             return numerator / totalImpact;
+        }
+
+        internal float CalculateProductionQuantity(float baseProductionCount)
+        {
+            float totalImpact = ProductDefinition.ToolImpactQuantity + ProductDefinition.TechImpactQuantity + ProductDefinition.WorkerImpactQuantity;
+
+            if (totalImpact == 0)
+                throw new InvalidOperationException("Суммарное влияние на количество не может быть равно нулю.");
+
+            var numerator = TechLevel * ProductDefinition.TechImpactQuantity
+                            + ToolPark.TechLevel * ProductDefinition.ToolImpactQuantity
+                            + FactoryWorkers.TechLevel * ProductDefinition.WorkerImpactQuantity;
+            var percent = numerator / totalImpact;
+            return (float)Math.Round(baseProductionCount * percent);
         }
 
         internal static float CalculateWarehouseQuality(float existingQuality, int existingQuantity,

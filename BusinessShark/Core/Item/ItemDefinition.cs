@@ -16,7 +16,7 @@ namespace BusinessShark.Core.Item
             ItemDefinitionId = (ItemType)itemDefinitionId;
             Name = name;
             Volume = volume;
-            ProductionCount = productionCount;
+            BaseProductionCount = productionCount;
             TechImpactQuality = techImpactQuality;
             ToolImpactQuality = toolImpactQuality;
             WorkerImpactQuality = workerImpactQuality;
@@ -30,7 +30,7 @@ namespace BusinessShark.Core.Item
         public string Name { get; }
         public float Volume { get; }
         public List<ProductionUnit> ProductionUnits { get; set; } = new();
-        public float ProductionCount { get; }
+        public float BaseProductionCount { get; }
 
         public float TechImpactQuality { get; }
         public float ToolImpactQuality { get; }

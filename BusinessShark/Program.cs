@@ -9,7 +9,7 @@ namespace BusinessShark
         {
             Market market = new Market();
 
-            var factory = new Factory(market.ItemDefinitions[Enums.ItemType.Bed], 0, new Tools(), new  Workers());
+            var factory = new Factory(market.ItemDefinitions[Enums.ItemType.Bed], 1, new Tools(), new  Workers());
             factory.WarehouseResources.Add(Enums.ItemType.Wood,
                 new Item(market.ItemDefinitions[Enums.ItemType.Wood], 18, 5.0f));
             factory.WarehouseResources.Add(Enums.ItemType.Leather,
