@@ -1,9 +1,10 @@
 ﻿namespace BusinessShark.Core.Item
 {
-    internal class ProductionUnit(Enums.ItemType itemType, int productionQuantity, float qualityImpact)
+    internal class ProductionUnit(long productDefinitionId, long itemDefinitionId, long productionQuantity, double qualityImpact)
     {
-        public Enums.ItemType ItemType { get; } = itemType;
-        public int ProductionQuantity { get; } = productionQuantity;
-        public float QualityImpact { get; } = qualityImpact;
+        public Enums.ItemType ComponentDefinitionId { get; } = (Enums.ItemType)productDefinitionId;
+        public Enums.ItemType ItemDefinitionId { get; } = (Enums.ItemType)itemDefinitionId;
+        public int ProductionQuantity { get; } = (int)productionQuantity;
+        public float QualityImpact { get; } = (float)qualityImpact;
     }
 }

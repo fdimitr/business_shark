@@ -25,7 +25,7 @@ namespace BusinessShark.Core
                     var listForQualityCalc = new List<Item.Item>();
                     foreach (var unit in ProductDefinition.ProductionUnits)
                     {
-                        var item = WarehouseResources[unit.ItemType];
+                        var item = WarehouseResources[unit.ComponentDefinitionId];
                         item.Quantity -= unit.ProductionQuantity;
                         listForQualityCalc.Add(new Item.Item(item.Definition, unit.ProductionQuantity, item.Quality));
                     }
@@ -39,22 +39,22 @@ namespace BusinessShark.Core
                 }
             }
 
-            ProgressProduction += ProductDefinition.IdealProductionCount;
+            ProgressProduction += ProductDefinition.ProductionCount;
 
             // Completion of production
             if (ProgressProduction >= 1)
             {
                 var productionCount = (int)Math.Round(ProgressProduction);
 
-                if (WarehouseProducts.TryGetValue(ProductDefinition.ItemType, out Item.Item? storedItem))
+                if (WarehouseProducts.TryGetValue(ProductDefinition.ItemDefinitionId, out Item.Item? storedItem))
                 {
                     storedItem.Quality = CalculateWarehouseQuality(storedItem.Quality, storedItem.Quantity,
                         ProgressQuality, productionCount);
-                    WarehouseProducts[ProductDefinition.ItemType].Quantity += productionCount;
+                    WarehouseProducts[ProductDefinition.ItemDefinitionId].Quantity += productionCount;
                 }
                 else
                 {
-                    WarehouseProducts[ProductDefinition.ItemType] =
+                    WarehouseProducts[ProductDefinition.ItemDefinitionId] =
                         new Item.Item(ProductDefinition, productionCount, ProgressQuality);
                 }
 
@@ -68,7 +68,7 @@ namespace BusinessShark.Core
         {
             foreach (var unit in ProductDefinition.ProductionUnits)
             {
-                WarehouseResources.TryGetValue(unit.ItemType, out Item.Item? item);
+                WarehouseResources.TryGetValue(unit.ComponentDefinitionId, out Item.Item? item);
                 if (item == null || item.Quantity < unit.ProductionQuantity)
                     return false;
             }
@@ -78,16 +78,16 @@ namespace BusinessShark.Core
         private float CalculateProductionQuality(List<Item.Item> items)
         {
             float totalImpact = ProductDefinition.ProductionUnits.Sum(e => e.QualityImpact) +
-                                ProductDefinition.ToolImpact + ProductDefinition.TechImpact +
-                                ProductDefinition.WorkerImpact;
+                                ProductDefinition.ToolImpactQuality + ProductDefinition.TechImpactQuality +
+                                ProductDefinition.WorkerImpactQuality;
 
             if (totalImpact == 0)
                 throw new InvalidOperationException("Суммарное влияние не может быть равно нулю.");
 
-            var numerator = items.Sum(e => e.Quality * ProductDefinition.ProductionUnits.First(p => p.ItemType == e.Definition.ItemType).QualityImpact)
-                            + TechLevel * ProductDefinition.TechImpact
-                            + ToolPark.TechLevel * ProductDefinition.ToolImpact
-                            + FactoryWorkers.TechLevel * ProductDefinition.WorkerImpact;
+            var numerator = items.Sum(e => e.Quality * ProductDefinition.ProductionUnits.First(p => p.ComponentDefinitionId == e.Definition.ItemDefinitionId).QualityImpact)
+                            + TechLevel * ProductDefinition.TechImpactQuality
+                            + ToolPark.TechLevel * ProductDefinition.ToolImpactQuality
+                            + FactoryWorkers.TechLevel * ProductDefinition.WorkerImpactQuality;
             return numerator / totalImpact;
         }
 

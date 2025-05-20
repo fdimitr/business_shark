@@ -1,40 +1,52 @@
-﻿using static BusinessShark.Core.Item.Enums;
+﻿using System.ComponentModel.DataAnnotations.Schema;
+using static BusinessShark.Core.Item.Enums;
 
 namespace BusinessShark.Core.Item
 {
     internal class ItemDefinition
     {
-        public ItemDefinition(ItemType itemType,
+        public ItemDefinition(int itemDefinitionId,
+            string name,
             float volume,
-            ProductionUnit[] productionUnits,
             float productionCount,
-            float techImpact,
-            float toolImpact,
-            float workerImpact)
+            float techImpactQuality,
+            float toolImpactQuality,
+            float workerImpactQuality, float sourceImpactQuality, float techImpactQuantity, float toolImpactQuantity, float workerImpactQuantity)
         {
-            ItemType = itemType;
+            ItemDefinitionId = (ItemType)itemDefinitionId;
+            Name = name;
             Volume = volume;
-            ProductionUnits = productionUnits;
-            IdealProductionCount = productionCount;
-            TechImpact = techImpact;
-            ToolImpact = toolImpact;
-            WorkerImpact = workerImpact;
+            ProductionCount = productionCount;
+            TechImpactQuality = techImpactQuality;
+            ToolImpactQuality = toolImpactQuality;
+            WorkerImpactQuality = workerImpactQuality;
+            SourceImpactQuality = sourceImpactQuality;
+            TechImpactQuantity = techImpactQuantity;
+            ToolImpactQuantity = toolImpactQuantity;
+            WorkerImpactQuantity = workerImpactQuantity;
 
-            var totalImpact = (productionUnits != null ? productionUnits.Sum(p => p.QualityImpact) : 0)
-                              + techImpact
-                              + toolImpact
-                              + workerImpact;
-            if (Math.Abs(totalImpact - 1) > 0.0001)
-                throw new Exception("The total coefficient of influence on quality should be equal to 1");
+            //var totalImpact = (productionUnits != null ? productionUnits.Sum(p => p.QualityImpact) : 0)
+            //                  + techImpactQuality
+            //                  + toolImpactQuality
+            //                  + workerImpactQuality;
+            //if (Math.Abs(totalImpact - 1) > 0.0001)
+            //    throw new Exception("The total coefficient of influence on quality should be equal to 1");
         }
 
-        public ItemType ItemType { get; }
+        public ItemType ItemDefinitionId { get; }
+        public string Name { get; }
         public float Volume { get; }
-        public ProductionUnit[] ProductionUnits { get; }
-        public float IdealProductionCount { get; }
+        public List<ProductionUnit> ProductionUnits { get; set; } = new();
+        public float ProductionCount { get; }
 
-        public float TechImpact { get; }
-        public float ToolImpact { get; }
-        public float WorkerImpact { get; }
+        public float TechImpactQuality { get; }
+        public float ToolImpactQuality { get; }
+        public float WorkerImpactQuality { get; }
+        public float SourceImpactQuality { get; }
+        public float TechImpactQuantity { get; }
+        public float ToolImpactQuantity { get; }
+        public float WorkerImpactQuantity { get; }
+
     }
+
 }
