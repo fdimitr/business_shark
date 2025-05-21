@@ -12,7 +12,7 @@ namespace BusinessShark.Core
         Point location) : DeliveryDivision(divisionId, location)
     {
         public ItemDefinition ProductDefinition = productDefinition;
-        public float ProgressProduction;
+        public float ProgressProduction; //procent of single product left on production
         public float ProgressQuality;
         public float TechLevel = techLevel;
         public Tools ToolPark = toolPark;
@@ -84,7 +84,7 @@ namespace BusinessShark.Core
         {
             foreach (var unit in ProductDefinition.ProductionUnits)
             {
-                WarehouseOutput.TryGetValue(unit.ComponentDefinitionId, out Item.Item? item);
+                WarehouseInput.TryGetValue(unit.ComponentDefinitionId, out Item.Item? item);
                 if (item == null || item.Quantity < unit.ProductionQuantity)
                     return false;
             }
