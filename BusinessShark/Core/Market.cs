@@ -20,14 +20,27 @@ namespace BusinessShark.Core
 
         public void CalculateDay()
         {
+            // Start the calculation for each city and its factories
             foreach (var city in Cities)
             {
                 foreach (var factory in city.Factories)
                 {
-                    factory.Production();
+                    factory.StartCalculation();
                 } 
             }
+
+            // Complete the calculation for each city and its factories
+            foreach (var city in Cities)
+            {
+                foreach (var factory in city.Factories)
+                {
+                    factory.CompleteCalculation();
+                }
+            }
         }
+
+        private void CompleteCalculation()
+        {}
 
         public void LoadItemDefinitions()
         {

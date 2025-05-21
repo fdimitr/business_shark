@@ -1,4 +1,5 @@
-﻿using BusinessShark.Core;
+﻿using System.Drawing;
+using BusinessShark.Core;
 using BusinessShark.Core.Item;
 
 namespace BusinessShark
@@ -9,7 +10,7 @@ namespace BusinessShark
         {
             Market market = new Market();
 
-            var factory = new Factory(market.ItemDefinitions[Enums.ItemType.Bed], 1, new Tools(), new  Workers());
+            var factory = new Factory(1, market.ItemDefinitions[Enums.ItemType.Bed], 1, new Tools(), new  Workers(), new Point(100, 100));
             factory.WarehouseResources.Add(Enums.ItemType.Wood,
                 new Item(market.ItemDefinitions[Enums.ItemType.Wood], 18, 5.0f));
             factory.WarehouseResources.Add(Enums.ItemType.Leather,

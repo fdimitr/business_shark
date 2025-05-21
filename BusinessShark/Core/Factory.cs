@@ -1,8 +1,15 @@
-﻿using BusinessShark.Core.Item;
+﻿using System.Drawing;
+using BusinessShark.Core.Item;
 
 namespace BusinessShark.Core
 {
-    internal class Factory(ItemDefinition productDefinition, float techLevel, Tools toolPark, Workers workers)
+    internal class Factory(
+        int divisionId,
+        ItemDefinition productDefinition,
+        float techLevel,
+        Tools toolPark,
+        Workers workers,
+        Point location) : Division(divisionId, location)
     {
         public ItemDefinition ProductDefinition = productDefinition;
         public float ProgressProduction;
@@ -14,7 +21,7 @@ namespace BusinessShark.Core
         public Dictionary<Enums.ItemType, Item.Item> WarehouseProducts = new();
         public Dictionary<Enums.ItemType, Item.Item> WarehouseResources = new();
 
-        public void Production()
+        public override void StartCalculation()
         {
             if (ProgressProduction == 0)
             {
@@ -48,9 +55,8 @@ namespace BusinessShark.Core
 
                 if (WarehouseProducts.TryGetValue(ProductDefinition.ItemDefinitionId, out Item.Item? storedItem))
                 {
-                    storedItem.Quality = CalculateWarehouseQuality(storedItem.Quality, storedItem.Quantity,
-                        ProgressQuality, productionCount);
-                    WarehouseProducts[ProductDefinition.ItemDefinitionId].Quantity += productionCount;
+                    storedItem.ProcessingQuality = ProgressQuality;
+                    WarehouseProducts[ProductDefinition.ItemDefinitionId].ProcessingQuantity += productionCount;
                 }
                 else
                 {
@@ -64,6 +70,19 @@ namespace BusinessShark.Core
             }
         }
 
+        public override void CompleteCalculation()
+        {
+            var item = WarehouseProducts[ProductDefinition.ItemDefinitionId];
+            var newQuality = CalculateWarehouseQuality();
+
+            item.Quantity += item.ProcessingQuantity;
+            item.Quality = newQuality;
+
+            // Reset processing values
+            item.ProcessingQuantity = 0;
+            item.ProcessingQuality = 0;
+        }
+
         private bool PossibleToProduce()
         {
             foreach (var unit in ProductDefinition.ProductionUnits)
@@ -72,6 +91,7 @@ namespace BusinessShark.Core
                 if (item == null || item.Quantity < unit.ProductionQuantity)
                     return false;
             }
+
             return true;
         }
 
@@ -84,7 +104,9 @@ namespace BusinessShark.Core
             if (totalImpact == 0)
                 throw new InvalidOperationException("Суммарное влияние на качество не может быть равно нулю.");
 
-            var numerator = items.Sum(e => e.Quality * ProductDefinition.ProductionUnits.First(p => p.ComponentDefinitionId == e.Definition.ItemDefinitionId).QualityImpact)
+            var numerator = items.Sum(e =>
+                                e.Quality * ProductDefinition.ProductionUnits
+                                    .First(p => p.ComponentDefinitionId == e.Definition.ItemDefinitionId).QualityImpact)
                             + TechLevel * ProductDefinition.TechImpactQuality
                             + ToolPark.TechLevel * ProductDefinition.ToolImpactQuality
                             + FactoryWorkers.TechLevel * ProductDefinition.WorkerImpactQuality;
@@ -93,7 +115,8 @@ namespace BusinessShark.Core
 
         internal float CalculateProductionQuantity(float baseProductionCount)
         {
-            float totalImpact = ProductDefinition.ToolImpactQuantity + ProductDefinition.TechImpactQuantity + ProductDefinition.WorkerImpactQuantity;
+            float totalImpact = ProductDefinition.ToolImpactQuantity + ProductDefinition.TechImpactQuantity +
+                                ProductDefinition.WorkerImpactQuantity;
 
             if (totalImpact == 0)
                 throw new InvalidOperationException("Суммарное влияние на количество не может быть равно нулю.");
@@ -105,9 +128,14 @@ namespace BusinessShark.Core
             return (float)Math.Round(baseProductionCount * percent);
         }
 
-        internal static float CalculateWarehouseQuality(float existingQuality, int existingQuantity,
-            float addedQuality, int addedQuantity)
+        internal float CalculateWarehouseQuality()
         {
+            var item = WarehouseProducts[ProductDefinition.ItemDefinitionId];
+            float existingQuality = item.Quality;
+            int existingQuantity = item.Quantity;
+            float addedQuality = item.ProcessingQuality;
+            int addedQuantity = item.ProcessingQuantity;
+
             float totalWeight = existingQuantity + addedQuantity;
             if (totalWeight == 0)
                 throw new InvalidOperationException("Суммарное количество не может быть нулевым.");
@@ -115,5 +143,6 @@ namespace BusinessShark.Core
             float weightedSum = existingQuality * existingQuantity + addedQuality * addedQuantity;
             return weightedSum / totalWeight;
         }
+
     }
 }
