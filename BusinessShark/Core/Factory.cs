@@ -9,7 +9,7 @@ namespace BusinessShark.Core
         float techLevel,
         Tools toolPark,
         Workers workers,
-        Point location) : Division(divisionId, location)
+        Point location) : DeliveryDivision(divisionId, location)
     {
         public ItemDefinition ProductDefinition = productDefinition;
         public float ProgressProduction;
@@ -17,9 +17,6 @@ namespace BusinessShark.Core
         public float TechLevel = techLevel;
         public Tools ToolPark = toolPark;
         public Workers FactoryWorkers = workers;
-
-        public Dictionary<Enums.ItemType, Item.Item> WarehouseProducts = new();
-        public Dictionary<Enums.ItemType, Item.Item> WarehouseResources = new();
 
         public override void StartCalculation()
         {
@@ -32,7 +29,7 @@ namespace BusinessShark.Core
                     var listForQualityCalc = new List<Item.Item>();
                     foreach (var unit in ProductDefinition.ProductionUnits)
                     {
-                        var item = WarehouseResources[unit.ComponentDefinitionId];
+                        var item = WarehouseInput[unit.ComponentDefinitionId];
                         item.Quantity -= unit.ProductionQuantity;
                         listForQualityCalc.Add(new Item.Item(item.Definition, unit.ProductionQuantity, item.Quality));
                     }
@@ -53,14 +50,14 @@ namespace BusinessShark.Core
             {
                 var productionCount = (int)Math.Round(ProgressProduction);
 
-                if (WarehouseProducts.TryGetValue(ProductDefinition.ItemDefinitionId, out Item.Item? storedItem))
+                if (WarehouseOutput.TryGetValue(ProductDefinition.ItemDefinitionId, out Item.Item? storedItem))
                 {
                     storedItem.ProcessingQuality = ProgressQuality;
-                    WarehouseProducts[ProductDefinition.ItemDefinitionId].ProcessingQuantity += productionCount;
+                    WarehouseOutput[ProductDefinition.ItemDefinitionId].ProcessingQuantity += productionCount;
                 }
                 else
                 {
-                    WarehouseProducts[ProductDefinition.ItemDefinitionId] =
+                    WarehouseOutput[ProductDefinition.ItemDefinitionId] =
                         new Item.Item(ProductDefinition, productionCount, ProgressQuality);
                 }
 
@@ -72,7 +69,7 @@ namespace BusinessShark.Core
 
         public override void CompleteCalculation()
         {
-            var item = WarehouseProducts[ProductDefinition.ItemDefinitionId];
+            var item = WarehouseOutput[ProductDefinition.ItemDefinitionId];
             var newQuality = CalculateWarehouseQuality();
 
             item.Quantity += item.ProcessingQuantity;
@@ -87,7 +84,7 @@ namespace BusinessShark.Core
         {
             foreach (var unit in ProductDefinition.ProductionUnits)
             {
-                WarehouseResources.TryGetValue(unit.ComponentDefinitionId, out Item.Item? item);
+                WarehouseOutput.TryGetValue(unit.ComponentDefinitionId, out Item.Item? item);
                 if (item == null || item.Quantity < unit.ProductionQuantity)
                     return false;
             }
@@ -130,7 +127,7 @@ namespace BusinessShark.Core
 
         internal float CalculateWarehouseQuality()
         {
-            var item = WarehouseProducts[ProductDefinition.ItemDefinitionId];
+            var item = WarehouseOutput[ProductDefinition.ItemDefinitionId];
             float existingQuality = item.Quality;
             int existingQuantity = item.Quantity;
             float addedQuality = item.ProcessingQuality;

@@ -39,9 +39,6 @@ namespace BusinessShark.Core
             }
         }
 
-        private void CompleteCalculation()
-        {}
-
         public void LoadItemDefinitions()
         {
             using var con = DatabaseHelper.GetSqlConnection();

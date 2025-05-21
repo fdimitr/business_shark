@@ -4,8 +4,8 @@ namespace BusinessShark.Core
 {
     internal class Routes
     {
-        public int FromDivisionId { get; set; }
-        public int ToDivisionId { get; set; }
+        public DeliveryDivision? FromDivision { get; set; }
+        public DeliveryDivision? ToDivision { get; set; }
         public Enums.ItemType TransferringItemType { get; set; }
         public int TransferringCount { get; set; }
 
