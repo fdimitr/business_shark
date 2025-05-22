@@ -22,17 +22,24 @@ namespace BusinessShark.Core
                     }
                     else
                     {
+                        route.ToDivision.WarehouseInput.TryGetValue(route.TransferringItemType, out var checkItem);
+                        {
+                            if (checkItem == null)
+                            {
+                                route.ToDivision.WarehouseInput.Add(route.TransferringItemType, item);
+                                route.ToDivision.WarehouseInput[route.TransferringItemType].ProcessingQuantity = 0;
+                                route.ToDivision.WarehouseInput[route.TransferringItemType].Quantity = 0;
+                            }
+                        }
                         if (item.Quantity >= route.TransferringCount)
                         {
+                            route.ToDivision.WarehouseInput[route.TransferringItemType].ProcessingQuality = (route.ToDivision.WarehouseInput[route.TransferringItemType].ProcessingQuality * route.ToDivision.WarehouseInput[route.TransferringItemType].ProcessingQuantity + route.FromDivision.WarehouseOutput[route.TransferringItemType].Quality * route.TransferringCount) / (route.ToDivision.WarehouseInput[route.TransferringItemType].ProcessingQuantity + route.TransferringCount); 
                             route.ToDivision.WarehouseInput[route.TransferringItemType].ProcessingQuantity += route.TransferringCount;
-                            // need to fix nest string
-                            route.ToDivision.WarehouseInput[route.TransferringItemType].ProcessingQuality = route.FromDivision.WarehouseOutput[route.TransferringItemType].Quality; 
-
                             route.FromDivision.WarehouseOutput[route.TransferringItemType].Quantity -= route.TransferringCount;
                         }
                         else
                         {
-
+                            route.ToDivision.WarehouseInput[route.TransferringItemType].ProcessingQuality = (route.ToDivision.WarehouseInput[route.TransferringItemType].ProcessingQuality * route.ToDivision.WarehouseInput[route.TransferringItemType].ProcessingQuantity + route.FromDivision.WarehouseOutput[route.TransferringItemType].Quality * route.FromDivision.WarehouseOutput[route.TransferringItemType].Quantity) / (route.ToDivision.WarehouseInput[route.TransferringItemType].ProcessingQuantity + route.FromDivision.WarehouseOutput[route.TransferringItemType].Quantity);
                             route.ToDivision.WarehouseInput[route.TransferringItemType].ProcessingQuantity += route.FromDivision.WarehouseOutput[route.TransferringItemType].Quantity;
 
                             route.FromDivision.WarehouseOutput[route.TransferringItemType].Quantity = 0;
