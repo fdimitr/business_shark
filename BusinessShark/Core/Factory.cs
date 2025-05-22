@@ -18,20 +18,21 @@ namespace BusinessShark.Core
         }
 
         public ItemDefinition ProductDefinition = productDefinition;
-        public float ProgressProduction; //procent of single product left on production
+        public float ProgressProduction; // Percent of single product left on production
         public float ProgressQuality;
         public float TechLevel = techLevel;
         public Tools ToolPark = toolPark;
         public Workers FactoryWorkers = workers;
-        private bool isProductionCompleted = true;
+
+        private bool _isProductionCompleted = true;
 
         public override void StartCalculation()
         {
             float cycleProgressQuality = 0;
 
-            if (isProductionCompleted)
+            if (_isProductionCompleted)
             {
-                isProductionCompleted = false;
+                _isProductionCompleted = false;
 
                 // Start production
                 if (PossibleToProduce())
@@ -68,18 +69,20 @@ namespace BusinessShark.Core
 
                 if (WarehouseOutput.TryGetValue(ProductDefinition.ItemDefinitionId, out Item.Item? storedItem))
                 {
+                    // Update existing item in warehouse output
                     storedItem.ProcessingQuality = ProgressQuality;
                     WarehouseOutput[ProductDefinition.ItemDefinitionId].ProcessingQuantity += productionCount;
                 }
                 else
                 {
+                    // Create new item in warehouse output
                     WarehouseOutput[ProductDefinition.ItemDefinitionId] =
                         new Item.Item(ProductDefinition, 
                             processingQuantity: productionCount, 
                             processingQuality: ProgressQuality);
                 }
 
-                isProductionCompleted = true;
+                _isProductionCompleted = true;
                 // Reset progress
                 if (ProgressProduction == 0) ProgressQuality = 0;
             }
