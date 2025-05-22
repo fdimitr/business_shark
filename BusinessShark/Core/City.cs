@@ -10,5 +10,6 @@
         public int LandTax { get; set; } = 0;
 
         public List<Factory> Factories = new();
+        public List<Warehouse> Warehouses = new();
     }
 }

@@ -94,9 +94,7 @@ namespace BusinessShark.Core
                 item.Quantity += item.ProcessingQuantity;
                 item.Quality = newQuality;
 
-                // Reset processing values
-                item.ProcessingQuantity = 0;
-                item.ProcessingQuality = 0;
+                item.ResetProcessing();
             }
         }
 
@@ -127,22 +125,5 @@ namespace BusinessShark.Core
                             + FactoryWorkers.TechLevel * ProductDefinition.WorkerImpactQuantity;
             return baseProductionCount * quantity;
         }
-
-        internal float CalculateWarehouseQuality(float existingQuantity, float existingQuality, float addedQuantity, float addedQuality)
-        {
-            float totalWeight = existingQuantity + addedQuantity;
-            if (totalWeight == 0)
-                throw new InvalidOperationException("Суммарное количество не может быть нулевым.");
-
-            float weightedSum = existingQuality * existingQuantity + addedQuality * addedQuantity;
-            return weightedSum / totalWeight;
-        }
-
-        internal float CalculateWarehouseQuality(Item.Item item)
-        {
-            return CalculateWarehouseQuality(item.Quantity, item.Quality, item.ProcessingQuantity,
-                item.ProcessingQuality);
-        }
-
     }
 }

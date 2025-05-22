@@ -10,5 +10,11 @@
         public float ProcessingCena;
         public float ProcessingQuality = processingQuality;
         public int ProcessingQuantity = processingQuantity;
+
+        public void ResetProcessing()
+        {
+            ProcessingQuality = 0;
+            ProcessingQuantity = 0;
+        }
     }
 }
