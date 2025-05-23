@@ -11,31 +11,42 @@ namespace BusinessShark.Core
         Workers workers,
         Point location) : DeliveryDivision(divisionId, location)
     {
+        internal struct QualityItem(float quality, float qualityImpact)
+        {
+            public float Quality = quality;
+            public float QualityImpact = qualityImpact;
+        }
+
         public ItemDefinition ProductDefinition = productDefinition;
         public float ProgressProduction; //procent of single product left on production
         public float ProgressQuality;
         public float TechLevel = techLevel;
         public Tools ToolPark = toolPark;
         public Workers FactoryWorkers = workers;
+        private bool isProductionCompleted = true;
 
         public override void StartCalculation()
         {
-            if (ProgressProduction == 0)
+            float cycleProgressQuality = 0;
+
+            if (isProductionCompleted)
             {
+                isProductionCompleted = false;
+
                 // Start production
                 if (PossibleToProduce())
                 {
                     // Take resources for production
-                    var listForQualityCalc = new List<Item.Item>();
+                    var listForQualityCalc = new List<QualityItem>();
                     foreach (var unit in ProductDefinition.ProductionUnits)
                     {
                         var item = WarehouseInput[unit.ComponentDefinitionId];
                         item.Quantity -= unit.ProductionQuantity;
-                        listForQualityCalc.Add(new Item.Item(item.Definition, unit.ProductionQuantity, item.Quality));
+                        listForQualityCalc.Add(new QualityItem(item.Quality, unit.QualityImpact));
                     }
 
                     // Calculate production quality
-                    ProgressQuality = CalculateProductionQuality(listForQualityCalc);
+                    cycleProgressQuality = CalculateProductionQuality(listForQualityCalc);
                 }
                 else
                 {
@@ -43,12 +54,17 @@ namespace BusinessShark.Core
                 }
             }
 
-            ProgressProduction += CalculateProductionQuantity(ProductDefinition.BaseProductionCount);
+            var cycleProgressQuantity = CalculateProductionQuantity(ProductDefinition.BaseProductionCount);
+
+            ProgressQuality += CalculateWarehouseQuality(ProgressProduction, ProgressQuality, cycleProgressQuantity, cycleProgressQuality);
+            ProgressProduction += cycleProgressQuantity;
+            
 
             // Completion of production
             if (ProgressProduction >= 1)
             {
-                var productionCount = (int)Math.Round(ProgressProduction);
+                var productionCount = (int)Math.Truncate(ProgressProduction);
+                ProgressProduction -= productionCount;
 
                 if (WarehouseOutput.TryGetValue(ProductDefinition.ItemDefinitionId, out Item.Item? storedItem))
                 {
@@ -58,26 +74,28 @@ namespace BusinessShark.Core
                 else
                 {
                     WarehouseOutput[ProductDefinition.ItemDefinitionId] =
-                        new Item.Item(ProductDefinition, productionCount, ProgressQuality);
+                        new Item.Item(ProductDefinition, 
+                            processingQuantity: productionCount, 
+                            processingQuality: ProgressQuality);
                 }
 
+                isProductionCompleted = true;
                 // Reset progress
-                ProgressProduction = 0;
-                ProgressQuality = 0;
+                if (ProgressProduction == 0) ProgressQuality = 0;
             }
         }
 
         public override void CompleteCalculation()
         {
-            var item = WarehouseOutput[ProductDefinition.ItemDefinitionId];
-            var newQuality = CalculateWarehouseQuality();
+            if (WarehouseOutput.TryGetValue(ProductDefinition.ItemDefinitionId, out var item))
+            {
+                var newQuality = CalculateWarehouseQuality(item);
 
-            item.Quantity += item.ProcessingQuantity;
-            item.Quality = newQuality;
+                item.Quantity += item.ProcessingQuantity;
+                item.Quality = newQuality;
 
-            // Reset processing values
-            item.ProcessingQuantity = 0;
-            item.ProcessingQuality = 0;
+                item.ResetProcessing();
+            }
         }
 
         private bool PossibleToProduce()
@@ -92,54 +110,20 @@ namespace BusinessShark.Core
             return true;
         }
 
-        internal float CalculateProductionQuality(List<Item.Item> items)
+        internal float CalculateProductionQuality(List<QualityItem> qualityItems)
         {
-            float totalImpact = ProductDefinition.ProductionUnits.Sum(e => e.QualityImpact) +
-                                ProductDefinition.ToolImpactQuality + ProductDefinition.TechImpactQuality +
-                                ProductDefinition.WorkerImpactQuality;
-
-            if (totalImpact == 0)
-                throw new InvalidOperationException("Суммарное влияние на качество не может быть равно нулю.");
-
-            var numerator = items.Sum(e =>
-                                e.Quality * ProductDefinition.ProductionUnits
-                                    .First(p => p.ComponentDefinitionId == e.Definition.ItemDefinitionId).QualityImpact)
+            return qualityItems.Sum(e => e.Quality * e.QualityImpact)
                             + TechLevel * ProductDefinition.TechImpactQuality
                             + ToolPark.TechLevel * ProductDefinition.ToolImpactQuality
                             + FactoryWorkers.TechLevel * ProductDefinition.WorkerImpactQuality;
-            return numerator / totalImpact;
         }
 
         internal float CalculateProductionQuantity(float baseProductionCount)
         {
-            float totalImpact = ProductDefinition.ToolImpactQuantity + ProductDefinition.TechImpactQuantity +
-                                ProductDefinition.WorkerImpactQuantity;
-
-            if (totalImpact == 0)
-                throw new InvalidOperationException("Суммарное влияние на количество не может быть равно нулю.");
-
-            var numerator = TechLevel * ProductDefinition.TechImpactQuantity
+            var quantity = TechLevel * ProductDefinition.TechImpactQuantity
                             + ToolPark.TechLevel * ProductDefinition.ToolImpactQuantity
                             + FactoryWorkers.TechLevel * ProductDefinition.WorkerImpactQuantity;
-            var percent = numerator / totalImpact;
-            return (float)Math.Round(baseProductionCount * percent);
+            return baseProductionCount * quantity;
         }
-
-        internal float CalculateWarehouseQuality()
-        {
-            var item = WarehouseOutput[ProductDefinition.ItemDefinitionId];
-            float existingQuality = item.Quality;
-            int existingQuantity = item.Quantity;
-            float addedQuality = item.ProcessingQuality;
-            int addedQuantity = item.ProcessingQuantity;
-
-            float totalWeight = existingQuantity + addedQuantity;
-            if (totalWeight == 0)
-                throw new InvalidOperationException("Суммарное количество не может быть нулевым.");
-
-            float weightedSum = existingQuality * existingQuantity + addedQuality * addedQuantity;
-            return weightedSum / totalWeight;
-        }
-
     }
 }

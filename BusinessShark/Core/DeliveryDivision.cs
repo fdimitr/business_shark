@@ -16,38 +16,73 @@ namespace BusinessShark.Core
             {
                 if(route.FromDivision.WarehouseOutput.TryGetValue(route.TransferringItemType, out var item))
                 {
-                    if(item ==  null || item.Quantity == 0)
+                    // ReSharper disable once ConditionIsAlwaysTrueOrFalseAccordingToNullableAPIContract
+                    if(item is { Quantity: > 0 })
                     {
+                        var sourceItem = route.FromDivision.WarehouseOutput[route.TransferringItemType];
+                        var targetItem = route.ToDivision.WarehouseInput[route.TransferringItemType];
 
-                    }
-                    else
-                    {
-                        route.ToDivision.WarehouseInput.TryGetValue(route.TransferringItemType, out var checkItem);
+                        if (route.ToDivision.WarehouseInput.TryAdd(route.TransferringItemType, item))
                         {
-                            if (checkItem == null)
-                            {
-                                route.ToDivision.WarehouseInput.Add(route.TransferringItemType, item);
-                                route.ToDivision.WarehouseInput[route.TransferringItemType].ProcessingQuantity = 0;
-                                route.ToDivision.WarehouseInput[route.TransferringItemType].Quantity = 0;
-                            }
+                            targetItem.ProcessingQuantity = 0;
+                            targetItem.Quantity = 0;
                         }
+
                         if (item.Quantity >= route.TransferringCount)
                         {
-                            route.ToDivision.WarehouseInput[route.TransferringItemType].ProcessingQuality = (route.ToDivision.WarehouseInput[route.TransferringItemType].ProcessingQuality * route.ToDivision.WarehouseInput[route.TransferringItemType].ProcessingQuantity + route.FromDivision.WarehouseOutput[route.TransferringItemType].Quality * route.TransferringCount) / (route.ToDivision.WarehouseInput[route.TransferringItemType].ProcessingQuantity + route.TransferringCount); 
-                            route.ToDivision.WarehouseInput[route.TransferringItemType].ProcessingQuantity += route.TransferringCount;
-                            route.FromDivision.WarehouseOutput[route.TransferringItemType].Quantity -= route.TransferringCount;
+                            targetItem.ProcessingQuality =
+                                CalculateWarehouseQuality(targetItem.ProcessingQuantity, targetItem.ProcessingQuality, route.TransferringCount, sourceItem.Quality);
+
+                            targetItem.ProcessingQuantity += route.TransferringCount;
+                            sourceItem.Quantity -= route.TransferringCount;
                         }
                         else
                         {
-                            route.ToDivision.WarehouseInput[route.TransferringItemType].ProcessingQuality = (route.ToDivision.WarehouseInput[route.TransferringItemType].ProcessingQuality * route.ToDivision.WarehouseInput[route.TransferringItemType].ProcessingQuantity + route.FromDivision.WarehouseOutput[route.TransferringItemType].Quality * route.FromDivision.WarehouseOutput[route.TransferringItemType].Quantity) / (route.ToDivision.WarehouseInput[route.TransferringItemType].ProcessingQuantity + route.FromDivision.WarehouseOutput[route.TransferringItemType].Quantity);
-                            route.ToDivision.WarehouseInput[route.TransferringItemType].ProcessingQuantity += route.FromDivision.WarehouseOutput[route.TransferringItemType].Quantity;
+                            targetItem.ProcessingQuality =
+                                CalculateWarehouseQuality(targetItem.ProcessingQuantity, targetItem.ProcessingQuality, sourceItem.Quantity, sourceItem.Quality);
+                            targetItem.ProcessingQuantity += sourceItem.Quantity;
 
-                            route.FromDivision.WarehouseOutput[route.TransferringItemType].Quantity = 0;
+                            sourceItem.Quantity = 0;
+                            sourceItem.Quality = 0;
                         }
                     }
                 }
                 
             }
+        }
+
+        public void CompleteTransferItems()
+        {
+            foreach (var route in Routes)
+            {
+                if (route.ToDivision.WarehouseInput.TryGetValue(route.TransferringItemType, out var item))
+                {
+                    if (item.ProcessingQuantity > 0)
+                    {
+                        var newQuality = CalculateWarehouseQuality(item);
+
+                        item.Quantity += item.ProcessingQuantity;
+                        item.Quality = newQuality;
+
+                        item.ResetProcessing();
+                    }
+                }
+            }
+        }
+
+        internal static float CalculateWarehouseQuality(float existingQuantity, float existingQuality, float addedQuantity, float addedQuality)
+        {
+            float totalWeight = existingQuantity + addedQuantity;
+            if (totalWeight == 0)
+                throw new InvalidOperationException("Суммарное количество не может быть нулевым.");
+
+            float weightedSum = existingQuality * existingQuantity + addedQuality * addedQuantity;
+            return weightedSum / totalWeight;
+        }
+
+        internal static float CalculateWarehouseQuality(Item.Item item)
+        {
+            return CalculateWarehouseQuality(item.Quantity, item.Quality, item.ProcessingQuantity, item.ProcessingQuality);
         }
     }
 }

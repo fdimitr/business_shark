@@ -10,7 +10,7 @@ namespace BusinessShark.Core
     {
         public List<City> Cities = new();
 
-        public Dictionary<Enums.ItemType, ItemDefinition> ItemDefinitions = new();
+        public Dictionary<ItemType, ItemDefinition> ItemDefinitions = new();
 
         public Market()
         {
@@ -23,8 +23,14 @@ namespace BusinessShark.Core
             // Start the calculation for each city and its factories
             foreach (var city in Cities)
             {
+                foreach (var warehouse in city.Warehouses)
+                {
+                    warehouse.StartTransferItems();
+                }
+
                 foreach (var factory in city.Factories)
                 {
+                    factory.StartTransferItems();
                     factory.StartCalculation();
                 } 
             }
@@ -32,8 +38,13 @@ namespace BusinessShark.Core
             // Complete the calculation for each city and its factories
             foreach (var city in Cities)
             {
+                foreach (var warehouse in city.Warehouses)
+                {
+                    warehouse.CompleteTransferItems();
+                }
                 foreach (var factory in city.Factories)
                 {
+                    factory.CompleteTransferItems();
                     factory.CompleteCalculation();
                 }
             }
