@@ -11,6 +11,7 @@ namespace BusinessShark.Core
         float techLevel,
         Tools toolPark,
         Workers workers,
+        Enums.ItemType extractingItemType,
         Point location) : DeliveryDivision(divisionId, location)
 
     {
@@ -21,14 +22,11 @@ namespace BusinessShark.Core
         public float TechLevel = techLevel;
         public Tools ToolPark = toolPark;
         public Workers FactoryWorkers = workers;
+        public Enums.ItemType ExtractingItemType { get; set; } = extractingItemType;
 
         public override void StartCalculation()
         {
-            if (ProgressProduction == 0)
-            {
-                // Calculate production quality
-                ProgressQuality = CalculateResourceQuality();
-            }
+            ProgressQuality = CalculateResourceQuality();
             ProgressProduction += CalculateResourceQuantity(ResourceDefinition.BaseProductionCount);
 
             if (ProgressProduction >= 1)
@@ -43,16 +41,32 @@ namespace BusinessShark.Core
                 else
                 {
                     WarehouseInput[ResourceDefinition.ItemDefinitionId] =
-                        new Item.Item(ResourceDefinition, productionCount, ProgressQuality);
+                        new Item.Item(ResourceDefinition, 0, 0, productionCount, ProgressQuality);
                 }
 
-                ProgressProduction -= 1;
+                ProgressProduction -= productionCount;
+                ProgressQuality = 0;
             }
         }
 
         public override void CompleteCalculation()
         {
-            
+            if(WarehouseOutput.TryGetValue(ExtractingItemType, out var item))
+            {
+                if(item.Quantity > 0)
+                {
+                    item.ProcessingQuality = WarehouseInput[ExtractingItemType].Quality;
+                    item.ProcessingQuantity = WarehouseInput[ExtractingItemType].Quantity;
+                    var newQuality = CalculateWarehouseQuality(item);
+
+                    item.Quantity += item.ProcessingQuantity;
+                    item.Quality = newQuality;
+
+                    item.ResetProcessing();
+                    WarehouseInput[ExtractingItemType].Quality = 0;
+                    WarehouseInput[ExtractingItemType].Quantity = 0;
+                }
+            }
         }
 
         internal float CalculateResourceQuality()
