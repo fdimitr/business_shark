@@ -9,7 +9,7 @@ namespace BusinessShark.Core
 
         public Dictionary<Enums.ItemType, Item.Item> WarehouseItems = new();
 
-        public Warehouse(int divisionId, Point location, int volume) : base(divisionId, location)
+        public Warehouse(int divisionId, string name, Point location, int volume) : base(divisionId, name, location)
         {
             Volume = volume;
             WarehouseOutput = WarehouseInput;

@@ -5,11 +5,12 @@ namespace BusinessShark.Core
 {
     internal class Factory(
         int divisionId,
-        ItemDefinition productDefinition,
+        string name,
+        ItemDefinition? productDefinition,
         float techLevel,
         Tools toolPark,
         Workers workers,
-        Point location) : DeliveryDivision(divisionId, location)
+        Point location) : DeliveryDivision(divisionId, name, location)
     {
         internal struct QualityItem(float quality, float qualityImpact)
         {
@@ -17,7 +18,7 @@ namespace BusinessShark.Core
             public float QualityImpact = qualityImpact;
         }
 
-        public ItemDefinition ProductDefinition = productDefinition;
+        public ItemDefinition? ProductDefinition = productDefinition;
         public float ProgressProduction; //procent of single product left on production
         public float ProgressQuality;
         public float TechLevel = techLevel;
@@ -87,7 +88,7 @@ namespace BusinessShark.Core
 
         public override void CompleteCalculation()
         {
-            if (WarehouseOutput.TryGetValue(ProductDefinition.ItemDefinitionId, out var item))
+            if (ProductDefinition != null && WarehouseOutput.TryGetValue(ProductDefinition.ItemDefinitionId, out var item))
             {
                 var newQuality = CalculateWarehouseQuality(item);
 
@@ -100,6 +101,8 @@ namespace BusinessShark.Core
 
         private bool PossibleToProduce()
         {
+            if (ProductDefinition == null) return false;
+
             foreach (var unit in ProductDefinition.ProductionUnits)
             {
                 WarehouseInput.TryGetValue(unit.ComponentDefinitionId, out Item.Item? item);
@@ -112,18 +115,28 @@ namespace BusinessShark.Core
 
         internal float CalculateProductionQuality(List<QualityItem> qualityItems)
         {
-            return qualityItems.Sum(e => e.Quality * e.QualityImpact)
-                            + TechLevel * ProductDefinition.TechImpactQuality
-                            + ToolPark.TechLevel * ProductDefinition.ToolImpactQuality
-                            + FactoryWorkers.TechLevel * ProductDefinition.WorkerImpactQuality;
+            if (ProductDefinition != null)
+            {
+                return qualityItems.Sum(e => e.Quality * e.QualityImpact)
+                       + TechLevel * ProductDefinition.TechImpactQuality
+                       + ToolPark.TechLevel * ProductDefinition.ToolImpactQuality
+                       + FactoryWorkers.TechLevel * ProductDefinition.WorkerImpactQuality;
+            }
+
+            return 0;
         }
 
         internal float CalculateProductionQuantity(float baseProductionCount)
         {
-            var quantity = TechLevel * ProductDefinition.TechImpactQuantity
-                            + ToolPark.TechLevel * ProductDefinition.ToolImpactQuantity
-                            + FactoryWorkers.TechLevel * ProductDefinition.WorkerImpactQuantity;
-            return baseProductionCount * quantity;
+            if (ProductDefinition != null)
+            {
+                var quantity = TechLevel * ProductDefinition.TechImpactQuantity
+                               + ToolPark.TechLevel * ProductDefinition.ToolImpactQuantity
+                               + FactoryWorkers.TechLevel * ProductDefinition.WorkerImpactQuantity;
+                return baseProductionCount * quantity;
+            }
+
+            return 0;
         }
     }
 }

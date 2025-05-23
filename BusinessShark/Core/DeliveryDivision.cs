@@ -3,7 +3,7 @@ using BusinessShark.Core.Item;
 
 namespace BusinessShark.Core
 {
-    internal abstract class DeliveryDivision(int divisionId, Point location) : Division(divisionId, location)
+    internal abstract class DeliveryDivision(int divisionId, string name, Point location) : Division(divisionId, name, location)
     {
         public Dictionary<Enums.ItemType, Item.Item> WarehouseInput = new();  //to
         public Dictionary<Enums.ItemType, Item.Item> WarehouseOutput = new(); //from

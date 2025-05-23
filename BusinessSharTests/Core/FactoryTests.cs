@@ -50,6 +50,7 @@ namespace BusinessSharTests.Core
             var workers = new Workers { TechLevel = workerTechLevel, TotalQuantity = 1 };
             var factory = new Factory(
                 divisionId: 1,
+                name: "TestFactory",
                 productDefinition: productDef,
                 techLevel: techLevel,
                 toolPark: tools,
@@ -93,6 +94,7 @@ namespace BusinessSharTests.Core
             var workers = new Workers { TechLevel = 1.0f, TotalQuantity = 1 };
             var factory = new Factory(
                 divisionId: 1,
+                name: "TestFactory",
                 productDefinition: productDef,
                 techLevel: 1.0f,
                 toolPark: tools,
@@ -124,6 +126,7 @@ namespace BusinessSharTests.Core
             var workers = new Workers { TechLevel = 1.0f, TotalQuantity = 1 };
             var factory = new Factory(
                 divisionId: 1,
+                name: "TestFactory",
                 productDefinition: productDef,
                 techLevel: 1.0f,
                 toolPark: tools,
@@ -150,6 +153,7 @@ namespace BusinessSharTests.Core
             var workers = new Workers { TechLevel = 1.0f, TotalQuantity = 1 };
             var factory = new Factory(
                 divisionId: 1,
+                name: "TestFactory",
                 productDefinition: productDef,
                 techLevel: 1.0f,
                 toolPark: tools,
@@ -188,6 +192,7 @@ namespace BusinessSharTests.Core
             var workers = new Workers { TechLevel = 3.0f, TotalQuantity = 1 };
             var factory = new Factory(
                 divisionId: 1,
+                name: "TestFactory",
                 productDefinition: productDef,
                 techLevel: 1.0f,
                 toolPark: tools,
@@ -225,6 +230,7 @@ namespace BusinessSharTests.Core
             var workers = new Workers { TechLevel = 3.0f, TotalQuantity = 1 };
             var factory = new Factory(
                 divisionId: 1,
+                name: "TestFactory",
                 productDefinition: productDef,
                 techLevel: 1.0f,
                 toolPark: tools,

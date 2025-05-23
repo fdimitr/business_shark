@@ -28,7 +28,7 @@ namespace BusinessSharTests.Core
 
             var tools = new Tools { TechLevel = 2 };
             var workers = new Workers { TechLevel = 3 };
-            var factory = new Factory(1, productDefinition, 4, tools, workers, new Point(0, 0));
+            var factory = new Factory(1, "TestFactory", productDefinition, 4, tools, workers, new Point(0, 0));
 
             var qualityItems = new List<Factory.QualityItem>
             {
@@ -62,7 +62,7 @@ namespace BusinessSharTests.Core
 
             var tools = new Tools { TechLevel = 2 };
             var workers = new Workers { TechLevel = 3 };
-            var factory = new Factory(1, productDefinition, 4, tools, workers, new Point(0, 0));
+            var factory = new Factory(1, "TestFactory", productDefinition, 4, tools, workers, new Point(0, 0));
 
             var qualityItems = new List<Factory.QualityItem>
             {

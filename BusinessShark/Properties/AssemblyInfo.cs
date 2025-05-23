@@ -17,4 +17,5 @@ using System.Runtime.CompilerServices;
 
 [assembly: Guid("f2608184-f959-4161-8ae6-75b072a7a2f6")]
 
-[assembly: InternalsVisibleTo("BusinessSharTests")]
+[assembly: InternalsVisibleTo("BusinessSharkTests")]
+[assembly: InternalsVisibleTo("BusinessSharkUI")]
