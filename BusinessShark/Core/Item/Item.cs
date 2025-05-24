@@ -1,5 +1,6 @@
 ﻿namespace BusinessShark.Core.Item
 {
+    [Serializable]
     internal class Item(ItemDefinition definition, float processingQuality = 0, int processingQuantity = 0, int quantity = 0, float quality = 0, float cena = 0)
     {
         public ItemDefinition Definition = definition;

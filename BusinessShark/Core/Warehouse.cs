@@ -1,14 +1,17 @@
 ﻿using System.Drawing;
+using System.Text.Json.Serialization;
 using BusinessShark.Core.Item;
 
 namespace BusinessShark.Core
 {
+    [Serializable]
     internal class Warehouse : DeliveryDivision
     {
         public int Volume { get; }
 
         public Dictionary<Enums.ItemType, Item.Item> WarehouseItems = new();
 
+        [JsonConstructor]
         public Warehouse(int divisionId, string name, Point location, int volume) : base(divisionId, name, location)
         {
             Volume = volume;

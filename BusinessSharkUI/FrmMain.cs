@@ -1,4 +1,6 @@
 using System.Drawing;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 using System.Xml.Linq;
 using BusinessShark.Core;
 using Microsoft.VisualBasic;
@@ -66,6 +68,68 @@ namespace BusinessSharkUI
             cmbFactories.DataSource = currentCity.Factories;
             cmbFactories.DisplayMember = "Name";
             cmbFactories.ValueMember = "DivisionId";
+        }
+
+        private void btnSaveGame_Click(object sender, EventArgs e)
+        {
+            var options = new JsonSerializerOptions
+            {
+                WriteIndented = true,
+                ReferenceHandler = ReferenceHandler.Preserve
+            };
+
+            string datetime = DateTime.Now.ToString("yyyyMMdd_HHmmss");
+            string saveDir = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Save");
+            if (!Directory.Exists(saveDir))
+            {
+                Directory.CreateDirectory(saveDir);
+            }
+            string fileName = Path.Combine(saveDir, $"market_{datetime}.dat");
+
+            string json = JsonSerializer.Serialize(market, options);
+            File.WriteAllText(fileName, json);
+            MessageBox.Show("Saving completed!", "Save", MessageBoxButtons.OK, MessageBoxIcon.Information);
+        }
+
+        private void btnLoadGame_Click(object sender, EventArgs e)
+        {
+            var openFileDialog = new OpenFileDialog
+            {
+                InitialDirectory = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Save"),
+                Filter = "Market Save Files (*.dat)|*.dat|All Files (*.*)|*.*",
+                Title = "Open Saved Game"
+            };
+
+            if (openFileDialog.ShowDialog() == DialogResult.OK)
+            {
+                try
+                {
+                    var options = new JsonSerializerOptions
+                    {
+                        ReferenceHandler = ReferenceHandler.Preserve
+                    };
+                    string json = File.ReadAllText(openFileDialog.FileName);
+                    var loadedMarket = JsonSerializer.Deserialize<Market>(json, options);
+                    if (loadedMarket != null)
+                    {
+                        market = loadedMarket;
+                        currentCity = market.Cities.FirstOrDefault() ?? new City("Wroclaw");
+                        _bindingSourceWarehouse.DataSource = currentCity.Warehouses;
+                        BindWarehouseCombo();
+                        _bindingSourceFactories.DataSource = currentCity.Factories;
+                        BindFactoryCombo();
+                        MessageBox.Show("Game loaded successfully!", "Load", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
+                    else
+                    {
+                        MessageBox.Show("Failed to load game data.", "Load", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show($"Error loading game: {ex.Message}", "Load", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
         }
     }
 }

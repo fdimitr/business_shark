@@ -116,8 +116,8 @@
             columnHeader42 = new ColumnHeader();
             columnHeader43 = new ColumnHeader();
             columnHeader44 = new ColumnHeader();
-            button4 = new Button();
-            button14 = new Button();
+            btnLoadGame = new Button();
+            btnSaveGame = new Button();
             groupBox1.SuspendLayout();
             WarehousesGroup.SuspendLayout();
             groupBox2.SuspendLayout();
@@ -757,33 +757,35 @@
             // 
             columnHeader44.Text = "Цена";
             // 
-            // button4
+            // btnLoadGame
             // 
-            button4.BackColor = Color.GhostWhite;
-            button4.Location = new Point(1339, 12);
-            button4.Name = "button4";
-            button4.Size = new Size(145, 55);
-            button4.TabIndex = 27;
-            button4.Text = "Load game";
-            button4.UseVisualStyleBackColor = false;
+            btnLoadGame.BackColor = Color.GhostWhite;
+            btnLoadGame.Location = new Point(1339, 12);
+            btnLoadGame.Name = "btnLoadGame";
+            btnLoadGame.Size = new Size(145, 55);
+            btnLoadGame.TabIndex = 27;
+            btnLoadGame.Text = "Load game";
+            btnLoadGame.UseVisualStyleBackColor = false;
+            btnLoadGame.Click += btnLoadGame_Click;
             // 
-            // button14
+            // btnSaveGame
             // 
-            button14.BackColor = Color.GhostWhite;
-            button14.Location = new Point(1500, 12);
-            button14.Name = "button14";
-            button14.Size = new Size(145, 55);
-            button14.TabIndex = 28;
-            button14.Text = "Save game";
-            button14.UseVisualStyleBackColor = false;
+            btnSaveGame.BackColor = Color.GhostWhite;
+            btnSaveGame.Location = new Point(1500, 12);
+            btnSaveGame.Name = "btnSaveGame";
+            btnSaveGame.Size = new Size(145, 55);
+            btnSaveGame.TabIndex = 28;
+            btnSaveGame.Text = "Save game";
+            btnSaveGame.UseVisualStyleBackColor = false;
+            btnSaveGame.Click += btnSaveGame_Click;
             // 
             // FrmMain
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1672, 766);
-            Controls.Add(button14);
-            Controls.Add(button4);
+            Controls.Add(btnSaveGame);
+            Controls.Add(btnLoadGame);
             Controls.Add(groupBox3);
             Controls.Add(groupBox2);
             Controls.Add(groupBox1);
@@ -896,7 +898,7 @@
         private ColumnHeader columnHeader42;
         private ColumnHeader columnHeader43;
         private ColumnHeader columnHeader44;
-        private Button button4;
-        private Button button14;
+        private Button btnLoadGame;
+        private Button btnSaveGame;
     }
 }

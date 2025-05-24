@@ -1,10 +1,13 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 using static BusinessShark.Core.Item.Enums;
 
 namespace BusinessShark.Core.Item
 {
+    [Serializable]
     internal class ItemDefinition
     {
+        [JsonConstructor]
         public ItemDefinition(int itemDefinitionId,
             string name,
             float volume,

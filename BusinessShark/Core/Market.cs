@@ -6,10 +6,12 @@ using static BusinessShark.Core.Item.Enums;
 
 namespace BusinessShark.Core
 {
+    [Serializable]
     internal class Market
     {
-        public List<City> Cities = new();
+        public List<City> Cities { get; set; } = new();
 
+        [NonSerialized]
         public Dictionary<ItemType, ItemDefinition> ItemDefinitions = new();
 
         public Market()

@@ -1,5 +1,9 @@
-﻿namespace BusinessShark.Core.Item
+﻿using System.Text.Json.Serialization;
+
+namespace BusinessShark.Core.Item
 {
+    [Serializable]
+    [method: JsonConstructor]
     internal class ProductionUnit(long productDefinitionId, long itemDefinitionId, long productionQuantity, double qualityImpact)
     {
         public Enums.ItemType ComponentDefinitionId { get; } = (Enums.ItemType)productDefinitionId;

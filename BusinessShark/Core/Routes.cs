@@ -1,7 +1,10 @@
-﻿using BusinessShark.Core.Item;
+﻿using System.Text.Json.Serialization;
+using BusinessShark.Core.Item;
 
 namespace BusinessShark.Core
 {
+    [Serializable]
+    [method: JsonConstructor]
     internal class Routes(
         DeliveryDivision fromDivision,
         DeliveryDivision toDivision,

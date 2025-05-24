@@ -1,8 +1,11 @@
 ﻿using System.Drawing;
+using System.Text.Json.Serialization;
 using BusinessShark.Core.Item;
 
 namespace BusinessShark.Core
 {
+    [Serializable]
+    [method: JsonConstructor]
     internal class Factory(
         int divisionId,
         string name,
@@ -12,22 +15,28 @@ namespace BusinessShark.Core
         Workers workers,
         Point location) : DeliveryDivision(divisionId, name, location)
     {
+        [Serializable]
         internal struct QualityItem(float quality, float qualityImpact)
         {
             public float Quality = quality;
             public float QualityImpact = qualityImpact;
         }
 
-        public ItemDefinition? ProductDefinition = productDefinition;
-        public float ProgressProduction; //procent of single product left on production
-        public float ProgressQuality;
-        public float TechLevel = techLevel;
-        public Tools ToolPark = toolPark;
-        public Workers FactoryWorkers = workers;
-        private bool isProductionCompleted = true;
+        public ItemDefinition? ProductDefinition { get; set; } = productDefinition;
+        public float ProgressProduction { get; set; } // Percent of single product left on production
+        public float ProgressQuality { get; set; }
+        public float TechLevel { get; set; } = techLevel;
+        public Tools ToolPark { get; set; } = toolPark;
+        public Workers FactoryWorkers { get; set; } = workers;
+        private bool isProductionCompleted { get; set; } = true;
 
         public override void StartCalculation()
         {
+            if (ProductDefinition == null || WarehouseInput.Count == 0)
+            {
+                return; // No product to produce or no resources available
+            }
+
             float cycleProgressQuality = 0;
 
             if (isProductionCompleted)
@@ -39,7 +48,7 @@ namespace BusinessShark.Core
                 {
                     // Take resources for production
                     var listForQualityCalc = new List<QualityItem>();
-                    foreach (var unit in ProductDefinition.ProductionUnits)
+                    foreach (var unit in ProductDefinition.ProductionUnits ?? Enumerable.Empty<ProductionUnit>())
                     {
                         var item = WarehouseInput[unit.ComponentDefinitionId];
                         item.Quantity -= unit.ProductionQuantity;

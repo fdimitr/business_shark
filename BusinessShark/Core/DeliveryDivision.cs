@@ -1,8 +1,11 @@
 ﻿using System.Drawing;
+using System.Text.Json.Serialization;
 using BusinessShark.Core.Item;
 
 namespace BusinessShark.Core
 {
+    [Serializable]
+    [method: JsonConstructor]
     internal abstract class DeliveryDivision(int divisionId, string name, Point location) : Division(divisionId, name, location)
     {
         public Dictionary<Enums.ItemType, Item.Item> WarehouseInput = new();  //to

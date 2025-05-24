@@ -1,5 +1,6 @@
 ﻿namespace BusinessShark.Core
 {
+    [Serializable]
     internal class Tools
     {
         public int TotalQuantity;
