@@ -9,7 +9,7 @@ namespace BusinessShark.Core.Item
     internal class ItemDefinition
     {
         [SerializationConstructor]
-        public ItemDefinition(int itemDefinitionId,
+        public ItemDefinition(ItemType itemDefinitionId,
             string name,
             float volume,
             float baseProductionCount,
@@ -17,7 +17,7 @@ namespace BusinessShark.Core.Item
             float toolImpactQuality,
             float workerImpactQuality, float sourceImpactQuality, float techImpactQuantity, float toolImpactQuantity, float workerImpactQuantity)
         {
-            ItemDefinitionId = (ItemType)itemDefinitionId;
+            ItemDefinitionId = itemDefinitionId;
             Name = name;
             Volume = volume;
             BaseProductionCount = baseProductionCount;

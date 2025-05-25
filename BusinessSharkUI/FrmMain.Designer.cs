@@ -60,14 +60,14 @@
             columnHeader2 = new ColumnHeader();
             columnHeader3 = new ColumnHeader();
             columnHeader4 = new ColumnHeader();
-            listView1 = new ListView();
+            listViewWarehouseItems = new ListView();
             columnName = new ColumnHeader();
-            columnCount = new ColumnHeader();
             columnQuantity = new ColumnHeader();
+            columnQuality = new ColumnHeader();
             columnPrice = new ColumnHeader();
             cmbWarehouses = new ComboBox();
             brnAddWarehouse = new Button();
-            button5 = new Button();
+            btnDelWarehouse = new Button();
             button7 = new Button();
             label1 = new Label();
             listView3 = new ListView();
@@ -118,6 +118,7 @@
             columnHeader44 = new ColumnHeader();
             btnLoadGame = new Button();
             btnSaveGame = new Button();
+            btnEditWarehouse = new Button();
             groupBox1.SuspendLayout();
             WarehousesGroup.SuspendLayout();
             groupBox2.SuspendLayout();
@@ -352,30 +353,42 @@
             // 
             columnHeader4.Text = "Цена";
             // 
-            // listView1
+            // listViewWarehouseItems
             // 
-            listView1.Columns.AddRange(new ColumnHeader[] { columnName, columnCount, columnQuantity, columnPrice });
-            listView1.Location = new Point(21, 145);
-            listView1.Name = "listView1";
-            listView1.Size = new Size(358, 268);
-            listView1.TabIndex = 10;
-            listView1.UseCompatibleStateImageBehavior = false;
+            listViewWarehouseItems.AllowColumnReorder = true;
+            listViewWarehouseItems.AllowDrop = true;
+            listViewWarehouseItems.BackColor = SystemColors.Control;
+            listViewWarehouseItems.Columns.AddRange(new ColumnHeader[] { columnName, columnQuantity, columnQuality, columnPrice });
+            listViewWarehouseItems.Font = new Font("Segoe UI", 9F);
+            listViewWarehouseItems.FullRowSelect = true;
+            listViewWarehouseItems.GridLines = true;
+            listViewWarehouseItems.Location = new Point(21, 145);
+            listViewWarehouseItems.Name = "listViewWarehouseItems";
+            listViewWarehouseItems.Size = new Size(358, 268);
+            listViewWarehouseItems.Sorting = SortOrder.Ascending;
+            listViewWarehouseItems.TabIndex = 10;
+            listViewWarehouseItems.UseCompatibleStateImageBehavior = false;
+            listViewWarehouseItems.View = View.Details;
             // 
             // columnName
             // 
             columnName.Text = "Наименование товара";
-            // 
-            // columnCount
-            // 
-            columnCount.Text = "Количество";
+            columnName.Width = 120;
             // 
             // columnQuantity
             // 
-            columnQuantity.Text = "Качество";
+            columnQuantity.Text = "Количество";
+            columnQuantity.Width = 80;
+            // 
+            // columnQuality
+            // 
+            columnQuality.Text = "Качество";
+            columnQuality.Width = 80;
             // 
             // columnPrice
             // 
             columnPrice.Text = "Цена";
+            columnPrice.Width = 80;
             // 
             // cmbWarehouses
             // 
@@ -384,6 +397,7 @@
             cmbWarehouses.Name = "cmbWarehouses";
             cmbWarehouses.Size = new Size(358, 28);
             cmbWarehouses.TabIndex = 11;
+            cmbWarehouses.SelectedIndexChanged += cmbWarehouses_SelectedIndexChanged;
             // 
             // brnAddWarehouse
             // 
@@ -396,15 +410,15 @@
             brnAddWarehouse.UseVisualStyleBackColor = true;
             brnAddWarehouse.Click += brnAddWarehouse_Click;
             // 
-            // button5
+            // btnDelWarehouse
             // 
-            button5.Font = new Font("Segoe UI", 9F);
-            button5.Location = new Point(122, 48);
-            button5.Name = "button5";
-            button5.Size = new Size(94, 29);
-            button5.TabIndex = 13;
-            button5.Text = "Delete";
-            button5.UseVisualStyleBackColor = true;
+            btnDelWarehouse.Font = new Font("Segoe UI", 9F);
+            btnDelWarehouse.Location = new Point(285, 48);
+            btnDelWarehouse.Name = "btnDelWarehouse";
+            btnDelWarehouse.Size = new Size(94, 29);
+            btnDelWarehouse.TabIndex = 13;
+            btnDelWarehouse.Text = "Delete";
+            btnDelWarehouse.UseVisualStyleBackColor = true;
             // 
             // button7
             // 
@@ -462,14 +476,15 @@
             // WarehousesGroup
             // 
             WarehousesGroup.BackColor = Color.Cornsilk;
+            WarehousesGroup.Controls.Add(btnEditWarehouse);
             WarehousesGroup.Controls.Add(label2);
             WarehousesGroup.Controls.Add(listView3);
             WarehousesGroup.Controls.Add(label1);
             WarehousesGroup.Controls.Add(button7);
-            WarehousesGroup.Controls.Add(button5);
+            WarehousesGroup.Controls.Add(btnDelWarehouse);
             WarehousesGroup.Controls.Add(brnAddWarehouse);
             WarehousesGroup.Controls.Add(cmbWarehouses);
-            WarehousesGroup.Controls.Add(listView1);
+            WarehousesGroup.Controls.Add(listViewWarehouseItems);
             WarehousesGroup.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
             WarehousesGroup.ForeColor = Color.Goldenrod;
             WarehousesGroup.Location = new Point(423, 107);
@@ -779,6 +794,16 @@
             btnSaveGame.UseVisualStyleBackColor = false;
             btnSaveGame.Click += btnSaveGame_Click;
             // 
+            // btnEditWarehouse
+            // 
+            btnEditWarehouse.Font = new Font("Segoe UI", 9F);
+            btnEditWarehouse.Location = new Point(122, 48);
+            btnEditWarehouse.Name = "btnEditWarehouse";
+            btnEditWarehouse.Size = new Size(94, 29);
+            btnEditWarehouse.TabIndex = 19;
+            btnEditWarehouse.Text = "Edit";
+            btnEditWarehouse.UseVisualStyleBackColor = true;
+            // 
             // FrmMain
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
@@ -842,14 +867,14 @@
         private ColumnHeader columnHeader19;
         private ColumnHeader columnHeader20;
         private Button button8;
-        private ListView listView1;
+        private ListView listViewWarehouseItems;
         private ColumnHeader columnName;
-        private ColumnHeader columnCount;
         private ColumnHeader columnQuantity;
+        private ColumnHeader columnQuality;
         private ColumnHeader columnPrice;
         private ComboBox cmbWarehouses;
         private Button brnAddWarehouse;
-        private Button button5;
+        private Button btnDelWarehouse;
         private Button button7;
         private Label label1;
         private ListView listView3;
@@ -900,5 +925,6 @@
         private ColumnHeader columnHeader44;
         private Button btnLoadGame;
         private Button btnSaveGame;
+        private Button btnEditWarehouse;
     }
 }

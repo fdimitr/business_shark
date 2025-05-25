@@ -3,6 +3,7 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.Xml.Linq;
 using BusinessShark.Core;
+using BusinessShark.Core.Item;
 using BusinessShark.Core.ServiceClasses;
 using MessagePack;
 using MessagePack.Resolvers;
@@ -14,31 +15,70 @@ namespace BusinessSharkUI
     public partial class FrmMain : Form
     {
         private Market market { get; set; } = new Market();
-        private City currentCity { get; set; }
 
-        private readonly BindingSource _bindingSourceWarehouse = new BindingSource();
+        private City currentCity { get; set; }
+        private Warehouse? currentWarehouse { get; set; }
+
         private readonly BindingSource _bindingSourceFactories = new BindingSource();
+        private readonly BindingSource _bindingSourceWarehouse = new BindingSource();
 
         public FrmMain()
         {
             InitializeComponent();
-
-            currentCity = new City("Wroclaw");
-            market.Cities.Add(currentCity);
-
-            var newWarehouse = new Warehouse(1, "2334334", new Location(), 222);
-            currentCity.Warehouses.Add(newWarehouse);
+            InitialData();
 
             SetDataSources();
 
             BindWarehouseCombo();
             BindFactoryCombo();
+            BindingWarehouseListView();
+
+            listViewWarehouseItems.View = View.Details;
+        }
+
+        private void InitialData()
+        {
+            // This method can be used to initialize any additional data if needed.
+            // For example, you can add some factories or warehouses here.
+            currentCity = new City("Wroclaw");
+            market.Cities.Add(currentCity);
+
+            var newWarehouse = new Warehouse(1, "Warehouse(Main)", new Location(), 222);
+            newWarehouse.WarehouseItems.Add(Enums.ItemType.Wood, new Item(market.ItemDefinitions[Enums.ItemType.Wood], 0, 0, 3456, 2.5f, 0.15f));
+            newWarehouse.WarehouseItems.Add(Enums.ItemType.Leather, new Item(market.ItemDefinitions[Enums.ItemType.Leather], 0, 0, 120, 1.2f, 22.6f));
+
+            currentCity.Warehouses.Add(newWarehouse);
+
+        }
+
+        private void BindingWarehouseListView()
+        {
+            if (currentWarehouse != null)
+            {
+                listViewWarehouseItems.SuspendLayout();
+                listViewWarehouseItems.Items.Clear();
+
+                var listViewItemCollection = currentWarehouse.WarehouseItems.Select(i=>new ListViewItem
+                {
+                    Text = i.Value.Definition.Name,
+                    SubItems =
+                    {
+                        i.Value.Quantity.ToString(),
+                        i.Value.Quality.ToString("F2"),
+                        i.Value.Price.ToString("F2"),
+                    }
+                });
+
+                listViewWarehouseItems.Items.AddRange(listViewItemCollection.ToArray());
+                listViewWarehouseItems.ResumeLayout();
+            }
         }
 
         private void SetDataSources()
         {
-            _bindingSourceWarehouse.DataSource = currentCity.Warehouses;
             _bindingSourceFactories.DataSource = currentCity.Factories;
+            _bindingSourceWarehouse.DataSource = currentCity.Warehouses;
+            BindingWarehouseListView();
         }
 
         private void brnAddWarehouse_Click(object sender, EventArgs e)
@@ -73,7 +113,7 @@ namespace BusinessSharkUI
 
         private void BindFactoryCombo()
         {
-            cmbFactories.DataSource = currentCity.Factories;
+            cmbFactories.DataSource = _bindingSourceFactories;
             cmbFactories.DisplayMember = "Name";
             cmbFactories.ValueMember = "DivisionId";
         }
@@ -127,6 +167,12 @@ namespace BusinessSharkUI
                     MessageBox.Show($"Error loading game: {ex.Message}", "Load", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
+        }
+
+        private void cmbWarehouses_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            currentWarehouse = cmbWarehouses.SelectedItem as Warehouse;
+            BindingWarehouseListView();
         }
     }
 }

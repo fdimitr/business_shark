@@ -8,19 +8,19 @@ namespace BusinessShark.Core.Item
         public ItemDefinition Definition;
         public float Quality;
         public int Quantity;
-        public float Cena;
+        public float Price;
 
         public float ProcessingCena;
         public float ProcessingQuality;
         public int ProcessingQuantity;
 
         [SerializationConstructor]
-        public Item(ItemDefinition definition, float processingQuality = 0, int processingQuantity = 0, int quantity = 0, float quality = 0, float cena = 0)
+        public Item(ItemDefinition definition, float processingQuality = 0, int processingQuantity = 0, int quantity = 0, float quality = 0, float price = 0)
         {
             Definition = definition;
             Quality = quality;
             Quantity = quantity;
-            Cena = cena;
+            Price = price;
             ProcessingQuality = processingQuality;
             ProcessingQuantity = processingQuantity;
         }

@@ -13,7 +13,7 @@ namespace BusinessSharTests.Core
         private static ItemDefinition CreateTestItemDefinition_With_BaseQuality(float baseProductionCount = 1.0f)
         {
             return new ItemDefinition(
-                itemDefinitionId: (int)Enums.ItemType.Bed,
+                itemDefinitionId: Enums.ItemType.Bed,
                 name: "TestProduct",
                 volume: 1.0f,
                 baseProductionCount: baseProductionCount,
@@ -29,15 +29,15 @@ namespace BusinessSharTests.Core
                 ProductionUnits =
                 [
                     new ProductionUnit(
-                        productDefinitionId: 1,
-                        itemDefinitionId: (long)Enums.ItemType.Wood,
+                        productDefinitionId: Enums.ItemType.Bed,
+                        componentDefinitionId: Enums.ItemType.Wood,
                         productionQuantity: 2,
                         qualityImpact: 1.0f
                     ),
 
                     new ProductionUnit(
-                        productDefinitionId: 2,
-                        itemDefinitionId: (long)Enums.ItemType.Leather,
+                        productDefinitionId: Enums.ItemType.Bed,
+                        componentDefinitionId: Enums.ItemType.Leather,
                         productionQuantity: 1,
                         qualityImpact: 1.0f
                     )

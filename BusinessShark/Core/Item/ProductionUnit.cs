@@ -4,11 +4,20 @@ using MessagePack;
 namespace BusinessShark.Core.Item
 {
     [MessagePackObject(keyAsPropertyName: true)]
-    internal class ProductionUnit(long productDefinitionId, long itemDefinitionId, long productionQuantity, double qualityImpact)
+    internal class ProductionUnit
     {
-        public Enums.ItemType ComponentDefinitionId { get; } = (Enums.ItemType)productDefinitionId;
-        public Enums.ItemType ItemDefinitionId { get; } = (Enums.ItemType)itemDefinitionId;
-        public int ProductionQuantity { get; } = (int)productionQuantity;
-        public float QualityImpact { get; } = (float)qualityImpact;
+        [SerializationConstructor]
+        public ProductionUnit(Enums.ItemType productDefinitionId, Enums.ItemType componentDefinitionId, int productionQuantity, float qualityImpact)
+        {
+            ProductDefinitionId = productDefinitionId;
+            ComponentDefinitionId = componentDefinitionId;
+            ProductionQuantity = productionQuantity;
+            QualityImpact = qualityImpact;
+        }
+
+        public Enums.ItemType ProductDefinitionId { get; }
+        public Enums.ItemType ComponentDefinitionId { get; }
+        public int ProductionQuantity { get; }
+        public float QualityImpact { get; }
     }
 }

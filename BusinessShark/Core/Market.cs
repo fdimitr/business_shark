@@ -59,8 +59,8 @@ namespace BusinessShark.Core
             var sql =
                 @"SELECT i.ItemDefinitionId, i.ItemGroupId, i.Name, i.Volume, i.ProductionCount, i.TechImpactQuality, i.ToolImpactQuality, i.WorkerImpactQuality,
                             i.TechImpactQuantity, i.ToolImpactQuantity, i.WorkerImpactQuantity, i.SourceImpactQuality,
-                            p.ItemDefinitionId, p.ComponentDefinitionId, p.ProductionQuantity, p.QualityImpact
-                        FROM ItemDefinition i LEFT OUTER JOIN ProductionUnit p ON i.ItemDefinitionId = p.ItemDefinitionId";
+                            p.ProductDefinitionId, p.ComponentDefinitionId, p.ProductionQuantity, p.QualityImpact
+                        FROM ItemDefinition i LEFT OUTER JOIN ProductionUnit p ON i.ItemDefinitionId = p.ProductDefinitionId";
 
             con.Query<ItemDefinitionDto, ProductionUnitDto?, ItemDefinition>(sql,
                 (definitionDto, productionDto) =>
@@ -73,7 +73,7 @@ namespace BusinessShark.Core
                     else
                     {
                         definition = new ItemDefinition(
-                            definitionDto.ItemDefinitionId,
+                            (ItemType)definitionDto.ItemDefinitionId,
                             definitionDto.Name,
                             definitionDto.Volume,
                             definitionDto.ProductionCount,
@@ -91,14 +91,14 @@ namespace BusinessShark.Core
                     if (productionDto != null)
                     {
                         definition.ProductionUnits.Add(new ProductionUnit(
-                            productionDto.ComponentDefinitionId,
-                            productionDto.ItemDefinitionId,
+                            (ItemType)productionDto.ProductDefinitionId,
+                            (ItemType)productionDto.ComponentDefinitionId,
                             productionDto.ProductionQuantity,
                             productionDto.QualityImpact));
                     }
 
                     return definition;
-                }, splitOn: "ItemDefinitionId");
+                }, splitOn: "ProductDefinitionId");
 
             foreach (var kvp in ItemDefinitions)
             {

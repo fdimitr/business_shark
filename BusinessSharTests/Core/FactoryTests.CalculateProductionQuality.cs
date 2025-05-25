@@ -18,11 +18,11 @@ namespace BusinessSharTests.Core
             // Arrange
             var productionUnits = new List<ProductionUnit>
             {
-                new ProductionUnit(1, 1, 2, 0.2f),
-                new ProductionUnit(1, 2, 3, 0.3f)
+                new ProductionUnit(Enums.ItemType.Bed, Enums.ItemType.Wood, 2, 0.2f),
+                new ProductionUnit(Enums.ItemType.Bed, Enums.ItemType.Leather, 3, 0.3f)
             };
             var productDefinition = new ItemDefinition(
-                3, "TestProduct", 1, 1, 0.2f, 0.2f, 0.1f, 0, 0.1f, 0.1f, 0.1f)
+                Enums.ItemType.Bed, "TestProduct", 1, 1, 0.2f, 0.2f, 0.1f, 0, 0.1f, 0.1f, 0.1f)
             {
                 ProductionUnits = productionUnits
             };
@@ -52,11 +52,11 @@ namespace BusinessSharTests.Core
             // Arrange
             var productionUnits = new List<ProductionUnit>
             {
-                new ProductionUnit(1, 1, 2, 0.2f),
-                new ProductionUnit(1, 2, 3, 0.3f)
+                new ProductionUnit(Enums.ItemType.Bed, Enums.ItemType.Wood, 2, 0.2f),
+                new ProductionUnit(Enums.ItemType.Bed, Enums.ItemType.Leather, 3, 0.3f)
             };
             var productDefinition = new ItemDefinition(
-                3, "TestProduct", 1, 1, 0, 0, 0.1f, 0, 0.1f, 0.1f, 0.1f)
+                Enums.ItemType.Bed, "TestProduct", 1, 1, 0, 0, 0.1f, 0, 0.1f, 0.1f, 0.1f)
             {
                 ProductionUnits = productionUnits
             };
