@@ -1,6 +1,7 @@
 ﻿using System.Drawing;
 using BusinessShark.Core;
 using BusinessShark.Core.Item;
+using BusinessShark.Core.ServiceClasses;
 
 namespace BusinessSharTests.Core
 {
@@ -55,7 +56,7 @@ namespace BusinessSharTests.Core
                 techLevel: techLevel,
                 toolPark: tools,
                 workers: workers,
-                location: new Point(0, 0)
+                location: new Location()
             )
             {
                 WarehouseInput =
@@ -99,7 +100,7 @@ namespace BusinessSharTests.Core
                 techLevel: 1.0f,
                 toolPark: tools,
                 workers: workers,
-                location: new Point(0, 0)
+                location: new Location()
             )
             {
                 WarehouseInput =
@@ -131,7 +132,7 @@ namespace BusinessSharTests.Core
                 techLevel: 1.0f,
                 toolPark: tools,
                 workers: workers,
-                location: new Point(0, 0)
+                location: new Location()
             );
 
             // Not enough input
@@ -158,7 +159,7 @@ namespace BusinessSharTests.Core
                 techLevel: 1.0f,
                 toolPark: tools,
                 workers: workers,
-                location: new Point(0, 0)
+                location: new Location()
             )
             {
                 WarehouseInput =
@@ -197,7 +198,7 @@ namespace BusinessSharTests.Core
                 techLevel: 1.0f,
                 toolPark: tools,
                 workers: workers,
-                location: new Point(0, 0)
+                location: new Location()
             )
             {
                 WarehouseInput =
@@ -235,7 +236,7 @@ namespace BusinessSharTests.Core
                 techLevel: 1.0f,
                 toolPark: tools,
                 workers: workers,
-                location: new Point(0, 0)
+                location: new Location()
             )
             {
                 WarehouseInput =

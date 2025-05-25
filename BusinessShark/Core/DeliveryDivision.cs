@@ -1,12 +1,13 @@
 ﻿using System.Drawing;
 using System.Text.Json.Serialization;
 using BusinessShark.Core.Item;
+using BusinessShark.Core.ServiceClasses;
+using MessagePack;
 
 namespace BusinessShark.Core
 {
-    [Serializable]
-    [method: JsonConstructor]
-    internal abstract class DeliveryDivision(int divisionId, string name, Point location) : Division(divisionId, name, location)
+    [MessagePackObject(keyAsPropertyName: true)]
+    internal abstract class DeliveryDivision(int divisionId, string name, Location location) : Division(divisionId, name, location)
     {
         public Dictionary<Enums.ItemType, Item.Item> WarehouseInput = new();  //to
         public Dictionary<Enums.ItemType, Item.Item> WarehouseOutput = new(); //from

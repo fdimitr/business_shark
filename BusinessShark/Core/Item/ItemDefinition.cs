@@ -1,13 +1,14 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 using System.Text.Json.Serialization;
+using MessagePack;
 using static BusinessShark.Core.Item.Enums;
 
 namespace BusinessShark.Core.Item
 {
-    [Serializable]
+    [MessagePackObject(keyAsPropertyName: true)]
     internal class ItemDefinition
     {
-        [JsonConstructor]
+        [SerializationConstructor]
         public ItemDefinition(int itemDefinitionId,
             string name,
             float volume,

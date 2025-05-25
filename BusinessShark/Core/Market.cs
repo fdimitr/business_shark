@@ -2,11 +2,12 @@
 using BusinessShark.Database;
 using BusinessShark.Database.Models;
 using Dapper;
+using MessagePack;
 using static BusinessShark.Core.Item.Enums;
 
 namespace BusinessShark.Core
 {
-    [Serializable]
+    [MessagePackObject(keyAsPropertyName: true)]
     internal class Market
     {
         public List<City> Cities { get; set; } = new();

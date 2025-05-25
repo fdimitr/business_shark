@@ -1,6 +1,7 @@
 ﻿using System.Drawing;
 using BusinessShark.Core;
 using BusinessShark.Core.Item;
+using BusinessShark.Core.ServiceClasses;
 
 namespace BusinessSharkTests.Core
 {
@@ -20,8 +21,8 @@ namespace BusinessSharkTests.Core
         {
             _itemDef = new ItemDefinition((int)Enums.ItemType.Wood, "Wood", 1, 1, 0.1f, 0.1f, 0.1f, 0.1f, 0.1f, 0.1f,
                 0.1f);
-            _fromDivision = new Warehouse(1, "TestWarehouseFrom", new Point(0, 0), int.MaxValue);
-            _toDivision = new Warehouse(2, "TestWarehouseTo", new Point(1, 1), int.MaxValue);
+            _fromDivision = new Warehouse(1, "TestWarehouseFrom", new Location(), int.MaxValue);
+            _toDivision = new Warehouse(2, "TestWarehouseTo", new Location(1, 1), int.MaxValue);
 
             _fromItem = new Item(_itemDef, quality: 10, quantity: 100);
             _toItem = new Item(_itemDef, quality: 5, quantity: 50);

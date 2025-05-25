@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using BusinessShark.Core.Item;
 using BusinessShark.Core;
+using BusinessShark.Core.ServiceClasses;
 
 namespace BusinessSharTests.Core
 {
@@ -28,7 +29,7 @@ namespace BusinessSharTests.Core
 
             var tools = new Tools { TechLevel = 2 };
             var workers = new Workers { TechLevel = 3 };
-            var factory = new Factory(1, "TestFactory", productDefinition, 4, tools, workers, new Point(0, 0));
+            var factory = new Factory(1, "TestFactory", productDefinition, 4, tools, workers, new Location());
 
             var qualityItems = new List<Factory.QualityItem>
             {
@@ -62,7 +63,7 @@ namespace BusinessSharTests.Core
 
             var tools = new Tools { TechLevel = 2 };
             var workers = new Workers { TechLevel = 3 };
-            var factory = new Factory(1, "TestFactory", productDefinition, 4, tools, workers, new Point(0, 0));
+            var factory = new Factory(1, "TestFactory", productDefinition, 4, tools, workers, new Location());
 
             var qualityItems = new List<Factory.QualityItem>
             {

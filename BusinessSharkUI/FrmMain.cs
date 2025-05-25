@@ -3,6 +3,9 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.Xml.Linq;
 using BusinessShark.Core;
+using BusinessShark.Core.ServiceClasses;
+using MessagePack;
+using MessagePack.Resolvers;
 using Microsoft.VisualBasic;
 
 
@@ -23,14 +26,19 @@ namespace BusinessSharkUI
             currentCity = new City("Wroclaw");
             market.Cities.Add(currentCity);
 
-            var newWarehouse = new Warehouse(1, "2334334", Point.Empty, 222);
+            var newWarehouse = new Warehouse(1, "2334334", new Location(), 222);
             currentCity.Warehouses.Add(newWarehouse);
 
+            SetDataSources();
 
-            _bindingSourceWarehouse.DataSource = currentCity.Warehouses;
             BindWarehouseCombo();
-            _bindingSourceFactories.DataSource = currentCity.Factories;
             BindFactoryCombo();
+        }
+
+        private void SetDataSources()
+        {
+            _bindingSourceWarehouse.DataSource = currentCity.Warehouses;
+            _bindingSourceFactories.DataSource = currentCity.Factories;
         }
 
         private void brnAddWarehouse_Click(object sender, EventArgs e)
@@ -42,7 +50,7 @@ namespace BusinessSharkUI
                 var name = warehouseEditor.WarehouseName;
                 var volume = warehouseEditor.Volume;
                 int newId = currentCity.Warehouses.Max(w => w.DivisionId) + 1;
-                var newWarehouse = new Warehouse(newId, name, Point.Empty, volume);
+                var newWarehouse = new Warehouse(newId, name, new Location(), volume);
                 currentCity.Warehouses.Add(newWarehouse);
                 _bindingSourceWarehouse.ResetBindings(false);
             }
@@ -51,7 +59,7 @@ namespace BusinessSharkUI
         private void btnAddFactory_Click(object sender, EventArgs e)
         {
             var name = Interaction.InputBox("New Factory name", "Factory", "");
-            var newFactory = new Factory(1, name, null, 1, new Tools(), new Workers(), Point.Empty);
+            var newFactory = new Factory(1, name, null, 1, new Tools(), new Workers(), new Location());
             currentCity.Factories.Add(newFactory);
             _bindingSourceFactories.ResetBindings(false);
         }
@@ -72,11 +80,6 @@ namespace BusinessSharkUI
 
         private void btnSaveGame_Click(object sender, EventArgs e)
         {
-            var options = new JsonSerializerOptions
-            {
-                WriteIndented = true,
-                ReferenceHandler = ReferenceHandler.Preserve
-            };
 
             string datetime = DateTime.Now.ToString("yyyyMMdd_HHmmss");
             string saveDir = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Save");
@@ -86,8 +89,13 @@ namespace BusinessSharkUI
             }
             string fileName = Path.Combine(saveDir, $"market_{datetime}.dat");
 
-            string json = JsonSerializer.Serialize(market, options);
-            File.WriteAllText(fileName, json);
+            var options = MessagePackSerializer.DefaultOptions.WithResolver(StandardResolverAllowPrivate.Instance);
+            options.WithCompression(MessagePackCompression.Lz4Block);
+
+            byte[] bytes = MessagePackSerializer.Serialize(market, options);
+
+
+            File.WriteAllBytes(fileName, bytes);
             MessageBox.Show("Saving completed!", "Save", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
@@ -104,26 +112,15 @@ namespace BusinessSharkUI
             {
                 try
                 {
-                    var options = new JsonSerializerOptions
-                    {
-                        ReferenceHandler = ReferenceHandler.Preserve
-                    };
-                    string json = File.ReadAllText(openFileDialog.FileName);
-                    var loadedMarket = JsonSerializer.Deserialize<Market>(json, options);
-                    if (loadedMarket != null)
-                    {
-                        market = loadedMarket;
-                        currentCity = market.Cities.FirstOrDefault() ?? new City("Wroclaw");
-                        _bindingSourceWarehouse.DataSource = currentCity.Warehouses;
-                        BindWarehouseCombo();
-                        _bindingSourceFactories.DataSource = currentCity.Factories;
-                        BindFactoryCombo();
-                        MessageBox.Show("Game loaded successfully!", "Load", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    }
-                    else
-                    {
-                        MessageBox.Show("Failed to load game data.", "Load", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    }
+                    byte[] bytes = File.ReadAllBytes(openFileDialog.FileName);
+
+                    var options = MessagePackSerializer.DefaultOptions.WithResolver(StandardResolverAllowPrivate.Instance);
+                    options.WithCompression(MessagePackCompression.Lz4Block);
+
+                    market = MessagePackSerializer.Deserialize<Market>(bytes, options);
+                    currentCity = market.Cities.FirstOrDefault() ?? new City("Wroclaw");
+                    SetDataSources();
+                    MessageBox.Show("Game loaded successfully!", "Load", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
                 catch (Exception ex)
                 {

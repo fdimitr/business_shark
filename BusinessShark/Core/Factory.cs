@@ -1,20 +1,29 @@
 ﻿using System.Drawing;
 using System.Text.Json.Serialization;
 using BusinessShark.Core.Item;
+using BusinessShark.Core.ServiceClasses;
+using MessagePack;
 
 namespace BusinessShark.Core
 {
-    [Serializable]
-    [method: JsonConstructor]
-    internal class Factory(
-        int divisionId,
-        string name,
-        ItemDefinition? productDefinition,
-        float techLevel,
-        Tools toolPark,
-        Workers workers,
-        Point location) : DeliveryDivision(divisionId, name, location)
+    [MessagePackObject(keyAsPropertyName: true)]
+    internal class Factory : DeliveryDivision
     {
+        [SerializationConstructor]
+        public Factory(int divisionId,
+            string name,
+            ItemDefinition? productDefinition,
+            float techLevel,
+            Tools toolPark,
+            Workers workers,
+            Location location) : base(divisionId, name, location)
+        {
+            ProductDefinition = productDefinition;
+            TechLevel = techLevel;
+            ToolPark = toolPark;
+            Workers = workers;
+        }
+
         [Serializable]
         internal struct QualityItem(float quality, float qualityImpact)
         {
@@ -22,12 +31,12 @@ namespace BusinessShark.Core
             public float QualityImpact = qualityImpact;
         }
 
-        public ItemDefinition? ProductDefinition { get; set; } = productDefinition;
+        public ItemDefinition? ProductDefinition { get; set; }
         public float ProgressProduction { get; set; } // Percent of single product left on production
         public float ProgressQuality { get; set; }
-        public float TechLevel { get; set; } = techLevel;
-        public Tools ToolPark { get; set; } = toolPark;
-        public Workers FactoryWorkers { get; set; } = workers;
+        public float TechLevel { get; set; }
+        public Tools ToolPark { get; set; }
+        public Workers Workers { get; set; }
         private bool isProductionCompleted { get; set; } = true;
 
         public override void StartCalculation()
@@ -129,7 +138,7 @@ namespace BusinessShark.Core
                 return qualityItems.Sum(e => e.Quality * e.QualityImpact)
                        + TechLevel * ProductDefinition.TechImpactQuality
                        + ToolPark.TechLevel * ProductDefinition.ToolImpactQuality
-                       + FactoryWorkers.TechLevel * ProductDefinition.WorkerImpactQuality;
+                       + Workers.TechLevel * ProductDefinition.WorkerImpactQuality;
             }
 
             return 0;
@@ -141,7 +150,7 @@ namespace BusinessShark.Core
             {
                 var quantity = TechLevel * ProductDefinition.TechImpactQuantity
                                + ToolPark.TechLevel * ProductDefinition.ToolImpactQuantity
-                               + FactoryWorkers.TechLevel * ProductDefinition.WorkerImpactQuantity;
+                               + Workers.TechLevel * ProductDefinition.WorkerImpactQuantity;
                 return baseProductionCount * quantity;
             }
 

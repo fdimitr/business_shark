@@ -1,6 +1,8 @@
-﻿namespace BusinessShark.Core
+﻿using MessagePack;
+
+namespace BusinessShark.Core
 {
-    [Serializable]
+    [MessagePackObject(keyAsPropertyName: true)]
     internal class Workers
     {
         public int TotalQuantity;

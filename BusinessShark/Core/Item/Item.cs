@@ -1,16 +1,29 @@
-﻿namespace BusinessShark.Core.Item
+﻿using MessagePack;
+
+namespace BusinessShark.Core.Item
 {
-    [Serializable]
-    internal class Item(ItemDefinition definition, float processingQuality = 0, int processingQuantity = 0, int quantity = 0, float quality = 0, float cena = 0)
+    [MessagePackObject(keyAsPropertyName: true)]
+    internal class Item
     {
-        public ItemDefinition Definition = definition;
-        public float Quality = quality;
-        public int Quantity = quantity;
-        public float Cena = cena;
+        public ItemDefinition Definition;
+        public float Quality;
+        public int Quantity;
+        public float Cena;
 
         public float ProcessingCena;
-        public float ProcessingQuality = processingQuality;
-        public int ProcessingQuantity = processingQuantity;
+        public float ProcessingQuality;
+        public int ProcessingQuantity;
+
+        [SerializationConstructor]
+        public Item(ItemDefinition definition, float processingQuality = 0, int processingQuantity = 0, int quantity = 0, float quality = 0, float cena = 0)
+        {
+            Definition = definition;
+            Quality = quality;
+            Quantity = quantity;
+            Cena = cena;
+            ProcessingQuality = processingQuality;
+            ProcessingQuantity = processingQuantity;
+        }
 
         public void ResetProcessing()
         {

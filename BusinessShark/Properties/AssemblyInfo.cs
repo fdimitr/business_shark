@@ -19,3 +19,4 @@ using System.Runtime.CompilerServices;
 
 [assembly: InternalsVisibleTo("BusinessSharkTests")]
 [assembly: InternalsVisibleTo("BusinessSharkUI")]
+

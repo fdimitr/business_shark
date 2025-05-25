@@ -1,17 +1,18 @@
 ﻿using System.Drawing;
 using System.Text.Json.Serialization;
+using BusinessShark.Core.ServiceClasses;
+using MessagePack;
 
 namespace BusinessShark.Core
 {
-    [Serializable]
-    [method: JsonConstructor]
-    internal abstract class Division(int divisionId, string name, Point location)
+    [MessagePackObject(keyAsPropertyName: true)]
+    internal abstract class Division(int divisionId, string name, Location location)
     {
+        public int DivisionId { get; } = divisionId;
         public string Name { get; } = name;
         public string Description { get; set; }
 
-        public int DivisionId { get; } = divisionId;
-        public Point Location { get; } = location;
+        public Location Location { get; } = location;
 
         public abstract void StartCalculation();
         public abstract void CompleteCalculation();

@@ -1,9 +1,9 @@
 ﻿using System.Text.Json.Serialization;
+using MessagePack;
 
 namespace BusinessShark.Core
 {
-    [Serializable]
-    [method: JsonConstructor]
+    [MessagePackObject(keyAsPropertyName: true)]
     internal class City(string name)
     {
         public string Name { get; set; } = name;
