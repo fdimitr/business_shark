@@ -34,6 +34,7 @@ namespace BusinessSharkUI
             BindingWarehouseListView();
 
             listViewWarehouseItems.View = View.Details;
+            listOfProduction.View = View.Details;
         }
 
         private void InitialData()
@@ -58,7 +59,7 @@ namespace BusinessSharkUI
                 listViewWarehouseItems.SuspendLayout();
                 listViewWarehouseItems.Items.Clear();
 
-                var listViewItemCollection = currentWarehouse.WarehouseItems.Select(i=>new ListViewItem
+                var listViewItemCollection = currentWarehouse.WarehouseItems.Select(i => new ListViewItem
                 {
                     Text = i.Value.Definition.Name,
                     SubItems =
@@ -98,10 +99,45 @@ namespace BusinessSharkUI
 
         private void btnAddFactory_Click(object sender, EventArgs e)
         {
-            var name = Interaction.InputBox("New Factory name", "Factory", "");
-            var newFactory = new Factory(1, name, null, 1, new Tools(), new Workers(), new Location());
-            currentCity.Factories.Add(newFactory);
-            _bindingSourceFactories.ResetBindings(false);
+            FrmFactoryRedactor factoryRedactor = new FrmFactoryRedactor();
+            if (factoryRedactor.ShowDialog() == DialogResult.OK)
+            {
+                var name = factoryRedactor.FactoryName;
+                int newId;
+                if (currentCity.Factories.Count == 0)
+                {
+                    newId = 1;
+                }
+                else
+                {
+                    newId = currentCity.Factories.Max(w => w.DivisionId) + 1;
+                }
+                ItemDefinition product;
+
+                switch (factoryRedactor.ProductType)
+                {
+                    case ("Bed"):
+                        {
+                            product = market.ItemDefinitions[Enums.ItemType.Bed];
+                            break;
+                        }
+                    default:
+                        {
+                            product = market.ItemDefinitions[Enums.ItemType.Bed];
+                            break;
+                        }
+
+                }
+                var newFactory = new Factory(newId, name, product, 1, new Tools(), new Workers(), new Location());
+                currentCity.Factories.Add(newFactory);
+                ListViewItem productView = new ListViewItem(product.Name);
+                productView.SubItems.Add(newFactory.ProgressProduction.ToString());
+                productView.SubItems.Add(newFactory.ProgressQuality.ToString());
+                productView.SubItems.Add("500");
+                listOfProduction.Items.Add(productView);
+                _bindingSourceFactories.ResetBindings(false);
+            }
+
         }
 
         private void BindWarehouseCombo()
@@ -173,6 +209,25 @@ namespace BusinessSharkUI
         {
             currentWarehouse = cmbWarehouses.SelectedItem as Warehouse;
             BindingWarehouseListView();
+        }
+
+        private void btnEditWarehouse_Click(object sender, EventArgs e)
+        {
+            FrmWarehouseEditor warehouseEditor = new FrmWarehouseEditor();
+            if (warehouseEditor.ShowDialog() == DialogResult.OK)
+            {
+                var name = warehouseEditor.WarehouseName;
+                var volume = warehouseEditor.Volume;
+                int id = cmbWarehouses.SelectedIndex;
+                Location location = currentCity.Warehouses[id].Location;
+                currentCity.Warehouses[id] = new Warehouse(id, name, location, volume);
+                _bindingSourceWarehouse.ResetBindings(false);
+            }
+        }
+
+        private void btnAddRoute_Click(object sender, EventArgs e)
+        {
+            var routeRedactor = new FrmRouteRedactor(market);
         }
     }
 }

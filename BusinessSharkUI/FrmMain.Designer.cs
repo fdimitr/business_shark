@@ -33,7 +33,6 @@
             button3 = new Button();
             groupBox1 = new GroupBox();
             label6 = new Label();
-            button8 = new Button();
             listView6 = new ListView();
             columnHeader17 = new ColumnHeader();
             columnHeader18 = new ColumnHeader();
@@ -46,7 +45,7 @@
             columnHeader15 = new ColumnHeader();
             columnHeader16 = new ColumnHeader();
             label4 = new Label();
-            listView4 = new ListView();
+            listOfProduction = new ListView();
             columnHeader9 = new ColumnHeader();
             columnHeader10 = new ColumnHeader();
             columnHeader11 = new ColumnHeader();
@@ -55,7 +54,7 @@
             button6 = new Button();
             btnAddFactory = new Button();
             cmbFactories = new ComboBox();
-            listView2 = new ListView();
+            listOfInputs = new ListView();
             columnHeader1 = new ColumnHeader();
             columnHeader2 = new ColumnHeader();
             columnHeader3 = new ColumnHeader();
@@ -68,7 +67,6 @@
             cmbWarehouses = new ComboBox();
             brnAddWarehouse = new Button();
             btnDelWarehouse = new Button();
-            button7 = new Button();
             label1 = new Label();
             listView3 = new ListView();
             columnHeader5 = new ColumnHeader();
@@ -77,6 +75,7 @@
             columnHeader8 = new ColumnHeader();
             label2 = new Label();
             WarehousesGroup = new GroupBox();
+            btnEditWarehouse = new Button();
             groupBox2 = new GroupBox();
             label8 = new Label();
             listView8 = new ListView();
@@ -95,7 +94,6 @@
             columnHeader36 = new ColumnHeader();
             groupBox3 = new GroupBox();
             label9 = new Label();
-            button11 = new Button();
             listView9 = new ListView();
             columnHeader29 = new ColumnHeader();
             columnHeader30 = new ColumnHeader();
@@ -118,7 +116,7 @@
             columnHeader44 = new ColumnHeader();
             btnLoadGame = new Button();
             btnSaveGame = new Button();
-            btnEditWarehouse = new Button();
+            btnAddRoute = new Button();
             groupBox1.SuspendLayout();
             WarehousesGroup.SuspendLayout();
             groupBox2.SuspendLayout();
@@ -159,17 +157,16 @@
             // 
             groupBox1.BackColor = Color.Gainsboro;
             groupBox1.Controls.Add(label6);
-            groupBox1.Controls.Add(button8);
             groupBox1.Controls.Add(listView6);
             groupBox1.Controls.Add(label5);
             groupBox1.Controls.Add(listView5);
             groupBox1.Controls.Add(label4);
-            groupBox1.Controls.Add(listView4);
+            groupBox1.Controls.Add(listOfProduction);
             groupBox1.Controls.Add(label3);
             groupBox1.Controls.Add(button6);
             groupBox1.Controls.Add(btnAddFactory);
             groupBox1.Controls.Add(cmbFactories);
-            groupBox1.Controls.Add(listView2);
+            groupBox1.Controls.Add(listOfInputs);
             groupBox1.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
             groupBox1.Location = new Point(829, 107);
             groupBox1.Name = "groupBox1";
@@ -186,16 +183,6 @@
             label6.Size = new Size(58, 20);
             label6.TabIndex = 25;
             label6.Text = "Routes";
-            // 
-            // button8
-            // 
-            button8.Font = new Font("Segoe UI", 9F);
-            button8.Location = new Point(82, 494);
-            button8.Name = "button8";
-            button8.Size = new Size(131, 29);
-            button8.TabIndex = 25;
-            button8.Text = "Add Route";
-            button8.UseVisualStyleBackColor = true;
             // 
             // listView6
             // 
@@ -265,30 +252,35 @@
             label4.TabIndex = 21;
             label4.Text = "Production";
             // 
-            // listView4
+            // listOfProduction
             // 
-            listView4.Columns.AddRange(new ColumnHeader[] { columnHeader9, columnHeader10, columnHeader11, columnHeader12 });
-            listView4.Location = new Point(22, 279);
-            listView4.Name = "listView4";
-            listView4.Size = new Size(363, 78);
-            listView4.TabIndex = 20;
-            listView4.UseCompatibleStateImageBehavior = false;
+            listOfProduction.Columns.AddRange(new ColumnHeader[] { columnHeader9, columnHeader10, columnHeader11, columnHeader12 });
+            listOfProduction.Location = new Point(22, 279);
+            listOfProduction.Name = "listOfProduction";
+            listOfProduction.Size = new Size(363, 78);
+            listOfProduction.TabIndex = 20;
+            listOfProduction.UseCompatibleStateImageBehavior = false;
+            listOfProduction.View = View.Details;
             // 
             // columnHeader9
             // 
             columnHeader9.Text = "Наименование товара";
+            columnHeader9.Width = 105;
             // 
             // columnHeader10
             // 
             columnHeader10.Text = "Количество";
+            columnHeader10.Width = 100;
             // 
             // columnHeader11
             // 
             columnHeader11.Text = "Качество";
+            columnHeader11.Width = 80;
             // 
             // columnHeader12
             // 
             columnHeader12.Text = "Цена";
+            columnHeader12.Width = 70;
             // 
             // label3
             // 
@@ -328,26 +320,30 @@
             cmbFactories.Size = new Size(362, 28);
             cmbFactories.TabIndex = 11;
             // 
-            // listView2
+            // listOfInputs
             // 
-            listView2.Columns.AddRange(new ColumnHeader[] { columnHeader1, columnHeader2, columnHeader3, columnHeader4 });
-            listView2.Location = new Point(21, 145);
-            listView2.Name = "listView2";
-            listView2.Size = new Size(363, 108);
-            listView2.TabIndex = 10;
-            listView2.UseCompatibleStateImageBehavior = false;
+            listOfInputs.Columns.AddRange(new ColumnHeader[] { columnHeader1, columnHeader2, columnHeader3, columnHeader4 });
+            listOfInputs.Location = new Point(21, 145);
+            listOfInputs.Name = "listOfInputs";
+            listOfInputs.Size = new Size(363, 108);
+            listOfInputs.TabIndex = 10;
+            listOfInputs.UseCompatibleStateImageBehavior = false;
+            listOfInputs.View = View.Details;
             // 
             // columnHeader1
             // 
             columnHeader1.Text = "Наименование товара";
+            columnHeader1.Width = 115;
             // 
             // columnHeader2
             // 
             columnHeader2.Text = "Количество";
+            columnHeader2.Width = 100;
             // 
             // columnHeader3
             // 
             columnHeader3.Text = "Качество";
+            columnHeader3.Width = 80;
             // 
             // columnHeader4
             // 
@@ -420,16 +416,6 @@
             btnDelWarehouse.Text = "Delete";
             btnDelWarehouse.UseVisualStyleBackColor = true;
             // 
-            // button7
-            // 
-            button7.Font = new Font("Segoe UI", 9F);
-            button7.Location = new Point(102, 419);
-            button7.Name = "button7";
-            button7.Size = new Size(131, 29);
-            button7.TabIndex = 15;
-            button7.Text = "Add Route";
-            button7.UseVisualStyleBackColor = true;
-            // 
             // label1
             // 
             label1.AutoSize = true;
@@ -480,7 +466,6 @@
             WarehousesGroup.Controls.Add(label2);
             WarehousesGroup.Controls.Add(listView3);
             WarehousesGroup.Controls.Add(label1);
-            WarehousesGroup.Controls.Add(button7);
             WarehousesGroup.Controls.Add(btnDelWarehouse);
             WarehousesGroup.Controls.Add(brnAddWarehouse);
             WarehousesGroup.Controls.Add(cmbWarehouses);
@@ -493,6 +478,17 @@
             WarehousesGroup.TabIndex = 10;
             WarehousesGroup.TabStop = false;
             WarehousesGroup.Text = "Warehouses";
+            // 
+            // btnEditWarehouse
+            // 
+            btnEditWarehouse.Font = new Font("Segoe UI", 9F);
+            btnEditWarehouse.Location = new Point(122, 48);
+            btnEditWarehouse.Name = "btnEditWarehouse";
+            btnEditWarehouse.Size = new Size(94, 29);
+            btnEditWarehouse.TabIndex = 19;
+            btnEditWarehouse.Text = "Edit";
+            btnEditWarehouse.UseVisualStyleBackColor = true;
+            btnEditWarehouse.Click += btnEditWarehouse_Click;
             // 
             // groupBox2
             // 
@@ -614,7 +610,6 @@
             // 
             groupBox3.BackColor = Color.AliceBlue;
             groupBox3.Controls.Add(label9);
-            groupBox3.Controls.Add(button11);
             groupBox3.Controls.Add(listView9);
             groupBox3.Controls.Add(label11);
             groupBox3.Controls.Add(listView11);
@@ -640,16 +635,6 @@
             label9.Size = new Size(58, 20);
             label9.TabIndex = 25;
             label9.Text = "Routes";
-            // 
-            // button11
-            // 
-            button11.Font = new Font("Segoe UI", 9F);
-            button11.Location = new Point(82, 494);
-            button11.Name = "button11";
-            button11.Size = new Size(131, 29);
-            button11.TabIndex = 25;
-            button11.Text = "Add Route";
-            button11.UseVisualStyleBackColor = true;
             // 
             // listView9
             // 
@@ -794,21 +779,23 @@
             btnSaveGame.UseVisualStyleBackColor = false;
             btnSaveGame.Click += btnSaveGame_Click;
             // 
-            // btnEditWarehouse
+            // btnAddRoute
             // 
-            btnEditWarehouse.Font = new Font("Segoe UI", 9F);
-            btnEditWarehouse.Location = new Point(122, 48);
-            btnEditWarehouse.Name = "btnEditWarehouse";
-            btnEditWarehouse.Size = new Size(94, 29);
-            btnEditWarehouse.TabIndex = 19;
-            btnEditWarehouse.Text = "Edit";
-            btnEditWarehouse.UseVisualStyleBackColor = true;
+            btnAddRoute.BackColor = Color.GhostWhite;
+            btnAddRoute.Location = new Point(730, 12);
+            btnAddRoute.Name = "btnAddRoute";
+            btnAddRoute.Size = new Size(197, 55);
+            btnAddRoute.TabIndex = 29;
+            btnAddRoute.Text = "Add Route";
+            btnAddRoute.UseVisualStyleBackColor = false;
+            btnAddRoute.Click += btnAddRoute_Click;
             // 
             // FrmMain
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1672, 766);
+            Controls.Add(btnAddRoute);
             Controls.Add(btnSaveGame);
             Controls.Add(btnLoadGame);
             Controls.Add(groupBox3);
@@ -842,7 +829,7 @@
         private Button button6;
         private Button btnAddFactory;
         private ComboBox cmbFactories;
-        private ListView listView2;
+        private ListView listOfInputs;
         private ColumnHeader columnHeader1;
         private ColumnHeader columnHeader2;
         private ColumnHeader columnHeader3;
@@ -855,7 +842,7 @@
         private ColumnHeader columnHeader15;
         private ColumnHeader columnHeader16;
         private Label label4;
-        private ListView listView4;
+        private ListView listOfProduction;
         private ColumnHeader columnHeader9;
         private ColumnHeader columnHeader10;
         private ColumnHeader columnHeader11;
@@ -866,7 +853,6 @@
         private ColumnHeader columnHeader18;
         private ColumnHeader columnHeader19;
         private ColumnHeader columnHeader20;
-        private Button button8;
         private ListView listViewWarehouseItems;
         private ColumnHeader columnName;
         private ColumnHeader columnQuantity;
@@ -875,7 +861,6 @@
         private ComboBox cmbWarehouses;
         private Button brnAddWarehouse;
         private Button btnDelWarehouse;
-        private Button button7;
         private Label label1;
         private ListView listView3;
         private ColumnHeader columnHeader5;
@@ -902,7 +887,6 @@
         private ColumnHeader columnHeader36;
         private GroupBox groupBox3;
         private Label label9;
-        private Button button11;
         private ListView listView9;
         private ColumnHeader columnHeader29;
         private ColumnHeader columnHeader30;
@@ -926,5 +910,6 @@
         private Button btnLoadGame;
         private Button btnSaveGame;
         private Button btnEditWarehouse;
+        private Button btnAddRoute;
     }
 }
