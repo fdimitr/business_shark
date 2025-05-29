@@ -1,6 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
-using System.Text.Json.Serialization;
-using MessagePack;
+﻿using MessagePack;
 using static BusinessShark.Core.Item.Enums;
 
 namespace BusinessShark.Core.Item

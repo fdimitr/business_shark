@@ -45,12 +45,25 @@ namespace BusinessSharkUI
             currentCity = new City("Wroclaw");
             market.Cities.Add(currentCity);
 
+            // Warehouse initialization
             var newWarehouse = new Warehouse(1, "Warehouse(Main)", new Location(), 222);
             newWarehouse.WarehouseItems.Add(Enums.ItemType.Wood, new Item(market.ItemDefinitions[Enums.ItemType.Wood], 0, 0, 3456, 2.5f, 0.15f));
             newWarehouse.WarehouseItems.Add(Enums.ItemType.Leather, new Item(market.ItemDefinitions[Enums.ItemType.Leather], 0, 0, 120, 1.2f, 22.6f));
 
             currentCity.Warehouses.Add(newWarehouse);
 
+            // Factory initialization
+            var newFactory = new Factory(2, "Factory(Main)", market.ItemDefinitions[Enums.ItemType.Bed], 2.3f, new Tools(), new Workers(), new Location());
+
+            newFactory.ProgressProduction = 0.75f;
+            newFactory.ProgressQuality = 3.75f;
+            newFactory.ProgressPrice = 233;
+
+            newFactory.WarehouseInput.Add(Enums.ItemType.Wood, new Item(market.ItemDefinitions[Enums.ItemType.Wood], 0, 0, 16, 2.5f, 0.15f));
+            newFactory.WarehouseInput.Add(Enums.ItemType.Leather, new Item(market.ItemDefinitions[Enums.ItemType.Leather], 0, 0, 6, 1.2f, 22.6f));
+
+            newFactory.WarehouseOutput.Add(Enums.ItemType.Bed, new Item(market.ItemDefinitions[Enums.ItemType.Bed], 0, 0, 2, 31.9f, 23.15f));
+            currentCity.Factories.Add(newFactory);
         }
 
         private void BindingWarehouseListView()
@@ -135,11 +148,7 @@ namespace BusinessSharkUI
                 var newFactory = new Factory(newId, name, product, 1, new Tools(), new Workers(), new Location());
                 currentCity.Factories.Add(newFactory);
 
-                cmbFactories.SelectedIndex = cmbFactories.Items.Count;
-                if(currentFactory == null)
-                {
-                    currentFactory = currentCity.Factories[0];
-                }
+                currentFactory = newFactory;
 
             }
         }

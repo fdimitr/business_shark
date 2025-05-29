@@ -255,6 +255,7 @@
             // listOfProduction
             // 
             listOfProduction.Columns.AddRange(new ColumnHeader[] { columnHeader9, columnHeader10, columnHeader11, columnHeader12 });
+            listOfProduction.Font = new Font("Segoe UI", 9F);
             listOfProduction.Location = new Point(22, 279);
             listOfProduction.Name = "listOfProduction";
             listOfProduction.Size = new Size(363, 78);
@@ -324,6 +325,7 @@
             // listOfInputs
             // 
             listOfInputs.Columns.AddRange(new ColumnHeader[] { columnHeader1, columnHeader2, columnHeader3, columnHeader4 });
+            listOfInputs.Font = new Font("Segoe UI", 9F);
             listOfInputs.Location = new Point(21, 145);
             listOfInputs.Name = "listOfInputs";
             listOfInputs.Size = new Size(363, 108);
