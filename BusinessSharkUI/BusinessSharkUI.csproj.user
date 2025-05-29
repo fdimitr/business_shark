@@ -4,13 +4,13 @@
     <Compile Update="FrmMain.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Update="FrmRouteRedactor.cs">
+    <Compile Update="FrmRouteEditor.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Update="FrmWarehouseEditor.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Update="FrmFactoryRedactor.cs">
+    <Compile Update="FrmFactoryEditor.cs">
       <SubType>Form</SubType>
     </Compile>
   </ItemGroup>

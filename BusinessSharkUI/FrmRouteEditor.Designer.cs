@@ -38,6 +38,10 @@
             label3 = new Label();
             btnCancel = new Button();
             btnOK = new Button();
+            cmbStartCity = new ComboBox();
+            cmbEndCity = new ComboBox();
+            label4 = new Label();
+            label5 = new Label();
             ((System.ComponentModel.ISupportInitialize)numVolume).BeginInit();
             SuspendLayout();
             // 
@@ -130,11 +134,49 @@
             btnOK.Text = "OK";
             btnOK.Click += btnOK_Click;
             // 
+            // cmbStartCity
+            // 
+            cmbStartCity.FormattingEnabled = true;
+            cmbStartCity.Location = new Point(183, 35);
+            cmbStartCity.Name = "cmbStartCity";
+            cmbStartCity.Size = new Size(151, 28);
+            cmbStartCity.TabIndex = 13;
+            // 
+            // cmbEndCity
+            // 
+            cmbEndCity.FormattingEnabled = true;
+            cmbEndCity.Location = new Point(576, 35);
+            cmbEndCity.Name = "cmbEndCity";
+            cmbEndCity.Size = new Size(151, 28);
+            cmbEndCity.TabIndex = 14;
+            // 
+            // label4
+            // 
+            label4.AutoSize = true;
+            label4.Location = new Point(50, 38);
+            label4.Name = "label4";
+            label4.Size = new Size(67, 20);
+            label4.TabIndex = 15;
+            label4.Text = "Start city";
+            // 
+            // label5
+            // 
+            label5.AutoSize = true;
+            label5.Location = new Point(451, 43);
+            label5.Name = "label5";
+            label5.Size = new Size(61, 20);
+            label5.TabIndex = 16;
+            label5.Text = "End city";
+            // 
             // FrmRouteRedactor
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(800, 337);
+            Controls.Add(label5);
+            Controls.Add(label4);
+            Controls.Add(cmbEndCity);
+            Controls.Add(cmbStartCity);
             Controls.Add(btnOK);
             Controls.Add(btnCancel);
             Controls.Add(label3);
@@ -164,5 +206,9 @@
         private Label label3;
         private Button btnCancel;
         private Button btnOK;
+        private ComboBox cmbStartCity;
+        private ComboBox cmbEndCity;
+        private Label label4;
+        private Label label5;
     }
 }

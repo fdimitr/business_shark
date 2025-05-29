@@ -319,6 +319,7 @@
             cmbFactories.Name = "cmbFactories";
             cmbFactories.Size = new Size(362, 28);
             cmbFactories.TabIndex = 11;
+            cmbFactories.SelectedIndexChanged += cmbFactories_SelectedIndexChanged;
             // 
             // listOfInputs
             // 

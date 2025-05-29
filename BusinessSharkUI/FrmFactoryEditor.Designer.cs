@@ -84,7 +84,6 @@
             // 
             cmbProductsList.DropDownStyle = ComboBoxStyle.DropDownList;
             cmbProductsList.FormattingEnabled = true;
-            cmbProductsList.Items.AddRange(new object[] { "Bed" });
             cmbProductsList.Location = new Point(135, 48);
             cmbProductsList.Name = "cmbProductsList";
             cmbProductsList.Size = new Size(326, 28);

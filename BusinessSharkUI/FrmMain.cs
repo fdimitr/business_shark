@@ -18,6 +18,7 @@ namespace BusinessSharkUI
 
         private City currentCity { get; set; }
         private Warehouse? currentWarehouse { get; set; }
+        private Factory? currentFactory { get; set; }
 
         private readonly BindingSource _bindingSourceFactories = new BindingSource();
         private readonly BindingSource _bindingSourceWarehouse = new BindingSource();
@@ -80,6 +81,7 @@ namespace BusinessSharkUI
             _bindingSourceFactories.DataSource = currentCity.Factories;
             _bindingSourceWarehouse.DataSource = currentCity.Warehouses;
             BindingWarehouseListView();
+            BindingFactoryListView();
         }
 
         private void brnAddWarehouse_Click(object sender, EventArgs e)
@@ -99,24 +101,26 @@ namespace BusinessSharkUI
 
         private void btnAddFactory_Click(object sender, EventArgs e)
         {
-            FrmFactoryRedactor factoryRedactor = new FrmFactoryRedactor();
+            AddFactory();
+            BindingFactoryListView();
+            _bindingSourceFactories.ResetBindings(false);
+        }
+
+        private void AddFactory()
+        {
+            FrmFactoryRedactor factoryRedactor = new FrmFactoryRedactor(market);
             if (factoryRedactor.ShowDialog() == DialogResult.OK)
             {
                 var name = factoryRedactor.FactoryName;
                 int newId;
-                if (currentCity.Factories.Count == 0)
-                {
-                    newId = 1;
-                }
-                else
-                {
-                    newId = currentCity.Factories.Max(w => w.DivisionId) + 1;
-                }
+                newId = currentCity.Factories.Count == 0
+                    ? 1
+                    : currentCity.Factories.Max(w => w.DivisionId) + 1;
                 ItemDefinition product;
 
                 switch (factoryRedactor.ProductType)
                 {
-                    case ("Bed"):
+                    case (Enums.ItemType.Bed):
                         {
                             product = market.ItemDefinitions[Enums.ItemType.Bed];
                             break;
@@ -130,14 +134,31 @@ namespace BusinessSharkUI
                 }
                 var newFactory = new Factory(newId, name, product, 1, new Tools(), new Workers(), new Location());
                 currentCity.Factories.Add(newFactory);
-                ListViewItem productView = new ListViewItem(product.Name);
-                productView.SubItems.Add(newFactory.ProgressProduction.ToString());
-                productView.SubItems.Add(newFactory.ProgressQuality.ToString());
-                productView.SubItems.Add("500");
-                listOfProduction.Items.Add(productView);
-                _bindingSourceFactories.ResetBindings(false);
-            }
 
+                cmbFactories.SelectedIndex = cmbFactories.Items.Count;
+                if(currentFactory == null)
+                {
+                    currentFactory = currentCity.Factories[0];
+                }
+
+            }
+        }
+
+        private void BindingFactoryListView()
+        {
+            if (currentFactory != null)
+            {
+                listOfProduction.SuspendLayout();
+                listOfProduction.Items.Clear();
+
+                ListViewItem productView = new ListViewItem(currentFactory.ProductDefinition.Name);
+                productView.SubItems.Add(currentFactory.ProgressProduction.ToString());
+                productView.SubItems.Add(currentFactory.ProgressQuality.ToString());
+                productView.SubItems.Add("500");
+
+                listOfProduction.Items.Add(productView);
+                listOfProduction.ResumeLayout();
+            }
         }
 
         private void BindWarehouseCombo()
@@ -209,6 +230,12 @@ namespace BusinessSharkUI
         {
             currentWarehouse = cmbWarehouses.SelectedItem as Warehouse;
             BindingWarehouseListView();
+        }
+
+        private void cmbFactories_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            currentFactory = cmbFactories.SelectedItem as Factory;
+            BindingFactoryListView();
         }
 
         private void btnEditWarehouse_Click(object sender, EventArgs e)
