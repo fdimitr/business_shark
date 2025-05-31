@@ -74,7 +74,8 @@ namespace BusinessShark.Core
 
             ProgressQuality += CalculateWarehouseQuality(ProgressProduction, ProgressQuality, cycleProgressQuantity, cycleProgressQuality);
             ProgressProduction += cycleProgressQuantity;
-            
+            ProgressPrice = CalculateProductionPrice();
+
 
             // Completion of production
             if (ProgressProduction >= 1)
@@ -154,9 +155,19 @@ namespace BusinessShark.Core
             return 0;
         }
 
-        internal float CalculateProductionPrice(float baseProductionPrice)
+        internal float CalculateProductionPrice()
         {
+            if (ProductDefinition != null)
+            {
+                float price = 0;
+                Market market = new Market();
+                foreach(var item in ProductDefinition.ProductionUnits)
+                {
+                    price += item.ProductionQuantity * (market.ItemDefinitions[item.ComponentDefinitionId].BaseProductionPrice);
+                }
+                return price;
 
+            }
             return 0;
         }
     }

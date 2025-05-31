@@ -217,7 +217,7 @@ namespace BusinessSharkUI
                 ListViewItem productView = new ListViewItem(currentFactory.ProductDefinition.Name);
                 productView.SubItems.Add(currentFactory.ProgressProduction.ToString());
                 productView.SubItems.Add(currentFactory.ProgressQuality.ToString());
-                productView.SubItems.Add("500");
+                productView.SubItems.Add(currentFactory.ProgressPrice.ToString());
 
                 listOfProduction.Items.Add(productView);
                 listOfProduction.ResumeLayout();
