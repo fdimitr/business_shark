@@ -318,20 +318,30 @@ namespace BusinessSharkUI
 
         private void btnAddRouteToWarehouse_Click(object sender, EventArgs e)
         {
-            var routeEditor = new FrmRouteEditor(market);
+            if (currentWarehouse == null)
+            {
+                MessageBox.Show("Please select a warehouse first.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+            var routeEditor = new FrmRouteEditor(market, currentWarehouse.Routes);
             routeEditor.ShowDialog();
         }
 
         private void btnAddRouteToFactory_Click(object sender, EventArgs e)
         {
-            var routeEditor = new FrmRouteEditor(market);
+            if (currentFactory == null)
+            {
+                MessageBox.Show("Please select a factory first.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+            var routeEditor = new FrmRouteEditor(market, currentFactory.Routes);
             routeEditor.ShowDialog();
         }
 
         private void btnAddRouteToStore_Click(object sender, EventArgs e)
         {
-            var routeEditor = new FrmRouteEditor(market);
-            routeEditor.ShowDialog();
+            //var routeEditor = new FrmRouteEditor(market);
+            //routeEditor.ShowDialog();
         }
     }
 }

@@ -39,6 +39,7 @@
             DeliveryPrice = new DataGridViewTextBoxColumn();
             ExistingQuantity = new DataGridViewTextBoxColumn();
             ReqestedQuantity = new DataGridViewTextBoxColumn();
+            DivisionId = new DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)dataGridViewRoutes).BeginInit();
             SuspendLayout();
             // 
@@ -69,6 +70,7 @@
             btnCancel.Size = new Size(98, 31);
             btnCancel.TabIndex = 11;
             btnCancel.Text = "Cancel";
+            btnCancel.Click += btnCancel_Click;
             // 
             // btnOK
             // 
@@ -83,7 +85,7 @@
             // dataGridViewRoutes
             // 
             dataGridViewRoutes.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridViewRoutes.Columns.AddRange(new DataGridViewColumn[] { IsRoute, NameDivision, City, DeliveryPrice, ExistingQuantity, ReqestedQuantity });
+            dataGridViewRoutes.Columns.AddRange(new DataGridViewColumn[] { IsRoute, NameDivision, City, DeliveryPrice, ExistingQuantity, ReqestedQuantity, DivisionId });
             dataGridViewRoutes.Location = new Point(12, 12);
             dataGridViewRoutes.Name = "dataGridViewRoutes";
             dataGridViewRoutes.RowHeadersWidth = 51;
@@ -141,6 +143,14 @@
             ReqestedQuantity.Name = "ReqestedQuantity";
             ReqestedQuantity.Width = 125;
             // 
+            // DivisionId
+            // 
+            DivisionId.HeaderText = "DevisionId";
+            DivisionId.MinimumWidth = 6;
+            DivisionId.Name = "DivisionId";
+            DivisionId.Visible = false;
+            DivisionId.Width = 125;
+            // 
             // FrmRouteEditor
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
@@ -173,5 +183,6 @@
         private DataGridViewTextBoxColumn DeliveryPrice;
         private DataGridViewTextBoxColumn ExistingQuantity;
         private DataGridViewTextBoxColumn ReqestedQuantity;
+        private DataGridViewTextBoxColumn DivisionId;
     }
 }
