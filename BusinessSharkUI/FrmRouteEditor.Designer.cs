@@ -1,6 +1,6 @@
 ﻿namespace BusinessSharkUI
 {
-    partial class FrmRouteRedactor
+    partial class FrmRouteEditor
     {
         /// <summary>
         /// Required designer variable.
@@ -28,97 +28,43 @@
         /// </summary>
         private void InitializeComponent()
         {
-            cmbStartPoint = new ComboBox();
-            cmbFinishPoint = new ComboBox();
-            comboBox3 = new ComboBox();
-            numVolume = new NumericUpDown();
-            lblName = new Label();
+            cmbRequestedItems = new ComboBox();
             label1 = new Label();
-            label2 = new Label();
-            label3 = new Label();
             btnCancel = new Button();
             btnOK = new Button();
-            cmbStartCity = new ComboBox();
-            cmbEndCity = new ComboBox();
-            label4 = new Label();
-            label5 = new Label();
-            ((System.ComponentModel.ISupportInitialize)numVolume).BeginInit();
+            dataGridViewRoutes = new DataGridView();
+            IsRoute = new DataGridViewCheckBoxColumn();
+            NameDivision = new DataGridViewTextBoxColumn();
+            City = new DataGridViewTextBoxColumn();
+            DeliveryPrice = new DataGridViewTextBoxColumn();
+            ExistingQuantity = new DataGridViewTextBoxColumn();
+            ReqestedQuantity = new DataGridViewTextBoxColumn();
+            ((System.ComponentModel.ISupportInitialize)dataGridViewRoutes).BeginInit();
             SuspendLayout();
             // 
-            // cmbStartPoint
+            // cmbRequestedItems
             // 
-            cmbStartPoint.FormattingEnabled = true;
-            cmbStartPoint.Location = new Point(183, 92);
-            cmbStartPoint.Name = "cmbStartPoint";
-            cmbStartPoint.Size = new Size(151, 28);
-            cmbStartPoint.TabIndex = 0;
-            // 
-            // cmbFinishPoint
-            // 
-            cmbFinishPoint.FormattingEnabled = true;
-            cmbFinishPoint.Location = new Point(576, 92);
-            cmbFinishPoint.Name = "cmbFinishPoint";
-            cmbFinishPoint.Size = new Size(151, 28);
-            cmbFinishPoint.TabIndex = 1;
-            // 
-            // comboBox3
-            // 
-            comboBox3.FormattingEnabled = true;
-            comboBox3.Location = new Point(345, 151);
-            comboBox3.Name = "comboBox3";
-            comboBox3.Size = new Size(151, 28);
-            comboBox3.TabIndex = 2;
-            // 
-            // numVolume
-            // 
-            numVolume.Location = new Point(345, 221);
-            numVolume.Maximum = new decimal(new int[] { 100000, 0, 0, 0 });
-            numVolume.Minimum = new decimal(new int[] { 1, 0, 0, 0 });
-            numVolume.Name = "numVolume";
-            numVolume.Size = new Size(151, 27);
-            numVolume.TabIndex = 4;
-            numVolume.Value = new decimal(new int[] { 100, 0, 0, 0 });
-            // 
-            // lblName
-            // 
-            lblName.AutoSize = true;
-            lblName.Location = new Point(50, 95);
-            lblName.Name = "lblName";
-            lblName.Size = new Size(100, 20);
-            lblName.TabIndex = 6;
-            lblName.Text = "Starting point";
+            cmbRequestedItems.DropDownStyle = ComboBoxStyle.DropDownList;
+            cmbRequestedItems.FormattingEnabled = true;
+            cmbRequestedItems.Location = new Point(720, 37);
+            cmbRequestedItems.Name = "cmbRequestedItems";
+            cmbRequestedItems.Size = new Size(174, 28);
+            cmbRequestedItems.TabIndex = 2;
+            cmbRequestedItems.SelectedIndexChanged += cmbRequestedItems_SelectedIndexChanged;
             // 
             // label1
             // 
             label1.AutoSize = true;
-            label1.Location = new Point(205, 154);
+            label1.Location = new Point(720, 14);
             label1.Name = "label1";
             label1.Size = new Size(118, 20);
             label1.TabIndex = 7;
             label1.Text = "Type of resource";
             // 
-            // label2
-            // 
-            label2.AutoSize = true;
-            label2.Location = new Point(229, 221);
-            label2.Name = "label2";
-            label2.Size = new Size(65, 20);
-            label2.TabIndex = 8;
-            label2.Text = "Quantity";
-            // 
-            // label3
-            // 
-            label3.AutoSize = true;
-            label3.Location = new Point(451, 95);
-            label3.Name = "label3";
-            label3.Size = new Size(73, 20);
-            label3.TabIndex = 9;
-            label3.Text = "End point";
-            // 
             // btnCancel
             // 
             btnCancel.DialogResult = DialogResult.Cancel;
-            btnCancel.Location = new Point(646, 294);
+            btnCancel.Location = new Point(796, 294);
             btnCancel.Name = "btnCancel";
             btnCancel.Size = new Size(98, 31);
             btnCancel.TabIndex = 11;
@@ -127,88 +73,105 @@
             // btnOK
             // 
             btnOK.DialogResult = DialogResult.OK;
-            btnOK.Location = new Point(518, 294);
+            btnOK.Location = new Point(796, 234);
             btnOK.Name = "btnOK";
             btnOK.Size = new Size(98, 31);
             btnOK.TabIndex = 12;
             btnOK.Text = "OK";
             btnOK.Click += btnOK_Click;
             // 
-            // cmbStartCity
+            // dataGridViewRoutes
             // 
-            cmbStartCity.FormattingEnabled = true;
-            cmbStartCity.Location = new Point(183, 35);
-            cmbStartCity.Name = "cmbStartCity";
-            cmbStartCity.Size = new Size(151, 28);
-            cmbStartCity.TabIndex = 13;
+            dataGridViewRoutes.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dataGridViewRoutes.Columns.AddRange(new DataGridViewColumn[] { IsRoute, NameDivision, City, DeliveryPrice, ExistingQuantity, ReqestedQuantity });
+            dataGridViewRoutes.Location = new Point(12, 12);
+            dataGridViewRoutes.Name = "dataGridViewRoutes";
+            dataGridViewRoutes.RowHeadersWidth = 51;
+            dataGridViewRoutes.Size = new Size(698, 313);
+            dataGridViewRoutes.TabIndex = 13;
             // 
-            // cmbEndCity
+            // IsRoute
             // 
-            cmbEndCity.FormattingEnabled = true;
-            cmbEndCity.Location = new Point(576, 35);
-            cmbEndCity.Name = "cmbEndCity";
-            cmbEndCity.Size = new Size(151, 28);
-            cmbEndCity.TabIndex = 14;
+            IsRoute.DataPropertyName = "IsRoute";
+            IsRoute.HeaderText = "Route";
+            IsRoute.MinimumWidth = 6;
+            IsRoute.Name = "IsRoute";
+            IsRoute.Width = 55;
             // 
-            // label4
+            // NameDivision
             // 
-            label4.AutoSize = true;
-            label4.Location = new Point(50, 38);
-            label4.Name = "label4";
-            label4.Size = new Size(67, 20);
-            label4.TabIndex = 15;
-            label4.Text = "Start city";
+            NameDivision.DataPropertyName = "Name";
+            NameDivision.HeaderText = "Name of division";
+            NameDivision.MinimumWidth = 6;
+            NameDivision.Name = "NameDivision";
+            NameDivision.ReadOnly = true;
+            NameDivision.Width = 155;
             // 
-            // label5
+            // City
             // 
-            label5.AutoSize = true;
-            label5.Location = new Point(451, 43);
-            label5.Name = "label5";
-            label5.Size = new Size(61, 20);
-            label5.TabIndex = 16;
-            label5.Text = "End city";
+            City.DataPropertyName = "City";
+            City.HeaderText = "City";
+            City.MinimumWidth = 6;
+            City.Name = "City";
+            City.ReadOnly = true;
+            City.Width = 125;
             // 
-            // FrmRouteRedactor
+            // DeliveryPrice
+            // 
+            DeliveryPrice.HeaderText = "Delivery Price";
+            DeliveryPrice.MinimumWidth = 6;
+            DeliveryPrice.Name = "DeliveryPrice";
+            DeliveryPrice.ReadOnly = true;
+            DeliveryPrice.Width = 80;
+            // 
+            // ExistingQuantity
+            // 
+            ExistingQuantity.DataPropertyName = "ExistingQuantity";
+            ExistingQuantity.HeaderText = "Existing quantity";
+            ExistingQuantity.MinimumWidth = 6;
+            ExistingQuantity.Name = "ExistingQuantity";
+            ExistingQuantity.ReadOnly = true;
+            ExistingQuantity.Width = 90;
+            // 
+            // ReqestedQuantity
+            // 
+            ReqestedQuantity.DataPropertyName = "ReqestedQuantity";
+            ReqestedQuantity.HeaderText = "Requested quantity";
+            ReqestedQuantity.MinimumWidth = 6;
+            ReqestedQuantity.Name = "ReqestedQuantity";
+            ReqestedQuantity.Width = 125;
+            // 
+            // FrmRouteEditor
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(800, 337);
-            Controls.Add(label5);
-            Controls.Add(label4);
-            Controls.Add(cmbEndCity);
-            Controls.Add(cmbStartCity);
+            ClientSize = new Size(906, 337);
+            Controls.Add(dataGridViewRoutes);
             Controls.Add(btnOK);
             Controls.Add(btnCancel);
-            Controls.Add(label3);
-            Controls.Add(label2);
             Controls.Add(label1);
-            Controls.Add(lblName);
-            Controls.Add(numVolume);
-            Controls.Add(comboBox3);
-            Controls.Add(cmbFinishPoint);
-            Controls.Add(cmbStartPoint);
-            Name = "FrmRouteRedactor";
-            Text = "FrmRouteRedactor";
-            ((System.ComponentModel.ISupportInitialize)numVolume).EndInit();
+            Controls.Add(cmbRequestedItems);
+            FormBorderStyle = FormBorderStyle.FixedDialog;
+            MaximizeBox = false;
+            MinimizeBox = false;
+            Name = "FrmRouteEditor";
+            Text = "Routers";
+            ((System.ComponentModel.ISupportInitialize)dataGridViewRoutes).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
 
         #endregion
-
-        private ComboBox cmbStartPoint;
-        private ComboBox cmbFinishPoint;
-        private ComboBox comboBox3;
-        private NumericUpDown numVolume;
-        private Label lblName;
+        private ComboBox cmbRequestedItems;
         private Label label1;
-        private Label label2;
-        private Label label3;
         private Button btnCancel;
         private Button btnOK;
-        private ComboBox cmbStartCity;
-        private ComboBox cmbEndCity;
-        private Label label4;
-        private Label label5;
+        private DataGridView dataGridViewRoutes;
+        private DataGridViewCheckBoxColumn IsRoute;
+        private DataGridViewTextBoxColumn NameDivision;
+        private DataGridViewTextBoxColumn City;
+        private DataGridViewTextBoxColumn DeliveryPrice;
+        private DataGridViewTextBoxColumn ExistingQuantity;
+        private DataGridViewTextBoxColumn ReqestedQuantity;
     }
 }

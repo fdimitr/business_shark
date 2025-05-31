@@ -47,8 +47,8 @@ namespace BusinessSharkUI
 
             // Warehouse initialization
             var newWarehouse = new Warehouse(1, "Warehouse(Main)", new Location(), 222);
-            newWarehouse.WarehouseItems.Add(Enums.ItemType.Wood, new Item(market.ItemDefinitions[Enums.ItemType.Wood], 0, 0, 3456, 2.5f, 0.15f));
-            newWarehouse.WarehouseItems.Add(Enums.ItemType.Leather, new Item(market.ItemDefinitions[Enums.ItemType.Leather], 0, 0, 120, 1.2f, 22.6f));
+            newWarehouse.WarehouseOutput.Add(Enums.ItemType.Wood, new Item(market.ItemDefinitions[Enums.ItemType.Wood], 0, 0, 3456, 2.5f, 0.15f));
+            newWarehouse.WarehouseOutput.Add(Enums.ItemType.Leather, new Item(market.ItemDefinitions[Enums.ItemType.Leather], 0, 0, 120, 1.2f, 22.6f));
 
             currentCity.Warehouses.Add(newWarehouse);
 
@@ -73,7 +73,7 @@ namespace BusinessSharkUI
                 listViewWarehouseItems.SuspendLayout();
                 listViewWarehouseItems.Items.Clear();
 
-                var listViewItemCollection = currentWarehouse.WarehouseItems.Select(i => new ListViewItem
+                var listViewItemCollection = currentWarehouse.WarehouseOutput.Select(i => new ListViewItem
                 {
                     Text = i.Value.Definition.Name,
                     SubItems =
@@ -89,12 +89,60 @@ namespace BusinessSharkUI
             }
         }
 
+        private void BindingFactoryInputListView()
+        {
+            if (currentFactory != null)
+            {
+                listViewFactoryInput.SuspendLayout();
+                listViewFactoryInput.Items.Clear();
+
+                var listViewItemCollection = currentFactory.WarehouseInput.Select(i => new ListViewItem
+                {
+                    Text = i.Value.Definition.Name,
+                    SubItems =
+                    {
+                        i.Value.Quantity.ToString(),
+                        i.Value.Quality.ToString("F2"),
+                        i.Value.Price.ToString("F2"),
+                    }
+                });
+
+                listViewFactoryInput.Items.AddRange(listViewItemCollection.ToArray());
+                listViewFactoryInput.ResumeLayout();
+            }
+        }
+
+        private void BindingFactoryOutputListView()
+        {
+            if (currentFactory != null)
+            {
+                listViewFactoryOutput.SuspendLayout();
+                listViewFactoryOutput.Items.Clear();
+
+                var listViewItemCollection = currentFactory.WarehouseOutput.Select(i => new ListViewItem
+                {
+                    Text = i.Value.Definition.Name,
+                    SubItems =
+                    {
+                        i.Value.Quantity.ToString(),
+                        i.Value.Quality.ToString("F2"),
+                        i.Value.Price.ToString("F2"),
+                    }
+                });
+
+                listViewFactoryOutput.Items.AddRange(listViewItemCollection.ToArray());
+                listViewFactoryOutput.ResumeLayout();
+            }
+        }
+
         private void SetDataSources()
         {
             _bindingSourceFactories.DataSource = currentCity.Factories;
             _bindingSourceWarehouse.DataSource = currentCity.Warehouses;
             BindingWarehouseListView();
-            BindingFactoryListView();
+            BindingFactoryProductionListView();
+            BindingFactoryInputListView();
+            BindingFactoryOutputListView();
         }
 
         private void brnAddWarehouse_Click(object sender, EventArgs e)
@@ -106,17 +154,24 @@ namespace BusinessSharkUI
                 var name = warehouseEditor.WarehouseName;
                 var volume = warehouseEditor.Volume;
                 int newId = currentCity.Warehouses.Max(w => w.DivisionId) + 1;
-                var newWarehouse = new Warehouse(newId, name, new Location(), volume);
-                currentCity.Warehouses.Add(newWarehouse);
+                currentWarehouse = new Warehouse(newId, name, new Location(), volume);
+                currentCity.Warehouses.Add(currentWarehouse);
                 _bindingSourceWarehouse.ResetBindings(false);
+
+                cmbWarehouses.SelectedItem = currentWarehouse;
+                BindingWarehouseListView();
             }
         }
 
         private void btnAddFactory_Click(object sender, EventArgs e)
         {
             AddFactory();
-            BindingFactoryListView();
             _bindingSourceFactories.ResetBindings(false);
+            cmbFactories.SelectedItem = currentFactory;
+
+            BindingFactoryProductionListView();
+            BindingFactoryInputListView();
+            BindingFactoryOutputListView();
         }
 
         private void AddFactory()
@@ -125,8 +180,7 @@ namespace BusinessSharkUI
             if (factoryRedactor.ShowDialog() == DialogResult.OK)
             {
                 var name = factoryRedactor.FactoryName;
-                int newId;
-                newId = currentCity.Factories.Count == 0
+                var newId = currentCity.Factories.Count == 0
                     ? 1
                     : currentCity.Factories.Max(w => w.DivisionId) + 1;
                 ItemDefinition product;
@@ -149,11 +203,10 @@ namespace BusinessSharkUI
                 currentCity.Factories.Add(newFactory);
 
                 currentFactory = newFactory;
-
             }
         }
 
-        private void BindingFactoryListView()
+        private void BindingFactoryProductionListView()
         {
             if (currentFactory != null)
             {
@@ -244,7 +297,9 @@ namespace BusinessSharkUI
         private void cmbFactories_SelectedIndexChanged(object sender, EventArgs e)
         {
             currentFactory = cmbFactories.SelectedItem as Factory;
-            BindingFactoryListView();
+            BindingFactoryProductionListView();
+            BindingFactoryInputListView();
+            BindingFactoryOutputListView();
         }
 
         private void btnEditWarehouse_Click(object sender, EventArgs e)
@@ -261,9 +316,22 @@ namespace BusinessSharkUI
             }
         }
 
-        private void btnAddRoute_Click(object sender, EventArgs e)
+        private void btnAddRouteToWarehouse_Click(object sender, EventArgs e)
         {
-            var routeRedactor = new FrmRouteRedactor(market);
+            var routeEditor = new FrmRouteEditor(market);
+            routeEditor.ShowDialog();
+        }
+
+        private void btnAddRouteToFactory_Click(object sender, EventArgs e)
+        {
+            var routeEditor = new FrmRouteEditor(market);
+            routeEditor.ShowDialog();
+        }
+
+        private void btnAddRouteToStore_Click(object sender, EventArgs e)
+        {
+            var routeEditor = new FrmRouteEditor(market);
+            routeEditor.ShowDialog();
         }
     }
 }
