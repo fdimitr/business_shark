@@ -10,22 +10,24 @@ namespace BusinessSharkUI
         private class RouteViewModel
         {
             public bool IsRoute { get; set; }
-            public int DevisionId { get; set; }
-            public string DivisionName { get; set; }
-            public string City { get; set; }
-            public int ExistingQuantity { get; set; }
+            public int DevisionId { get; init; }
+            public string DivisionName { get; init; }
+            public string City { get; init; }
+            public int ExistingQuantity { get; init; }
             public int RequestedQuantity { get; set; }
-            public float DeliveryPrice { get; set; }
+            public float DeliveryPrice { get; init; }
         }
 
         private readonly Market _market;
-        private readonly List<Routes> _routes;
+        private Enums.ItemType _requestedItemType;
+
+        public List<Routes> Routes { get; set; }
 
         public FrmRouteEditor(Market market, List<Routes> routes)
         {
             InitializeComponent();
             _market = market;
-            _routes = routes;
+            Routes = routes;
 
             BindRequestedItems();
         }
@@ -51,6 +53,7 @@ namespace BusinessSharkUI
 
         private void btnOK_Click(object sender, EventArgs e)
         {
+            SaveRoutes();
             this.Close();
         }
 
@@ -61,18 +64,18 @@ namespace BusinessSharkUI
 
         private void cmbRequestedItems_SelectedIndexChanged(object sender, EventArgs e)
         {
-            var requestedItemType = (Enums.ItemType)cmbRequestedItems.SelectedValue!;
+            _requestedItemType = (Enums.ItemType)cmbRequestedItems.SelectedValue!;
 
             var routeViewModels = _market.Cities
                 .SelectMany(city => city.Warehouses
-                    .Where(wh => wh.WarehouseOutput.ContainsKey(requestedItemType))
+                    .Where(wh => wh.WarehouseOutput.ContainsKey(_requestedItemType))
                     .Select(wh => new RouteViewModel
                     {
                         IsRoute = false,
                         DevisionId = wh.DivisionId,
                         DivisionName = wh.Name,
                         City = city.Name,
-                        ExistingQuantity = wh.WarehouseOutput[requestedItemType].Quantity,
+                        ExistingQuantity = wh.WarehouseOutput[_requestedItemType].Quantity,
                         RequestedQuantity = 0,
                         DeliveryPrice = 0f
                     }))
@@ -80,20 +83,20 @@ namespace BusinessSharkUI
 
             routeViewModels.AddRange(_market.Cities
                 .SelectMany(city => city.Factories
-                    .Where(fb => fb.WarehouseOutput.ContainsKey(requestedItemType))
+                    .Where(fb => fb.WarehouseOutput.ContainsKey(_requestedItemType))
                     .Select(fb => new RouteViewModel
                     {
                         IsRoute = false,
                         DevisionId = fb.DivisionId,
                         DivisionName = fb.Name,
                         City = city.Name,
-                        ExistingQuantity = fb.WarehouseOutput[requestedItemType].Quantity,
+                        ExistingQuantity = fb.WarehouseOutput[_requestedItemType].Quantity,
                         RequestedQuantity = 0,
                         DeliveryPrice = 0f
                     }))
                 .ToList());
 
-            foreach (var route in _routes.Where(r => r.TransferringItemType == requestedItemType))
+            foreach (var route in Routes.Where(r => r.TransferringItemType == _requestedItemType))
             {
                 var model = routeViewModels.FirstOrDefault(m => m.DevisionId == route.FromDivision.DivisionId);
                 if (model != null)
@@ -108,10 +111,40 @@ namespace BusinessSharkUI
 
         private void SaveRoutes()
         {
-            foreach (var row in dataGridViewRoutes.Rows)
-            {
+            // Remove existing routes for the selected item type
+            Routes.RemoveAll(r => r.TransferringItemType == _requestedItemType);
 
+            // Iterate DataGridView rows and add new routes
+            foreach (DataGridViewRow row in dataGridViewRoutes.Rows)
+            {
+                if (row.IsNewRow) continue;
+
+                bool isRoute = row.Cells[0].Value is bool b;
+                int requestedQuantity = Convert.ToInt32(row.Cells[5].Value);
+
+                if (!isRoute || requestedQuantity <= 0)
+                    continue;
+
+                int divisionId = Convert.ToInt32(row.Cells[6].Value);
+
+                // Find the DeliveryDivision by divisionId
+                DeliveryDivision? fromDivision = _market.Cities
+                    .SelectMany(city => city.Warehouses
+                        .Concat(city.Factories.Cast<DeliveryDivision>()))
+                    .FirstOrDefault(div => div.DivisionId == divisionId);
+
+                if (fromDivision == null)
+                    continue;
+
+                // For this context, assume ToDivision is not set (or set to null)
+                var route = new Routes(fromDivision, null!, _requestedItemType, requestedQuantity);
+                Routes.Add(route);
             }
+        }
+
+        private void cmbRequestedItems_SelectionChangeCommitted(object sender, EventArgs e)
+        {
+            SaveRoutes();
         }
     }
 }

@@ -324,8 +324,12 @@ namespace BusinessSharkUI
                 MessageBox.Show("Please select a warehouse first.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
-            var routeEditor = new FrmRouteEditor(market, currentWarehouse.Routes);
-            routeEditor.ShowDialog();
+            var frmRouteEditor = new FrmRouteEditor(market, currentWarehouse.Routes);
+            frmRouteEditor.ShowDialog();
+            if (frmRouteEditor.DialogResult == DialogResult.OK)
+            {
+                currentWarehouse.Routes = frmRouteEditor.Routes;
+            }
         }
 
         private void btnAddRouteToFactory_Click(object sender, EventArgs e)
@@ -335,9 +339,13 @@ namespace BusinessSharkUI
                 MessageBox.Show("Please select a factory first.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
-            var routeEditor = new FrmRouteEditor(market, currentFactory.Routes);
-            routeEditor.ShowDialog();
-            routeEditor.ShowDialog();
+            var frmRouteEditor = new FrmRouteEditor(market, currentFactory.Routes);
+            frmRouteEditor.ShowDialog();
+            if (frmRouteEditor.DialogResult == DialogResult.OK)
+            {
+                currentFactory.Routes = frmRouteEditor.Routes;
+            }
+
         }
 
         private void btnAddRouteToStore_Click(object sender, EventArgs e)

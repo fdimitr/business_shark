@@ -52,6 +52,7 @@
             cmbRequestedItems.Size = new Size(174, 28);
             cmbRequestedItems.TabIndex = 2;
             cmbRequestedItems.SelectedIndexChanged += cmbRequestedItems_SelectedIndexChanged;
+            cmbRequestedItems.SelectionChangeCommitted += cmbRequestedItems_SelectionChangeCommitted;
             // 
             // label1
             // 
@@ -84,6 +85,8 @@
             // 
             // dataGridViewRoutes
             // 
+            dataGridViewRoutes.AllowUserToAddRows = false;
+            dataGridViewRoutes.AllowUserToDeleteRows = false;
             dataGridViewRoutes.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dataGridViewRoutes.Columns.AddRange(new DataGridViewColumn[] { IsRoute, NameDivision, City, DeliveryPrice, ExistingQuantity, ReqestedQuantity, DivisionId });
             dataGridViewRoutes.Location = new Point(12, 12);
