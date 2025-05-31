@@ -10,18 +10,24 @@ namespace BusinessSharkUI
         private class RouteViewModel
         {
             public bool IsRoute { get; set; }
-            public string DivisionName { get; set; }
-            public string City { get; set; }
-            public int ExistingQuantity { get; set; }
+            public int DevisionId { get; init; }
+            public string DivisionName { get; init; }
+            public string City { get; init; }
+            public int ExistingQuantity { get; init; }
             public int RequestedQuantity { get; set; }
-            public float DeliveryPrice { get; set; }
+            public float DeliveryPrice { get; init; }
         }
 
         private readonly Market _market;
-        public FrmRouteEditor(Market market)
+        private Enums.ItemType _requestedItemType;
+
+        public List<Routes> Routes { get; set; }
+
+        public FrmRouteEditor(Market market, List<Routes> routes)
         {
             InitializeComponent();
             _market = market;
+            Routes = routes;
 
             BindRequestedItems();
         }
@@ -39,7 +45,7 @@ namespace BusinessSharkUI
             foreach (var model in routeViewModels)
             {
                 dataGridViewRoutes.Rows.Add(model.IsRoute, model.DivisionName, model.City, model.DeliveryPrice,
-                    model.ExistingQuantity, model.RequestedQuantity);
+                    model.ExistingQuantity, model.RequestedQuantity, model.DevisionId);
             }
 
         }
@@ -47,40 +53,98 @@ namespace BusinessSharkUI
 
         private void btnOK_Click(object sender, EventArgs e)
         {
+            SaveRoutes();
+            this.Close();
+        }
+
+        private void btnCancel_Click(object sender, EventArgs e)
+        {
+            this.Close();
         }
 
         private void cmbRequestedItems_SelectedIndexChanged(object sender, EventArgs e)
         {
-            var requestedItem = (Enums.ItemType)cmbRequestedItems.SelectedValue!;
+            _requestedItemType = (Enums.ItemType)cmbRequestedItems.SelectedValue!;
 
             var routeViewModels = _market.Cities
                 .SelectMany(city => city.Warehouses
-                    .Where(wh => wh.WarehouseOutput.ContainsKey(requestedItem))
+                    .Where(wh => wh.WarehouseOutput.ContainsKey(_requestedItemType))
                     .Select(wh => new RouteViewModel
                     {
                         IsRoute = false,
+                        DevisionId = wh.DivisionId,
                         DivisionName = wh.Name,
                         City = city.Name,
-                        ExistingQuantity = wh.WarehouseOutput[requestedItem].Quantity,
+                        ExistingQuantity = wh.WarehouseOutput[_requestedItemType].Quantity,
                         RequestedQuantity = 0,
                         DeliveryPrice = 0f
                     }))
                 .ToList();
+
             routeViewModels.AddRange(_market.Cities
                 .SelectMany(city => city.Factories
-                    .Where(wh => wh.WarehouseOutput.ContainsKey(requestedItem))
-                    .Select(wh => new RouteViewModel
+                    .Where(fb => fb.WarehouseOutput.ContainsKey(_requestedItemType))
+                    .Select(fb => new RouteViewModel
                     {
                         IsRoute = false,
-                        DivisionName = wh.Name,
+                        DevisionId = fb.DivisionId,
+                        DivisionName = fb.Name,
                         City = city.Name,
-                        ExistingQuantity = wh.WarehouseOutput[requestedItem].Quantity,
+                        ExistingQuantity = fb.WarehouseOutput[_requestedItemType].Quantity,
                         RequestedQuantity = 0,
                         DeliveryPrice = 0f
                     }))
                 .ToList());
 
+            foreach (var route in Routes.Where(r => r.TransferringItemType == _requestedItemType))
+            {
+                var model = routeViewModels.FirstOrDefault(m => m.DevisionId == route.FromDivision.DivisionId);
+                if (model != null)
+                {
+                    model.IsRoute = true;
+                    model.RequestedQuantity = route.TransferringCount;
+                }
+            }
+
             BindDataGridViewRoutes(routeViewModels);
+        }
+
+        private void SaveRoutes()
+        {
+            // Remove existing routes for the selected item type
+            Routes.RemoveAll(r => r.TransferringItemType == _requestedItemType);
+
+            // Iterate DataGridView rows and add new routes
+            foreach (DataGridViewRow row in dataGridViewRoutes.Rows)
+            {
+                if (row.IsNewRow) continue;
+
+                bool isRoute = row.Cells[0].Value is bool b;
+                int requestedQuantity = Convert.ToInt32(row.Cells[5].Value);
+
+                if (!isRoute || requestedQuantity <= 0)
+                    continue;
+
+                int divisionId = Convert.ToInt32(row.Cells[6].Value);
+
+                // Find the DeliveryDivision by divisionId
+                DeliveryDivision? fromDivision = _market.Cities
+                    .SelectMany(city => city.Warehouses
+                        .Concat(city.Factories.Cast<DeliveryDivision>()))
+                    .FirstOrDefault(div => div.DivisionId == divisionId);
+
+                if (fromDivision == null)
+                    continue;
+
+                // For this context, assume ToDivision is not set (or set to null)
+                var route = new Routes(fromDivision, null!, _requestedItemType, requestedQuantity);
+                Routes.Add(route);
+            }
+        }
+
+        private void cmbRequestedItems_SelectionChangeCommitted(object sender, EventArgs e)
+        {
+            SaveRoutes();
         }
     }
 }
