@@ -28,6 +28,8 @@
         /// </summary>
         private void InitializeComponent()
         {
+            DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
             cmbRequestedItems = new ComboBox();
             label1 = new Label();
             btnCancel = new Button();
@@ -98,6 +100,9 @@
             // IsRoute
             // 
             IsRoute.DataPropertyName = "IsRoute";
+            dataGridViewCellStyle1.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle1.NullValue = "False";
+            IsRoute.DefaultCellStyle = dataGridViewCellStyle1;
             IsRoute.HeaderText = "Route";
             IsRoute.MinimumWidth = 6;
             IsRoute.Name = "IsRoute";
@@ -141,7 +146,11 @@
             // ReqestedQuantity
             // 
             ReqestedQuantity.DataPropertyName = "ReqestedQuantity";
+            dataGridViewCellStyle2.Format = "N0";
+            dataGridViewCellStyle2.NullValue = "0";
+            ReqestedQuantity.DefaultCellStyle = dataGridViewCellStyle2;
             ReqestedQuantity.HeaderText = "Requested quantity";
+            ReqestedQuantity.MaxInputLength = 10;
             ReqestedQuantity.MinimumWidth = 6;
             ReqestedQuantity.Name = "ReqestedQuantity";
             ReqestedQuantity.Width = 125;

@@ -4,10 +4,9 @@ using MessagePack;
 namespace BusinessShark.Core
 {
     [MessagePackObject(keyAsPropertyName: true)]
-    internal class Routes(DeliveryDivision fromDivision, DeliveryDivision toDivision,  Enums.ItemType transferringItemType, int transferringCount)
+    internal class Routes(int fromDivisionId, Enums.ItemType transferringItemType, int transferringCount)
     {
-        public DeliveryDivision FromDivision { get; set; } = fromDivision;
-        public DeliveryDivision ToDivision { get; set; } = toDivision;
+        public int FromDivisionId { get; set; } = fromDivisionId;
         public Enums.ItemType TransferringItemType { get; set; } = transferringItemType;
         public int TransferringCount { get; set; } = transferringCount;
     }

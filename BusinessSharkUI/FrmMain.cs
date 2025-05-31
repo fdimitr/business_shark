@@ -1,13 +1,15 @@
-using System.Drawing;
-using System.Text.Json;
-using System.Text.Json.Serialization;
-using System.Xml.Linq;
 using BusinessShark.Core;
 using BusinessShark.Core.Item;
 using BusinessShark.Core.ServiceClasses;
 using MessagePack;
 using MessagePack.Resolvers;
 using Microsoft.VisualBasic;
+using System.Drawing;
+using System.Linq;
+using System.Text.Json;
+using System.Text.Json.Serialization;
+using System.Xml.Linq;
+using static System.Windows.Forms.ListView;
 
 
 namespace BusinessSharkUI
@@ -32,7 +34,9 @@ namespace BusinessSharkUI
 
             BindWarehouseCombo();
             BindFactoryCombo();
+            BindingFactoryRoutesListView();
             BindingWarehouseListView();
+            BindingWarehouseRoutesListView();
 
             listViewWarehouseItems.View = View.Details;
             listOfProduction.View = View.Details;
@@ -89,6 +93,29 @@ namespace BusinessSharkUI
             }
         }
 
+        private void BindingWarehouseRoutesListView()
+        {
+            if (currentWarehouse != null)
+            {
+                listViewWarehouseRoutes.SuspendLayout();
+                listViewWarehouseRoutes.Items.Clear();
+
+                var listViewItemCollection = currentWarehouse.Routes.Select(i => new ListViewItem
+                {
+                    Text = market.ItemDefinitions[i.TransferringItemType].Name,
+                    SubItems =
+                    {
+                        market.GetDeliveryDivisionById(i.FromDivisionId).Name,
+                        market.GetDeliveryDivisionById(i.FromDivisionId).WarehouseOutput[i.TransferringItemType].Quality.ToString(),
+                        i.TransferringCount.ToString(),
+                    }
+                });
+
+                listViewWarehouseRoutes.Items.AddRange(listViewItemCollection.ToArray());
+                listViewWarehouseRoutes.ResumeLayout();
+            }
+        }
+
         private void BindingFactoryInputListView()
         {
             if (currentFactory != null)
@@ -135,14 +162,51 @@ namespace BusinessSharkUI
             }
         }
 
+        private void BindingFactoryRoutesListView()
+        {
+            if (currentFactory != null)
+            {
+                listViewFactoryRoutes.SuspendLayout();
+                listViewFactoryRoutes.Items.Clear();
+
+                var listViewItemCollection = currentFactory.Routes.Select(i =>
+                {
+                    var division = market.GetDeliveryDivisionById(i.FromDivisionId);
+                    var quality = division.WarehouseOutput.ContainsKey(i.TransferringItemType)
+                        ? division.WarehouseOutput[i.TransferringItemType].Quality.ToString()
+                        : "N/A";
+
+                    return new ListViewItem
+                    {
+                        Text = market.ItemDefinitions[i.TransferringItemType].Name,
+                        SubItems =
+                        {
+                            division.Name,
+                            quality,
+                            i.TransferringCount.ToString(),
+                        }
+                    };
+                }
+                );
+
+                listViewFactoryRoutes.Items.AddRange(listViewItemCollection.ToArray());
+                listViewFactoryRoutes.ResumeLayout();
+            }
+        }
+
         private void SetDataSources()
         {
             _bindingSourceFactories.DataSource = currentCity.Factories;
             _bindingSourceWarehouse.DataSource = currentCity.Warehouses;
+
+            currentWarehouse = cmbWarehouses.SelectedItem as Warehouse;
+            currentFactory = cmbFactories.SelectedItem as Factory;
+
             BindingWarehouseListView();
             BindingFactoryProductionListView();
             BindingFactoryInputListView();
             BindingFactoryOutputListView();
+            BindingFactoryRoutesListView();
         }
 
         private void brnAddWarehouse_Click(object sender, EventArgs e)
@@ -214,12 +278,18 @@ namespace BusinessSharkUI
                 listOfProduction.SuspendLayout();
                 listOfProduction.Items.Clear();
 
-                ListViewItem productView = new ListViewItem(currentFactory.ProductDefinition.Name);
-                productView.SubItems.Add(currentFactory.ProgressProduction.ToString());
-                productView.SubItems.Add(currentFactory.ProgressQuality.ToString());
-                productView.SubItems.Add(currentFactory.ProgressPrice.ToString());
+                var productView = new ListViewItem
+                {
+                    Text = currentFactory.ProductDefinition.Name,
+                    SubItems =
+                    {
+                        currentFactory.ProgressProduction.ToString(),
+                        currentFactory.ProgressQuality.ToString("F2"),
+                        currentFactory.ProgressPrice.ToString("F2"),
+                    }
+                };
 
-                listOfProduction.Items.Add(productView);
+                listOfProduction.Items.AddRange(productView);
                 listOfProduction.ResumeLayout();
             }
         }
@@ -294,6 +364,7 @@ namespace BusinessSharkUI
         {
             currentWarehouse = cmbWarehouses.SelectedItem as Warehouse;
             BindingWarehouseListView();
+            BindingWarehouseRoutesListView();
         }
 
         private void cmbFactories_SelectedIndexChanged(object sender, EventArgs e)
@@ -302,6 +373,7 @@ namespace BusinessSharkUI
             BindingFactoryProductionListView();
             BindingFactoryInputListView();
             BindingFactoryOutputListView();
+            BindingFactoryRoutesListView();
         }
 
         private void btnEditWarehouse_Click(object sender, EventArgs e)
@@ -330,6 +402,7 @@ namespace BusinessSharkUI
             if (frmRouteEditor.DialogResult == DialogResult.OK)
             {
                 currentWarehouse.Routes = frmRouteEditor.Routes;
+                BindingWarehouseRoutesListView();
             }
         }
 
@@ -345,6 +418,7 @@ namespace BusinessSharkUI
             if (frmRouteEditor.DialogResult == DialogResult.OK)
             {
                 currentFactory.Routes = frmRouteEditor.Routes;
+                BindingFactoryRoutesListView();
             }
 
         }

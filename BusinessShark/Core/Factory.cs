@@ -27,7 +27,7 @@ namespace BusinessShark.Core
             public float QualityImpact = qualityImpact;
         }
 
-        public ItemDefinition? ProductDefinition { get; set; }
+        public ItemDefinition ProductDefinition { get; set; }
         public float ProgressProduction { get; set; } // Percent of single product left on production
         public float ProgressQuality { get; set; }
         public float ProgressPrice { get; set; }

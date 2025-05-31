@@ -32,13 +32,13 @@
             button2 = new Button();
             button3 = new Button();
             groupBox1 = new GroupBox();
+            listViewFactoryRoutes = new ListView();
+            columnHeader5 = new ColumnHeader();
+            columnHeader6 = new ColumnHeader();
+            columnHeader7 = new ColumnHeader();
+            columnHeader8 = new ColumnHeader();
             btnAddRouteToFactory = new Button();
             label6 = new Label();
-            listView6 = new ListView();
-            columnHeader17 = new ColumnHeader();
-            columnHeader18 = new ColumnHeader();
-            columnHeader19 = new ColumnHeader();
-            columnHeader20 = new ColumnHeader();
             label5 = new Label();
             listViewFactoryOutput = new ListView();
             columnHeader13 = new ColumnHeader();
@@ -69,11 +69,11 @@
             brnAddWarehouse = new Button();
             btnDelWarehouse = new Button();
             label1 = new Label();
-            listView3 = new ListView();
-            columnHeader5 = new ColumnHeader();
-            columnHeader6 = new ColumnHeader();
-            columnHeader7 = new ColumnHeader();
-            columnHeader8 = new ColumnHeader();
+            listViewWarehouseRoutes = new ListView();
+            ItemName = new ColumnHeader();
+            ItemQuantity = new ColumnHeader();
+            ItemQuality = new ColumnHeader();
+            RouteSource = new ColumnHeader();
             label2 = new Label();
             WarehousesGroup = new GroupBox();
             btnAddRouteToWarehouse = new Button();
@@ -158,9 +158,9 @@
             // groupBox1
             // 
             groupBox1.BackColor = Color.Gainsboro;
+            groupBox1.Controls.Add(listViewFactoryRoutes);
             groupBox1.Controls.Add(btnAddRouteToFactory);
             groupBox1.Controls.Add(label6);
-            groupBox1.Controls.Add(listView6);
             groupBox1.Controls.Add(label5);
             groupBox1.Controls.Add(listViewFactoryOutput);
             groupBox1.Controls.Add(label4);
@@ -177,6 +177,39 @@
             groupBox1.TabIndex = 11;
             groupBox1.TabStop = false;
             groupBox1.Text = "Factories";
+            // 
+            // listViewFactoryRoutes
+            // 
+            listViewFactoryRoutes.AllowColumnReorder = true;
+            listViewFactoryRoutes.AllowDrop = true;
+            listViewFactoryRoutes.Columns.AddRange(new ColumnHeader[] { columnHeader5, columnHeader8, columnHeader7, columnHeader6 });
+            listViewFactoryRoutes.Font = new Font("Segoe UI", 9F);
+            listViewFactoryRoutes.Location = new Point(26, 529);
+            listViewFactoryRoutes.Name = "listViewFactoryRoutes";
+            listViewFactoryRoutes.Size = new Size(358, 76);
+            listViewFactoryRoutes.TabIndex = 31;
+            listViewFactoryRoutes.UseCompatibleStateImageBehavior = false;
+            listViewFactoryRoutes.View = View.Details;
+            // 
+            // columnHeader5
+            // 
+            columnHeader5.Text = "Наименование товара";
+            columnHeader5.Width = 100;
+            // 
+            // columnHeader6
+            // 
+            columnHeader6.Text = "Количество";
+            columnHeader6.Width = 80;
+            // 
+            // columnHeader7
+            // 
+            columnHeader7.Text = "Качество";
+            columnHeader7.Width = 80;
+            // 
+            // columnHeader8
+            // 
+            columnHeader8.Text = "Откуда";
+            columnHeader8.Width = 90;
             // 
             // btnAddRouteToFactory
             // 
@@ -197,31 +230,6 @@
             label6.Size = new Size(58, 20);
             label6.TabIndex = 25;
             label6.Text = "Routes";
-            // 
-            // listView6
-            // 
-            listView6.Columns.AddRange(new ColumnHeader[] { columnHeader17, columnHeader18, columnHeader19, columnHeader20 });
-            listView6.Location = new Point(22, 529);
-            listView6.Name = "listView6";
-            listView6.Size = new Size(363, 76);
-            listView6.TabIndex = 24;
-            listView6.UseCompatibleStateImageBehavior = false;
-            // 
-            // columnHeader17
-            // 
-            columnHeader17.Text = "Наименование товара";
-            // 
-            // columnHeader18
-            // 
-            columnHeader18.Text = "Количество";
-            // 
-            // columnHeader19
-            // 
-            columnHeader19.Text = "Качество";
-            // 
-            // columnHeader20
-            // 
-            columnHeader20.Text = "Цена";
             // 
             // label5
             // 
@@ -446,30 +454,38 @@
             label1.TabIndex = 16;
             label1.Text = "Input(Output) Items";
             // 
-            // listView3
+            // listViewWarehouseRoutes
             // 
-            listView3.Columns.AddRange(new ColumnHeader[] { columnHeader5, columnHeader6, columnHeader7, columnHeader8 });
-            listView3.Location = new Point(21, 453);
-            listView3.Name = "listView3";
-            listView3.Size = new Size(358, 152);
-            listView3.TabIndex = 17;
-            listView3.UseCompatibleStateImageBehavior = false;
+            listViewWarehouseRoutes.AllowColumnReorder = true;
+            listViewWarehouseRoutes.AllowDrop = true;
+            listViewWarehouseRoutes.Columns.AddRange(new ColumnHeader[] { ItemName, RouteSource, ItemQuality, ItemQuantity });
+            listViewWarehouseRoutes.Font = new Font("Segoe UI", 9F);
+            listViewWarehouseRoutes.Location = new Point(21, 453);
+            listViewWarehouseRoutes.Name = "listViewWarehouseRoutes";
+            listViewWarehouseRoutes.Size = new Size(358, 152);
+            listViewWarehouseRoutes.TabIndex = 17;
+            listViewWarehouseRoutes.UseCompatibleStateImageBehavior = false;
+            listViewWarehouseRoutes.View = View.Details;
             // 
-            // columnHeader5
+            // ItemName
             // 
-            columnHeader5.Text = "Наименование товара";
+            ItemName.Text = "Наименование товара";
+            ItemName.Width = 100;
             // 
-            // columnHeader6
+            // ItemQuantity
             // 
-            columnHeader6.Text = "Количество";
+            ItemQuantity.Text = "Количество";
+            ItemQuantity.Width = 80;
             // 
-            // columnHeader7
+            // ItemQuality
             // 
-            columnHeader7.Text = "Качество";
+            ItemQuality.Text = "Качество";
+            ItemQuality.Width = 80;
             // 
-            // columnHeader8
+            // RouteSource
             // 
-            columnHeader8.Text = "Цена";
+            RouteSource.Text = "Откуда";
+            RouteSource.Width = 90;
             // 
             // label2
             // 
@@ -486,7 +502,7 @@
             WarehousesGroup.Controls.Add(btnAddRouteToWarehouse);
             WarehousesGroup.Controls.Add(btnEditWarehouse);
             WarehousesGroup.Controls.Add(label2);
-            WarehousesGroup.Controls.Add(listView3);
+            WarehousesGroup.Controls.Add(listViewWarehouseRoutes);
             WarehousesGroup.Controls.Add(label1);
             WarehousesGroup.Controls.Add(btnDelWarehouse);
             WarehousesGroup.Controls.Add(brnAddWarehouse);
@@ -881,11 +897,6 @@
         private ColumnHeader columnHeader11;
         private ColumnHeader columnHeader12;
         private Label label6;
-        private ListView listView6;
-        private ColumnHeader columnHeader17;
-        private ColumnHeader columnHeader18;
-        private ColumnHeader columnHeader19;
-        private ColumnHeader columnHeader20;
         private ListView listViewWarehouseItems;
         private ColumnHeader columnName;
         private ColumnHeader columnQuantity;
@@ -895,11 +906,11 @@
         private Button brnAddWarehouse;
         private Button btnDelWarehouse;
         private Label label1;
-        private ListView listView3;
-        private ColumnHeader columnHeader5;
-        private ColumnHeader columnHeader6;
-        private ColumnHeader columnHeader7;
-        private ColumnHeader columnHeader8;
+        private ListView listViewWarehouseRoutes;
+        private ColumnHeader ItemName;
+        private ColumnHeader ItemQuantity;
+        private ColumnHeader ItemQuality;
+        private ColumnHeader RouteSource;
         private Label label2;
         private GroupBox WarehousesGroup;
         private GroupBox groupBox2;
@@ -946,5 +957,10 @@
         private Button btnAddRouteToFactory;
         private Button btnAddRouteToWarehouse;
         private Button btnAddRouteToStore;
+        private ListView listViewFactoryRoutes;
+        private ColumnHeader columnHeader5;
+        private ColumnHeader columnHeader6;
+        private ColumnHeader columnHeader7;
+        private ColumnHeader columnHeader8;
     }
 }

@@ -15,6 +15,7 @@ namespace BusinessShark.Core
         [NonSerialized]
         public Dictionary<ItemType, ItemDefinition> ItemDefinitions = new();
 
+
         public Market()
         {
             LoadItemDefinitions();
@@ -28,12 +29,12 @@ namespace BusinessShark.Core
             {
                 foreach (var warehouse in city.Warehouses)
                 {
-                    warehouse.StartTransferItems();
+                    warehouse.StartTransferItems(this);
                 }
 
                 foreach (var factory in city.Factories)
                 {
-                    factory.StartTransferItems();
+                    factory.StartTransferItems(this);
                     factory.StartCalculation();
                 } 
             }
@@ -51,6 +52,29 @@ namespace BusinessShark.Core
                     factory.CompleteCalculation();
                 }
             }
+        }
+
+        public DeliveryDivision GetDeliveryDivisionById(int divisionId)
+        {
+            foreach (var city in Cities)
+            {
+                foreach (var warehouse in city.Warehouses)
+                {
+                    if (warehouse.DivisionId == divisionId)
+                    {
+                        return warehouse;
+                    }
+                }
+                foreach (var factory in city.Factories)
+                {
+                    if (factory.DivisionId == divisionId)
+                    {
+                        return factory;
+                    }
+                }
+            }
+            return null!; // Return null if no division found with the given ID
+
         }
 
         public void LoadItemDefinitions()
