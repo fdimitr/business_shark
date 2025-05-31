@@ -11,8 +11,6 @@ namespace BusinessShark.Core
     {
         public int Volume { get; }
 
-        public Dictionary<Enums.ItemType, Item.Item> WarehouseItems = new();
-
         [JsonConstructor]
         public Warehouse(int divisionId, string name, Location location, int volume) : base(divisionId, name, location)
         {

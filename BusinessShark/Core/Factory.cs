@@ -34,6 +34,7 @@ namespace BusinessShark.Core
         public ItemDefinition? ProductDefinition { get; set; }
         public float ProgressProduction { get; set; } // Percent of single product left on production
         public float ProgressQuality { get; set; }
+        public float ProgressPrice { get; set; }
         public float TechLevel { get; set; }
         public Tools ToolPark { get; set; }
         public Workers Workers { get; set; }

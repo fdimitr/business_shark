@@ -32,6 +32,7 @@
             button2 = new Button();
             button3 = new Button();
             groupBox1 = new GroupBox();
+            btnAddRouteToFactory = new Button();
             label6 = new Label();
             listView6 = new ListView();
             columnHeader17 = new ColumnHeader();
@@ -39,7 +40,7 @@
             columnHeader19 = new ColumnHeader();
             columnHeader20 = new ColumnHeader();
             label5 = new Label();
-            listView5 = new ListView();
+            listViewFactoryOutput = new ListView();
             columnHeader13 = new ColumnHeader();
             columnHeader14 = new ColumnHeader();
             columnHeader15 = new ColumnHeader();
@@ -54,7 +55,7 @@
             button6 = new Button();
             btnAddFactory = new Button();
             cmbFactories = new ComboBox();
-            listOfInputs = new ListView();
+            listViewFactoryInput = new ListView();
             columnHeader1 = new ColumnHeader();
             columnHeader2 = new ColumnHeader();
             columnHeader3 = new ColumnHeader();
@@ -75,6 +76,7 @@
             columnHeader8 = new ColumnHeader();
             label2 = new Label();
             WarehousesGroup = new GroupBox();
+            btnAddRouteToWarehouse = new Button();
             btnEditWarehouse = new Button();
             groupBox2 = new GroupBox();
             label8 = new Label();
@@ -93,6 +95,7 @@
             columnHeader35 = new ColumnHeader();
             columnHeader36 = new ColumnHeader();
             groupBox3 = new GroupBox();
+            btnAddRouteToStore = new Button();
             label9 = new Label();
             listView9 = new ListView();
             columnHeader29 = new ColumnHeader();
@@ -116,7 +119,6 @@
             columnHeader44 = new ColumnHeader();
             btnLoadGame = new Button();
             btnSaveGame = new Button();
-            btnAddRoute = new Button();
             groupBox1.SuspendLayout();
             WarehousesGroup.SuspendLayout();
             groupBox2.SuspendLayout();
@@ -156,17 +158,18 @@
             // groupBox1
             // 
             groupBox1.BackColor = Color.Gainsboro;
+            groupBox1.Controls.Add(btnAddRouteToFactory);
             groupBox1.Controls.Add(label6);
             groupBox1.Controls.Add(listView6);
             groupBox1.Controls.Add(label5);
-            groupBox1.Controls.Add(listView5);
+            groupBox1.Controls.Add(listViewFactoryOutput);
             groupBox1.Controls.Add(label4);
             groupBox1.Controls.Add(listOfProduction);
             groupBox1.Controls.Add(label3);
             groupBox1.Controls.Add(button6);
             groupBox1.Controls.Add(btnAddFactory);
             groupBox1.Controls.Add(cmbFactories);
-            groupBox1.Controls.Add(listOfInputs);
+            groupBox1.Controls.Add(listViewFactoryInput);
             groupBox1.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
             groupBox1.Location = new Point(829, 107);
             groupBox1.Name = "groupBox1";
@@ -174,6 +177,17 @@
             groupBox1.TabIndex = 11;
             groupBox1.TabStop = false;
             groupBox1.Text = "Factories";
+            // 
+            // btnAddRouteToFactory
+            // 
+            btnAddRouteToFactory.BackColor = Color.GhostWhite;
+            btnAddRouteToFactory.Location = new Point(86, 491);
+            btnAddRouteToFactory.Name = "btnAddRouteToFactory";
+            btnAddRouteToFactory.Size = new Size(153, 32);
+            btnAddRouteToFactory.TabIndex = 30;
+            btnAddRouteToFactory.Text = "Add Route";
+            btnAddRouteToFactory.UseVisualStyleBackColor = false;
+            btnAddRouteToFactory.Click += btnAddRouteToFactory_Click;
             // 
             // label6
             // 
@@ -218,26 +232,31 @@
             label5.TabIndex = 23;
             label5.Text = "Output items";
             // 
-            // listView5
+            // listViewFactoryOutput
             // 
-            listView5.Columns.AddRange(new ColumnHeader[] { columnHeader13, columnHeader14, columnHeader15, columnHeader16 });
-            listView5.Location = new Point(21, 380);
-            listView5.Name = "listView5";
-            listView5.Size = new Size(363, 108);
-            listView5.TabIndex = 22;
-            listView5.UseCompatibleStateImageBehavior = false;
+            listViewFactoryOutput.Columns.AddRange(new ColumnHeader[] { columnHeader13, columnHeader14, columnHeader15, columnHeader16 });
+            listViewFactoryOutput.Font = new Font("Segoe UI", 9F);
+            listViewFactoryOutput.Location = new Point(21, 380);
+            listViewFactoryOutput.Name = "listViewFactoryOutput";
+            listViewFactoryOutput.Size = new Size(363, 108);
+            listViewFactoryOutput.TabIndex = 22;
+            listViewFactoryOutput.UseCompatibleStateImageBehavior = false;
+            listViewFactoryOutput.View = View.Details;
             // 
             // columnHeader13
             // 
             columnHeader13.Text = "Наименование товара";
+            columnHeader13.Width = 115;
             // 
             // columnHeader14
             // 
             columnHeader14.Text = "Количество";
+            columnHeader14.Width = 100;
             // 
             // columnHeader15
             // 
             columnHeader15.Text = "Качество";
+            columnHeader15.Width = 80;
             // 
             // columnHeader16
             // 
@@ -255,6 +274,7 @@
             // listOfProduction
             // 
             listOfProduction.Columns.AddRange(new ColumnHeader[] { columnHeader9, columnHeader10, columnHeader11, columnHeader12 });
+            listOfProduction.Font = new Font("Segoe UI", 9F);
             listOfProduction.Location = new Point(22, 279);
             listOfProduction.Name = "listOfProduction";
             listOfProduction.Size = new Size(363, 78);
@@ -321,15 +341,16 @@
             cmbFactories.TabIndex = 11;
             cmbFactories.SelectedIndexChanged += cmbFactories_SelectedIndexChanged;
             // 
-            // listOfInputs
+            // listViewFactoryInput
             // 
-            listOfInputs.Columns.AddRange(new ColumnHeader[] { columnHeader1, columnHeader2, columnHeader3, columnHeader4 });
-            listOfInputs.Location = new Point(21, 145);
-            listOfInputs.Name = "listOfInputs";
-            listOfInputs.Size = new Size(363, 108);
-            listOfInputs.TabIndex = 10;
-            listOfInputs.UseCompatibleStateImageBehavior = false;
-            listOfInputs.View = View.Details;
+            listViewFactoryInput.Columns.AddRange(new ColumnHeader[] { columnHeader1, columnHeader2, columnHeader3, columnHeader4 });
+            listViewFactoryInput.Font = new Font("Segoe UI", 9F);
+            listViewFactoryInput.Location = new Point(21, 145);
+            listViewFactoryInput.Name = "listViewFactoryInput";
+            listViewFactoryInput.Size = new Size(363, 108);
+            listViewFactoryInput.TabIndex = 10;
+            listViewFactoryInput.UseCompatibleStateImageBehavior = false;
+            listViewFactoryInput.View = View.Details;
             // 
             // columnHeader1
             // 
@@ -370,7 +391,7 @@
             // columnName
             // 
             columnName.Text = "Наименование товара";
-            columnName.Width = 120;
+            columnName.Width = 130;
             // 
             // columnQuantity
             // 
@@ -385,7 +406,6 @@
             // columnPrice
             // 
             columnPrice.Text = "Цена";
-            columnPrice.Width = 80;
             // 
             // cmbWarehouses
             // 
@@ -463,6 +483,7 @@
             // WarehousesGroup
             // 
             WarehousesGroup.BackColor = Color.Cornsilk;
+            WarehousesGroup.Controls.Add(btnAddRouteToWarehouse);
             WarehousesGroup.Controls.Add(btnEditWarehouse);
             WarehousesGroup.Controls.Add(label2);
             WarehousesGroup.Controls.Add(listView3);
@@ -479,6 +500,17 @@
             WarehousesGroup.TabIndex = 10;
             WarehousesGroup.TabStop = false;
             WarehousesGroup.Text = "Warehouses";
+            // 
+            // btnAddRouteToWarehouse
+            // 
+            btnAddRouteToWarehouse.BackColor = Color.GhostWhite;
+            btnAddRouteToWarehouse.Location = new Point(88, 417);
+            btnAddRouteToWarehouse.Name = "btnAddRouteToWarehouse";
+            btnAddRouteToWarehouse.Size = new Size(153, 32);
+            btnAddRouteToWarehouse.TabIndex = 30;
+            btnAddRouteToWarehouse.Text = "Add Route";
+            btnAddRouteToWarehouse.UseVisualStyleBackColor = false;
+            btnAddRouteToWarehouse.Click += btnAddRouteToWarehouse_Click;
             // 
             // btnEditWarehouse
             // 
@@ -610,6 +642,7 @@
             // groupBox3
             // 
             groupBox3.BackColor = Color.AliceBlue;
+            groupBox3.Controls.Add(btnAddRouteToStore);
             groupBox3.Controls.Add(label9);
             groupBox3.Controls.Add(listView9);
             groupBox3.Controls.Add(label11);
@@ -627,6 +660,17 @@
             groupBox3.TabIndex = 26;
             groupBox3.TabStop = false;
             groupBox3.Text = "Stores";
+            // 
+            // btnAddRouteToStore
+            // 
+            btnAddRouteToStore.BackColor = Color.GhostWhite;
+            btnAddRouteToStore.Location = new Point(86, 491);
+            btnAddRouteToStore.Name = "btnAddRouteToStore";
+            btnAddRouteToStore.Size = new Size(153, 32);
+            btnAddRouteToStore.TabIndex = 30;
+            btnAddRouteToStore.Text = "Add Route";
+            btnAddRouteToStore.UseVisualStyleBackColor = false;
+            btnAddRouteToStore.Click += btnAddRouteToStore_Click;
             // 
             // label9
             // 
@@ -780,23 +824,11 @@
             btnSaveGame.UseVisualStyleBackColor = false;
             btnSaveGame.Click += btnSaveGame_Click;
             // 
-            // btnAddRoute
-            // 
-            btnAddRoute.BackColor = Color.GhostWhite;
-            btnAddRoute.Location = new Point(730, 12);
-            btnAddRoute.Name = "btnAddRoute";
-            btnAddRoute.Size = new Size(197, 55);
-            btnAddRoute.TabIndex = 29;
-            btnAddRoute.Text = "Add Route";
-            btnAddRoute.UseVisualStyleBackColor = false;
-            btnAddRoute.Click += btnAddRoute_Click;
-            // 
             // FrmMain
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1672, 766);
-            Controls.Add(btnAddRoute);
             Controls.Add(btnSaveGame);
             Controls.Add(btnLoadGame);
             Controls.Add(groupBox3);
@@ -830,14 +862,14 @@
         private Button button6;
         private Button btnAddFactory;
         private ComboBox cmbFactories;
-        private ListView listOfInputs;
+        private ListView listViewFactoryInput;
         private ColumnHeader columnHeader1;
         private ColumnHeader columnHeader2;
         private ColumnHeader columnHeader3;
         private ColumnHeader columnHeader4;
         private Label label3;
         private Label label5;
-        private ListView listView5;
+        private ListView listViewFactoryOutput;
         private ColumnHeader columnHeader13;
         private ColumnHeader columnHeader14;
         private ColumnHeader columnHeader15;
@@ -911,6 +943,8 @@
         private Button btnLoadGame;
         private Button btnSaveGame;
         private Button btnEditWarehouse;
-        private Button btnAddRoute;
+        private Button btnAddRouteToFactory;
+        private Button btnAddRouteToWarehouse;
+        private Button btnAddRouteToStore;
     }
 }
