@@ -5,10 +5,7 @@ namespace BusinessSharkUI
 {
     internal partial class FrmRouteEditor : Form
     {
-<<<<<<< HEAD
-        private Dictionary <string, City> data = new Dictionary <string, City>();
-        private Market _market;
-=======
+
         // Model to represent a route in the DataGridView
         private class RouteViewModel
         {
@@ -21,7 +18,6 @@ namespace BusinessSharkUI
         }
 
         private readonly Market _market;
->>>>>>> 83d271b0869f550fdc57d95feb71a390522b9dcd
         public FrmRouteEditor(Market market)
         {
             InitializeComponent();

@@ -203,11 +203,6 @@ namespace BusinessSharkUI
                 currentCity.Factories.Add(newFactory);
 
                 currentFactory = newFactory;
-                    currentFactory = currentCity.Factories[0];
-                }
-
-                    currentFactory = currentCity.Factories[0];
-                }
 
             }
         }
@@ -337,7 +332,7 @@ namespace BusinessSharkUI
 
         private void btnAddRouteToStore_Click(object sender, EventArgs e)
         {
-            var routeRedactor = new FrmRouteRedactor(market);
+            var routeRedactor = new FrmRouteEditor(market);
         }
     }
 }
