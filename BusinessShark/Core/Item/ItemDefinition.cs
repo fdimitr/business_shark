@@ -1,19 +1,22 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
+﻿using MessagePack;
 using static BusinessShark.Core.Item.Enums;
 
 namespace BusinessShark.Core.Item
 {
+    [MessagePackObject(keyAsPropertyName: true)]
     internal class ItemDefinition
     {
-        public ItemDefinition(int itemDefinitionId,
+        [SerializationConstructor]
+        public ItemDefinition(ItemType itemDefinitionId,
             string name,
             float volume,
             float baseProductionCount,
             float techImpactQuality,
             float toolImpactQuality,
-            float workerImpactQuality, float sourceImpactQuality, float techImpactQuantity, float toolImpactQuantity, float workerImpactQuantity)
+            float workerImpactQuality, 
+            float sourceImpactQuality, float techImpactQuantity, float toolImpactQuantity, float workerImpactQuantity, float baseProductionPrice)
         {
-            ItemDefinitionId = (ItemType)itemDefinitionId;
+            ItemDefinitionId = itemDefinitionId;
             Name = name;
             Volume = volume;
             BaseProductionCount = baseProductionCount;
@@ -24,6 +27,7 @@ namespace BusinessShark.Core.Item
             TechImpactQuantity = techImpactQuantity;
             ToolImpactQuantity = toolImpactQuantity;
             WorkerImpactQuantity = workerImpactQuantity;
+            BaseProductionPrice = baseProductionPrice;
         }
 
         public ItemType ItemDefinitionId { get; }
@@ -31,6 +35,8 @@ namespace BusinessShark.Core.Item
         public float Volume { get; }
         public List<ProductionUnit> ProductionUnits { get; set; } = new();
         public float BaseProductionCount { get; }
+
+        public float BaseProductionPrice { get; }
 
         public float TechImpactQuality { get; }
         public float ToolImpactQuality { get; }

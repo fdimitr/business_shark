@@ -1,8 +1,9 @@
 ﻿using System.Drawing;
 using BusinessShark.Core;
 using BusinessShark.Core.Item;
+using BusinessShark.Core.ServiceClasses;
 
-namespace BusinessSharTests.Core
+namespace BusinessSharkTests.Core
 {
     [TestFixture]
     public class WarehouseTests
@@ -18,10 +19,10 @@ namespace BusinessSharTests.Core
         [SetUp]
         public void SetUp()
         {
-            _itemDef = new ItemDefinition((int)Enums.ItemType.Wood, "Wood", 1, 1, 0.1f, 0.1f, 0.1f, 0.1f, 0.1f, 0.1f,
-                0.1f);
-            _fromDivision = new Warehouse(1, new Point(0, 0), Int32.MaxValue);
-            _toDivision = new Warehouse(2, new Point(1, 1), Int32.MaxValue);
+            _itemDef = new ItemDefinition(Enums.ItemType.Wood, "Wood", 1, 1, 0.1f, 0.1f, 0.1f, 0.1f, 0.1f, 0.1f,
+                0.1f, 0);
+            _fromDivision = new Warehouse(1, "TestWarehouseFrom", new Location(), int.MaxValue);
+            _toDivision = new Warehouse(2, "TestWarehouseTo", new Location(1, 1), int.MaxValue);
 
             _fromItem = new Item(_itemDef, quality: 10, quantity: 100);
             _toItem = new Item(_itemDef, quality: 5, quantity: 50);

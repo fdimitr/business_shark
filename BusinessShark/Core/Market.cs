@@ -2,14 +2,17 @@
 using BusinessShark.Database;
 using BusinessShark.Database.Models;
 using Dapper;
+using MessagePack;
 using static BusinessShark.Core.Item.Enums;
 
 namespace BusinessShark.Core
 {
+    [MessagePackObject(keyAsPropertyName: true)]
     internal class Market
     {
-        public List<City> Cities = new();
+        public List<City> Cities { get; set; } = new();
 
+        [NonSerialized]
         public Dictionary<ItemType, ItemDefinition> ItemDefinitions = new();
 
         public Market()
@@ -56,8 +59,8 @@ namespace BusinessShark.Core
             var sql =
                 @"SELECT i.ItemDefinitionId, i.ItemGroupId, i.Name, i.Volume, i.ProductionCount, i.TechImpactQuality, i.ToolImpactQuality, i.WorkerImpactQuality,
                             i.TechImpactQuantity, i.ToolImpactQuantity, i.WorkerImpactQuantity, i.SourceImpactQuality,
-                            p.ItemDefinitionId, p.ComponentDefinitionId, p.ProductionQuantity, p.QualityImpact
-                        FROM ItemDefinition i LEFT OUTER JOIN ProductionUnit p ON i.ItemDefinitionId = p.ItemDefinitionId";
+                            p.ProductDefinitionId, p.ComponentDefinitionId, p.ProductionQuantity, p.QualityImpact, i.ProductionPrice
+                        FROM ItemDefinition i LEFT OUTER JOIN ProductionUnit p ON i.ItemDefinitionId = p.ProductDefinitionId";
 
             con.Query<ItemDefinitionDto, ProductionUnitDto?, ItemDefinition>(sql,
                 (definitionDto, productionDto) =>
@@ -70,7 +73,7 @@ namespace BusinessShark.Core
                     else
                     {
                         definition = new ItemDefinition(
-                            definitionDto.ItemDefinitionId,
+                            (ItemType)definitionDto.ItemDefinitionId,
                             definitionDto.Name,
                             definitionDto.Volume,
                             definitionDto.ProductionCount,
@@ -80,7 +83,8 @@ namespace BusinessShark.Core
                             definitionDto.SourceImpactQuality,
                             definitionDto.TechImpactQuantity,
                             definitionDto.ToolImpactQuantity,
-                            definitionDto.WorkerImpactQuantity);
+                            definitionDto.WorkerImpactQuantity,
+                            definitionDto.ProductionPrice);
 
                         ItemDefinitions.Add((ItemType)definitionDto.ItemDefinitionId, definition);
                     }
@@ -88,14 +92,14 @@ namespace BusinessShark.Core
                     if (productionDto != null)
                     {
                         definition.ProductionUnits.Add(new ProductionUnit(
-                            productionDto.ComponentDefinitionId,
-                            productionDto.ItemDefinitionId,
+                            (ItemType)productionDto.ProductDefinitionId,
+                            (ItemType)productionDto.ComponentDefinitionId,
                             productionDto.ProductionQuantity,
                             productionDto.QualityImpact));
                     }
 
                     return definition;
-                }, splitOn: "ItemDefinitionId");
+                }, splitOn: "ProductDefinitionId");
 
             foreach (var kvp in ItemDefinitions)
             {

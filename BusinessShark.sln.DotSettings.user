@@ -9,13 +9,18 @@
     &lt;TestId&gt;NUnit3x::72D614C3-0BC5-4AC7-BBA5-3F9D1AE0AF22::net9.0::BusinessSharTests.Core.FactoryTests&lt;/TestId&gt;&#xD;
   &lt;/TestAncestor&gt;&#xD;
 &lt;/SessionState&gt;</s:String>
-	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=df530ed4_002D89cf_002D48bc_002Db69f_002D4959e090d4d6/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="CalculateProductionQuality_ReturnsExpectedQuality_WithValidInputs" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=df530ed4_002D89cf_002D48bc_002Db69f_002D4959e090d4d6/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="CalculateProductionQuality_ReturnsExpectedQuality_WithValidInputs" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
   &lt;TestAncestor&gt;&#xD;
     &lt;TestId&gt;NUnit3x::72D614C3-0BC5-4AC7-BBA5-3F9D1AE0AF22::net9.0::BusinessSharTests.Core.FactoryTests&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;NUnit3x::72D614C3-0BC5-4AC7-BBA5-3F9D1AE0AF22::net9.0::BusinessSharTests.Core.WarehouseTests.StartTransferItems_TransfersCorrectQuantityAndQuality&lt;/TestId&gt;&#xD;
   &lt;/TestAncestor&gt;&#xD;
 &lt;/SessionState&gt;</s:String>
-	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=fe8efc09_002D17e7_002D4234_002D82c3_002D60fbcc8128c4/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="FactoryTests #2" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=fe8efc09_002D17e7_002D4234_002D82c3_002D60fbcc8128c4/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="FactoryTests #2" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
   &lt;TestAncestor&gt;&#xD;
     &lt;TestId&gt;NUnit3x::72D614C3-0BC5-4AC7-BBA5-3F9D1AE0AF22::net9.0::BusinessSharTests.Core.FactoryTests&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;NUnit3x::72D614C3-0BC5-4AC7-BBA5-3F9D1AE0AF22::net9.0::BusinessSharTests.Core.WarehouseTests.StartTransferItems_TransfersCorrectQuantityAndQuality&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;NUnit3x::72D614C3-0BC5-4AC7-BBA5-3F9D1AE0AF22::net9.0::BusinessSharTests.Core.WarehouseTests.StartTransferItems_TransfersAllIfNotEnough&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;NUnit3x::72D614C3-0BC5-4AC7-BBA5-3F9D1AE0AF22::net9.0::BusinessSharTests.Core.WarehouseTests.CompleteTransferItems_MovesProcessingToQuantityAndResets&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;NUnit3x::72D614C3-0BC5-4AC7-BBA5-3F9D1AE0AF22::net9.0::BusinessSharTests.Core.WarehouseTests&lt;/TestId&gt;&#xD;
   &lt;/TestAncestor&gt;&#xD;
 &lt;/SessionState&gt;</s:String></wpf:ResourceDictionary>

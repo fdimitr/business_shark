@@ -1,32 +1,48 @@
-﻿using System.Drawing;
-using BusinessShark.Core.Item;
+﻿using BusinessShark.Core.Item;
+using BusinessShark.Core.ServiceClasses;
+using MessagePack;
 
 namespace BusinessShark.Core
 {
-    internal class Factory(
-        int divisionId,
-        ItemDefinition productDefinition,
-        float techLevel,
-        Tools toolPark,
-        Workers workers,
-        Point location) : DeliveryDivision(divisionId, location)
+    [MessagePackObject(keyAsPropertyName: true)]
+    internal class Factory : DeliveryDivision
     {
+        public Factory(int divisionId,
+            string name,
+            ItemDefinition? productDefinition,
+            float techLevel,
+            Tools toolPark,
+            Workers workers,
+            Location location) : base(divisionId, name, location)
+        {
+            ProductDefinition = productDefinition;
+            TechLevel = techLevel;
+            ToolPark = toolPark;
+            Workers = workers;
+        }
+
         internal struct QualityItem(float quality, float qualityImpact)
         {
             public float Quality = quality;
             public float QualityImpact = qualityImpact;
         }
 
-        public ItemDefinition ProductDefinition = productDefinition;
-        public float ProgressProduction; //procent of single product left on production
-        public float ProgressQuality;
-        public float TechLevel = techLevel;
-        public Tools ToolPark = toolPark;
-        public Workers FactoryWorkers = workers;
-        private bool isProductionCompleted = true;
+        public ItemDefinition? ProductDefinition { get; set; }
+        public float ProgressProduction { get; set; } // Percent of single product left on production
+        public float ProgressQuality { get; set; }
+        public float ProgressPrice { get; set; }
+        public float TechLevel { get; set; }
+        public Tools ToolPark { get; set; }
+        public Workers Workers { get; set; }
+        private bool isProductionCompleted { get; set; } = true;
 
         public override void StartCalculation()
         {
+            if (ProductDefinition == null || WarehouseInput.Count == 0)
+            {
+                return; // No product to produce or no resources available
+            }
+
             float cycleProgressQuality = 0;
 
             if (isProductionCompleted)
@@ -38,7 +54,7 @@ namespace BusinessShark.Core
                 {
                     // Take resources for production
                     var listForQualityCalc = new List<QualityItem>();
-                    foreach (var unit in ProductDefinition.ProductionUnits)
+                    foreach (var unit in ProductDefinition.ProductionUnits ?? Enumerable.Empty<ProductionUnit>())
                     {
                         var item = WarehouseInput[unit.ComponentDefinitionId];
                         item.Quantity -= unit.ProductionQuantity;
@@ -58,7 +74,8 @@ namespace BusinessShark.Core
 
             ProgressQuality += CalculateWarehouseQuality(ProgressProduction, ProgressQuality, cycleProgressQuantity, cycleProgressQuality);
             ProgressProduction += cycleProgressQuantity;
-            
+            ProgressPrice = CalculateProductionPrice();
+
 
             // Completion of production
             if (ProgressProduction >= 1)
@@ -87,7 +104,7 @@ namespace BusinessShark.Core
 
         public override void CompleteCalculation()
         {
-            if (WarehouseOutput.TryGetValue(ProductDefinition.ItemDefinitionId, out var item))
+            if (ProductDefinition != null && WarehouseOutput.TryGetValue(ProductDefinition.ItemDefinitionId, out var item))
             {
                 var newQuality = CalculateWarehouseQuality(item);
 
@@ -100,6 +117,8 @@ namespace BusinessShark.Core
 
         private bool PossibleToProduce()
         {
+            if (ProductDefinition == null) return false;
+
             foreach (var unit in ProductDefinition.ProductionUnits)
             {
                 WarehouseInput.TryGetValue(unit.ComponentDefinitionId, out Item.Item? item);
@@ -112,18 +131,44 @@ namespace BusinessShark.Core
 
         internal float CalculateProductionQuality(List<QualityItem> qualityItems)
         {
-            return qualityItems.Sum(e => e.Quality * e.QualityImpact)
-                            + TechLevel * ProductDefinition.TechImpactQuality
-                            + ToolPark.TechLevel * ProductDefinition.ToolImpactQuality
-                            + FactoryWorkers.TechLevel * ProductDefinition.WorkerImpactQuality;
+            if (ProductDefinition != null)
+            {
+                return qualityItems.Sum(e => e.Quality * e.QualityImpact)
+                       + TechLevel * ProductDefinition.TechImpactQuality
+                       + ToolPark.TechLevel * ProductDefinition.ToolImpactQuality
+                       + Workers.TechLevel * ProductDefinition.WorkerImpactQuality;
+            }
+
+            return 0;
         }
 
         internal float CalculateProductionQuantity(float baseProductionCount)
         {
-            var quantity = TechLevel * ProductDefinition.TechImpactQuantity
-                            + ToolPark.TechLevel * ProductDefinition.ToolImpactQuantity
-                            + FactoryWorkers.TechLevel * ProductDefinition.WorkerImpactQuantity;
-            return baseProductionCount * quantity;
+            if (ProductDefinition != null)
+            {
+                var quantity = TechLevel * ProductDefinition.TechImpactQuantity
+                               + ToolPark.TechLevel * ProductDefinition.ToolImpactQuantity
+                               + Workers.TechLevel * ProductDefinition.WorkerImpactQuantity;
+                return baseProductionCount * quantity;
+            }
+
+            return 0;
+        }
+
+        internal float CalculateProductionPrice()
+        {
+            if (ProductDefinition != null)
+            {
+                float price = 0;
+                Market market = new Market();
+                foreach(var item in ProductDefinition.ProductionUnits)
+                {
+                    price += item.ProductionQuantity * (market.ItemDefinitions[item.ComponentDefinitionId].BaseProductionPrice);
+                }
+                return price;
+
+            }
+            return 0;
         }
     }
 }
