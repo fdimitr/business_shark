@@ -157,5 +157,11 @@ namespace BusinessShark.Core
 
             return 0;
         }
+
+        internal float CalculateProductionPrice(float baseProductionPrice)
+        {
+
+            return 0;
+        }
     }
 }

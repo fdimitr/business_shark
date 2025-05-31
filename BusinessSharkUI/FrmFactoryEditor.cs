@@ -7,7 +7,7 @@ using static System.Windows.Forms.VisualStyles.VisualStyleElement.TextBox;
 namespace BusinessSharkUI
 {
     
-    internal partial class FrmFactoryRedactor : Form
+    internal partial class FrmFactoryEditor : Form
     {
         private Market _market;
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
@@ -26,7 +26,7 @@ namespace BusinessSharkUI
 
         
 
-        public FrmFactoryRedactor(Market market)
+        public FrmFactoryEditor(Market market)
         {
             InitializeComponent();
             _market = market;

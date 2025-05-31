@@ -176,7 +176,7 @@ namespace BusinessSharkUI
 
         private void AddFactory()
         {
-            FrmFactoryRedactor factoryRedactor = new FrmFactoryRedactor(market);
+            FrmFactoryEditor factoryRedactor = new FrmFactoryEditor(market);
             if (factoryRedactor.ShowDialog() == DialogResult.OK)
             {
                 var name = factoryRedactor.FactoryName;
@@ -203,6 +203,7 @@ namespace BusinessSharkUI
                 currentCity.Factories.Add(newFactory);
 
                 currentFactory = newFactory;
+
             }
         }
 
@@ -335,6 +336,7 @@ namespace BusinessSharkUI
                 return;
             }
             var routeEditor = new FrmRouteEditor(market, currentFactory.Routes);
+            routeEditor.ShowDialog();
             routeEditor.ShowDialog();
         }
 
