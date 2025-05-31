@@ -1,6 +1,4 @@
-﻿using System.Drawing;
-using System.Text.Json.Serialization;
-using BusinessShark.Core.Item;
+﻿using BusinessShark.Core.Item;
 using BusinessShark.Core.ServiceClasses;
 using MessagePack;
 
@@ -9,7 +7,6 @@ namespace BusinessShark.Core
     [MessagePackObject(keyAsPropertyName: true)]
     internal class Factory : DeliveryDivision
     {
-        [SerializationConstructor]
         public Factory(int divisionId,
             string name,
             ItemDefinition? productDefinition,
@@ -24,7 +21,6 @@ namespace BusinessShark.Core
             Workers = workers;
         }
 
-        [Serializable]
         internal struct QualityItem(float quality, float qualityImpact)
         {
             public float Quality = quality;

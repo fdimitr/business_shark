@@ -1,4 +1,5 @@
-﻿using BusinessShark.Core;
+﻿using System.ComponentModel;
+using BusinessShark.Core;
 using BusinessShark.Core.Item;
 
 namespace BusinessSharkUI
@@ -21,6 +22,7 @@ namespace BusinessSharkUI
         private readonly Market _market;
         private Enums.ItemType _requestedItemType;
 
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public List<Routes> Routes { get; set; }
 
         public FrmRouteEditor(Market market, List<Routes> routes)
@@ -119,7 +121,7 @@ namespace BusinessSharkUI
             {
                 if (row.IsNewRow) continue;
 
-                bool isRoute = row.Cells[0].Value is bool b;
+                bool isRoute = (bool)row.Cells[0].Value!;
                 int requestedQuantity = Convert.ToInt32(row.Cells[5].Value);
 
                 if (!isRoute || requestedQuantity <= 0)

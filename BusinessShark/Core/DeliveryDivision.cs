@@ -7,6 +7,8 @@ using MessagePack;
 namespace BusinessShark.Core
 {
     [MessagePackObject(keyAsPropertyName: true)]
+    [MessagePack.Union(1, typeof(Warehouse))]
+    [MessagePack.Union(2, typeof(Factory))]
     internal abstract class DeliveryDivision(int divisionId, string name, Location location) : Division(divisionId, name, location)
     {
         public Dictionary<Enums.ItemType, Item.Item> WarehouseInput = new();  //to

@@ -249,7 +249,8 @@ namespace BusinessSharkUI
             }
             string fileName = Path.Combine(saveDir, $"market_{datetime}.dat");
 
-            var options = MessagePackSerializer.DefaultOptions.WithResolver(StandardResolverAllowPrivate.Instance);
+            var resolver = CompositeResolver.Create(StandardResolverAllowPrivate.Instance, ContractlessStandardResolver.Instance);
+            var options = MessagePackSerializer.DefaultOptions.WithResolver(resolver);
             options.WithCompression(MessagePackCompression.Lz4Block);
 
             byte[] bytes = MessagePackSerializer.Serialize(market, options);

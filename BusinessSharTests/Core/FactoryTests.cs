@@ -23,7 +23,8 @@ namespace BusinessSharTests.Core
                 sourceImpactQuality: 1.0f,
                 techImpactQuantity: 0.30f,
                 toolImpactQuantity: 0.5f,
-                workerImpactQuantity: 0.2f
+                workerImpactQuantity: 0.2f,
+                baseProductionPrice:0.0f
             )
             {
                 ProductionUnits =

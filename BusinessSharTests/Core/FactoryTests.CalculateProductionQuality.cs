@@ -22,7 +22,7 @@ namespace BusinessSharTests.Core
                 new ProductionUnit(Enums.ItemType.Bed, Enums.ItemType.Leather, 3, 0.3f)
             };
             var productDefinition = new ItemDefinition(
-                Enums.ItemType.Bed, "TestProduct", 1, 1, 0.2f, 0.2f, 0.1f, 0, 0.1f, 0.1f, 0.1f)
+                Enums.ItemType.Bed, "TestProduct", 1, 1, 0.2f, 0.2f, 0.1f, 0, 0.1f, 0.1f, 0.1f, 0)
             {
                 ProductionUnits = productionUnits
             };
@@ -56,7 +56,7 @@ namespace BusinessSharTests.Core
                 new ProductionUnit(Enums.ItemType.Bed, Enums.ItemType.Leather, 3, 0.3f)
             };
             var productDefinition = new ItemDefinition(
-                Enums.ItemType.Bed, "TestProduct", 1, 1, 0, 0, 0.1f, 0, 0.1f, 0.1f, 0.1f)
+                Enums.ItemType.Bed, "TestProduct", 1, 1, 0, 0, 0.1f, 0, 0.1f, 0.1f, 0.1f, 0)
             {
                 ProductionUnits = productionUnits
             };

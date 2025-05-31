@@ -20,7 +20,7 @@ namespace BusinessSharkTests.Core
         public void SetUp()
         {
             _itemDef = new ItemDefinition(Enums.ItemType.Wood, "Wood", 1, 1, 0.1f, 0.1f, 0.1f, 0.1f, 0.1f, 0.1f,
-                0.1f);
+                0.1f, 0);
             _fromDivision = new Warehouse(1, "TestWarehouseFrom", new Location(), int.MaxValue);
             _toDivision = new Warehouse(2, "TestWarehouseTo", new Location(1, 1), int.MaxValue);
 
