@@ -10,7 +10,7 @@ namespace BusinessShark.Core.Item
         public int Quantity;
         public float Price;
 
-        public float ProcessingCena;
+        public float ProcessingPrice;
         public float ProcessingQuality;
         public int ProcessingQuantity;
 
@@ -29,6 +29,7 @@ namespace BusinessShark.Core.Item
         {
             ProcessingQuality = 0;
             ProcessingQuantity = 0;
+            ProcessingPrice = 0;
         }
     }
 }

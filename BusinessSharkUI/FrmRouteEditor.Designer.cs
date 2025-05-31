@@ -1,6 +1,6 @@
 ﻿namespace BusinessSharkUI
 {
-    partial class FrmRouteRedactor
+    partial class FrmRouteEditor
     {
         /// <summary>
         /// Required designer variable.

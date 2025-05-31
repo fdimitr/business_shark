@@ -108,7 +108,7 @@ namespace BusinessSharkUI
 
         private void AddFactory()
         {
-            FrmFactoryRedactor factoryRedactor = new FrmFactoryRedactor(market);
+            FrmFactoryEditor factoryRedactor = new FrmFactoryEditor(market);
             if (factoryRedactor.ShowDialog() == DialogResult.OK)
             {
                 var name = factoryRedactor.FactoryName;
@@ -135,11 +135,8 @@ namespace BusinessSharkUI
                 var newFactory = new Factory(newId, name, product, 1, new Tools(), new Workers(), new Location());
                 currentCity.Factories.Add(newFactory);
 
-                cmbFactories.SelectedIndex = cmbFactories.Items.Count;
-                if(currentFactory == null)
-                {
-                    currentFactory = currentCity.Factories[0];
-                }
+                currentFactory = newFactory;
+                
 
             }
         }
@@ -254,7 +251,7 @@ namespace BusinessSharkUI
 
         private void btnAddRoute_Click(object sender, EventArgs e)
         {
-            var routeRedactor = new FrmRouteRedactor(market);
+            var routeRedactor = new FrmRouteEditor(market);
         }
     }
 }

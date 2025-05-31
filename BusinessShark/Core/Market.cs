@@ -59,7 +59,7 @@ namespace BusinessShark.Core
             var sql =
                 @"SELECT i.ItemDefinitionId, i.ItemGroupId, i.Name, i.Volume, i.ProductionCount, i.TechImpactQuality, i.ToolImpactQuality, i.WorkerImpactQuality,
                             i.TechImpactQuantity, i.ToolImpactQuantity, i.WorkerImpactQuantity, i.SourceImpactQuality,
-                            p.ProductDefinitionId, p.ComponentDefinitionId, p.ProductionQuantity, p.QualityImpact
+                            p.ProductDefinitionId, p.ComponentDefinitionId, p.ProductionQuantity, p.QualityImpact, i.ProductionPrice
                         FROM ItemDefinition i LEFT OUTER JOIN ProductionUnit p ON i.ItemDefinitionId = p.ProductDefinitionId";
 
             con.Query<ItemDefinitionDto, ProductionUnitDto?, ItemDefinition>(sql,
@@ -83,7 +83,8 @@ namespace BusinessShark.Core
                             definitionDto.SourceImpactQuality,
                             definitionDto.TechImpactQuantity,
                             definitionDto.ToolImpactQuantity,
-                            definitionDto.WorkerImpactQuantity);
+                            definitionDto.WorkerImpactQuantity,
+                            definitionDto.ProductionPrice);
 
                         ItemDefinitions.Add((ItemType)definitionDto.ItemDefinitionId, definition);
                     }

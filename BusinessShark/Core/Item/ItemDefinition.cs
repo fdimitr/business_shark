@@ -15,7 +15,8 @@ namespace BusinessShark.Core.Item
             float baseProductionCount,
             float techImpactQuality,
             float toolImpactQuality,
-            float workerImpactQuality, float sourceImpactQuality, float techImpactQuantity, float toolImpactQuantity, float workerImpactQuantity)
+            float workerImpactQuality, 
+            float sourceImpactQuality, float techImpactQuantity, float toolImpactQuantity, float workerImpactQuantity, float baseProductionPrice)
         {
             ItemDefinitionId = itemDefinitionId;
             Name = name;
@@ -28,6 +29,7 @@ namespace BusinessShark.Core.Item
             TechImpactQuantity = techImpactQuantity;
             ToolImpactQuantity = toolImpactQuantity;
             WorkerImpactQuantity = workerImpactQuantity;
+            BaseProductionPrice = baseProductionPrice;
         }
 
         public ItemType ItemDefinitionId { get; }
@@ -35,6 +37,8 @@ namespace BusinessShark.Core.Item
         public float Volume { get; }
         public List<ProductionUnit> ProductionUnits { get; set; } = new();
         public float BaseProductionCount { get; }
+
+        public float BaseProductionPrice { get; }
 
         public float TechImpactQuality { get; }
         public float ToolImpactQuality { get; }

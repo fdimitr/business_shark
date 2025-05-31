@@ -4,11 +4,11 @@ using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace BusinessSharkUI
 {
-    internal partial class FrmRouteRedactor : Form
+    internal partial class FrmRouteEditor : Form
     {
         private Dictionary <string, City> data = new Dictionary <string, City>();
         private Market _market;
-        public FrmRouteRedactor(Market market)
+        public FrmRouteEditor(Market market)
         {
             InitializeComponent();
             _market = market;
