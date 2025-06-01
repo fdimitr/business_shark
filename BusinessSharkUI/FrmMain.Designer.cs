@@ -119,6 +119,7 @@
             columnHeader44 = new ColumnHeader();
             btnLoadGame = new Button();
             btnSaveGame = new Button();
+            btnEditFactory = new Button();
             groupBox1.SuspendLayout();
             WarehousesGroup.SuspendLayout();
             groupBox2.SuspendLayout();
@@ -159,6 +160,7 @@
             // groupBox1
             // 
             groupBox1.BackColor = Color.Gainsboro;
+            groupBox1.Controls.Add(btnEditFactory);
             groupBox1.Controls.Add(listViewFactoryRoutes);
             groupBox1.Controls.Add(btnAddRouteToFactory);
             groupBox1.Controls.Add(label6);
@@ -323,7 +325,7 @@
             // button6
             // 
             button6.Font = new Font("Segoe UI", 9F);
-            button6.Location = new Point(134, 48);
+            button6.Location = new Point(290, 48);
             button6.Name = "button6";
             button6.Size = new Size(94, 29);
             button6.TabIndex = 13;
@@ -841,6 +843,17 @@
             btnSaveGame.UseVisualStyleBackColor = false;
             btnSaveGame.Click += btnSaveGame_Click;
             // 
+            // btnEditFactory
+            // 
+            btnEditFactory.Font = new Font("Segoe UI", 9F);
+            btnEditFactory.Location = new Point(122, 48);
+            btnEditFactory.Name = "btnEditFactory";
+            btnEditFactory.Size = new Size(94, 29);
+            btnEditFactory.TabIndex = 32;
+            btnEditFactory.Text = "Edit";
+            btnEditFactory.UseVisualStyleBackColor = true;
+            btnEditFactory.Click += btnEditFactory_Click;
+            // 
             // FrmMain
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
@@ -963,5 +976,6 @@
         private ColumnHeader columnHeader6;
         private ColumnHeader columnHeader7;
         private ColumnHeader columnHeader8;
+        private Button btnEditFactory;
     }
 }

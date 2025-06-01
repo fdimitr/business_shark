@@ -74,7 +74,27 @@ namespace BusinessShark.Core
                 }
             }
             return null!; // Return null if no division found with the given ID
+        }
 
+        public int GetNewDivisionId()
+        {
+            int maxId = 0;
+            foreach (var city in Cities)
+            {
+                if (city.Warehouses.Count > 0)
+                {
+                    int cityWarehouseMax = city.Warehouses.Max(w => w.DivisionId);
+                    if (cityWarehouseMax > maxId)
+                        maxId = cityWarehouseMax;
+                }
+                if (city.Factories.Count > 0)
+                {
+                    int cityFactoryMax = city.Factories.Max(f => f.DivisionId);
+                    if (cityFactoryMax > maxId)
+                        maxId = cityFactoryMax;
+                }
+            }
+            return maxId + 1;
         }
 
         public void LoadItemDefinitions()
