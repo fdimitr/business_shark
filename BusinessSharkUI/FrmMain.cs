@@ -354,5 +354,11 @@ namespace BusinessSharkUI
             //var routeEditor = new FrmRouteEditor(market);
             //routeEditor.ShowDialog();
         }
+
+        private void btnCalculateStep_Click(object sender, EventArgs e)
+        {
+            market.CalculateDay();
+            SetDataSources();
+        }
     }
 }

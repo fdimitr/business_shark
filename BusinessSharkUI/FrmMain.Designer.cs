@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            button1 = new Button();
+            btnCalculateStep = new Button();
             button2 = new Button();
             button3 = new Button();
             groupBox1 = new GroupBox();
@@ -125,15 +125,16 @@
             groupBox3.SuspendLayout();
             SuspendLayout();
             // 
-            // button1
+            // btnCalculateStep
             // 
-            button1.BackColor = Color.GhostWhite;
-            button1.Location = new Point(17, 12);
-            button1.Name = "button1";
-            button1.Size = new Size(157, 55);
-            button1.TabIndex = 1;
-            button1.Text = "Calculate one Cycle";
-            button1.UseVisualStyleBackColor = false;
+            btnCalculateStep.BackColor = Color.GhostWhite;
+            btnCalculateStep.Location = new Point(17, 12);
+            btnCalculateStep.Name = "btnCalculateStep";
+            btnCalculateStep.Size = new Size(157, 55);
+            btnCalculateStep.TabIndex = 1;
+            btnCalculateStep.Text = "Calculate one Cycle";
+            btnCalculateStep.UseVisualStyleBackColor = false;
+            btnCalculateStep.Click += btnCalculateStep_Click;
             // 
             // button2
             // 
@@ -837,7 +838,7 @@
             Controls.Add(WarehousesGroup);
             Controls.Add(button3);
             Controls.Add(button2);
-            Controls.Add(button1);
+            Controls.Add(btnCalculateStep);
             FormBorderStyle = FormBorderStyle.FixedDialog;
             MaximizeBox = false;
             Name = "FrmMain";
@@ -855,7 +856,7 @@
 
         #endregion
 
-        private Button button1;
+        private Button btnCalculateStep;
         private Button button2;
         private Button button3;
         private GroupBox groupBox1;

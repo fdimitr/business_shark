@@ -47,11 +47,11 @@ namespace BusinessShark.Core
 
             if (isProductionCompleted)
             {
-                isProductionCompleted = false;
-
                 // Start production
                 if (PossibleToProduce())
                 {
+                    isProductionCompleted = false;
+
                     // Take resources for production
                     var listForQualityCalc = new List<QualityItem>();
                     foreach (var unit in ProductDefinition.ProductionUnits ?? Enumerable.Empty<ProductionUnit>())
