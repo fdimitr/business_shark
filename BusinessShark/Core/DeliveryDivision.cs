@@ -16,19 +16,20 @@ namespace BusinessShark.Core
 
         public List<Routes> Routes { get; set; } = new();
 
-        public void StartTransferItems()
+        public void StartTransferItems(Market market)
         {
             foreach (var route in Routes)
             {
-                if(route.FromDivision.WarehouseOutput.TryGetValue(route.TransferringItemType, out var item))
+                DeliveryDivision fromDivision = market.GetDeliveryDivisionById(route.FromDivisionId);
+                if (fromDivision.WarehouseOutput.TryGetValue(route.TransferringItemType, out var item))
                 {
                     // ReSharper disable once ConditionIsAlwaysTrueOrFalseAccordingToNullableAPIContract
                     if(item is { Quantity: > 0 })
                     {
-                        var sourceItem = route.FromDivision.WarehouseOutput[route.TransferringItemType];
-                        var targetItem = route.ToDivision.WarehouseInput[route.TransferringItemType];
+                        var sourceItem = fromDivision.WarehouseOutput[route.TransferringItemType];
+                        var targetItem = this.WarehouseInput[route.TransferringItemType];
 
-                        if (route.ToDivision.WarehouseInput.TryAdd(route.TransferringItemType, item))
+                        if (this.WarehouseInput.TryAdd(route.TransferringItemType, item))
                         {
                             targetItem.ProcessingQuantity = 0;
                             targetItem.Quantity = 0;
@@ -61,7 +62,7 @@ namespace BusinessShark.Core
         {
             foreach (var route in Routes)
             {
-                if (route.ToDivision.WarehouseInput.TryGetValue(route.TransferringItemType, out var item))
+                if (this.WarehouseInput.TryGetValue(route.TransferringItemType, out var item))
                 {
                     if (item.ProcessingQuantity > 0)
                     {

@@ -27,7 +27,7 @@ namespace BusinessShark.Core
             public float QualityImpact = qualityImpact;
         }
 
-        public ItemDefinition? ProductDefinition { get; set; }
+        public ItemDefinition ProductDefinition { get; set; }
         public float ProgressProduction { get; set; } // Percent of single product left on production
         public float ProgressQuality { get; set; }
         public float ProgressPrice { get; set; }
@@ -47,11 +47,11 @@ namespace BusinessShark.Core
 
             if (isProductionCompleted)
             {
-                isProductionCompleted = false;
-
                 // Start production
                 if (PossibleToProduce())
                 {
+                    isProductionCompleted = false;
+
                     // Take resources for production
                     var listForQualityCalc = new List<QualityItem>();
                     foreach (var unit in ProductDefinition.ProductionUnits ?? Enumerable.Empty<ProductionUnit>())
@@ -72,7 +72,7 @@ namespace BusinessShark.Core
 
             var cycleProgressQuantity = CalculateProductionQuantity(ProductDefinition.BaseProductionCount);
 
-            ProgressQuality += CalculateWarehouseQuality(ProgressProduction, ProgressQuality, cycleProgressQuantity, cycleProgressQuality);
+            ProgressQuality = CalculateWarehouseQuality(ProgressProduction, ProgressQuality, cycleProgressQuantity, cycleProgressQuality);
             ProgressProduction += cycleProgressQuantity;
             ProgressPrice = CalculateProductionPrice();
 
