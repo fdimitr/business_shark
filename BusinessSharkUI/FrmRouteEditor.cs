@@ -32,6 +32,9 @@ namespace BusinessSharkUI
             Routes = routes;
 
             BindRequestedItems();
+
+            // Attach event handler for editing control showing
+            dataGridViewRoutes.EditingControlShowing += dataGridViewRoutes_EditingControlShowing;
         }
 
         private void BindRequestedItems()
@@ -100,7 +103,7 @@ namespace BusinessSharkUI
 
             foreach (var route in Routes.Where(r => r.TransferringItemType == _requestedItemType))
             {
-                var model = routeViewModels.FirstOrDefault(m => m.DevisionId == route.FromDivision.DivisionId);
+                var model = routeViewModels.FirstOrDefault(m => m.DevisionId == route.FromDivisionId);
                 if (model != null)
                 {
                     model.IsRoute = true;
@@ -139,7 +142,7 @@ namespace BusinessSharkUI
                     continue;
 
                 // For this context, assume ToDivision is not set (or set to null)
-                var route = new Routes(fromDivision, null!, _requestedItemType, requestedQuantity);
+                var route = new Routes(fromDivision.DivisionId, _requestedItemType, requestedQuantity);
                 Routes.Add(route);
             }
         }
@@ -147,6 +150,33 @@ namespace BusinessSharkUI
         private void cmbRequestedItems_SelectionChangeCommitted(object sender, EventArgs e)
         {
             SaveRoutes();
+        }
+
+        private void dataGridViewRoutes_CellBeginEdit(object sender, DataGridViewCellCancelEventArgs e)
+        {
+
+        }
+
+        private void dataGridViewRoutes_EditingControlShowing(object sender, DataGridViewEditingControlShowingEventArgs e)
+        {
+            if (dataGridViewRoutes.CurrentCell.ColumnIndex == 5 && e.Control is TextBox tb)
+            {
+                tb.KeyPress -= RequestedQuantity_KeyPress; // Avoid attaching multiple times
+                tb.KeyPress += RequestedQuantity_KeyPress;
+            }
+            else if (e.Control is TextBox tb2)
+            {
+                tb2.KeyPress -= RequestedQuantity_KeyPress;
+            }
+        }
+
+        private void RequestedQuantity_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            // Allow only digits and control keys (like backspace)
+            if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar))
+            {
+                e.Handled = true;
+            }
         }
     }
 }
