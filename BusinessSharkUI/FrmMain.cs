@@ -201,6 +201,7 @@ namespace BusinessSharkUI
         private void SetDataSources()
         {
             _bindingSourceFactories.DataSource = currentCity.Factories;
+            _bindingSourceSources.DataSource = currentCity.Sources;
             _bindingSourceWarehouse.DataSource = currentCity.Warehouses;
 
             currentWarehouse = cmbWarehouses.SelectedItem as Warehouse;
