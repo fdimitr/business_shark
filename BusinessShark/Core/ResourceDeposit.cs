@@ -1,8 +1,5 @@
 ﻿using BusinessShark.Core.Item;
-using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.Linq;
+using BusinessShark.Core.ServiceClasses;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -10,7 +7,7 @@ namespace BusinessShark.Core
 {
     internal class ResourceDeposit(
         ItemDefinition definition,
-        Point location
+        Location location
         ) 
     {
         // this will have to be redone in the future

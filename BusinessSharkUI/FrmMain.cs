@@ -22,7 +22,10 @@ namespace BusinessSharkUI
         private Warehouse? currentWarehouse { get; set; }
         private Factory? currentFactory { get; set; }
 
+        private ResourceExtractor? currentSource { get; set; }
+
         private readonly BindingSource _bindingSourceFactories = new BindingSource();
+        private readonly BindingSource _bindingSourceSources = new BindingSource();
         private readonly BindingSource _bindingSourceWarehouse = new BindingSource();
 
         public FrmMain()
@@ -34,6 +37,7 @@ namespace BusinessSharkUI
 
             BindWarehouseCombo();
             BindFactoryCombo();
+            BindSourceCombo();
             BindingFactoryRoutesListView();
             BindingWarehouseListView();
             BindingWarehouseRoutesListView();
@@ -201,7 +205,7 @@ namespace BusinessSharkUI
 
             currentWarehouse = cmbWarehouses.SelectedItem as Warehouse;
             currentFactory = cmbFactories.SelectedItem as Factory;
-
+            currentSource = cmbSources.SelectedItem as ResourceExtractor;
             BindingWarehouseListView();
             BindingFactoryProductionListView();
             BindingFactoryInputListView();
@@ -248,21 +252,7 @@ namespace BusinessSharkUI
                     ? 1
                     : currentCity.Factories.Max(w => w.DivisionId) + 1;
                 ItemDefinition product;
-
-                switch (factoryRedactor.ProductType)
-                {
-                    case (Enums.ItemType.Bed):
-                        {
-                            product = market.ItemDefinitions[Enums.ItemType.Bed];
-                            break;
-                        }
-                    default:
-                        {
-                            product = market.ItemDefinitions[Enums.ItemType.Bed];
-                            break;
-                        }
-
-                }
+                product = market.ItemDefinitions[factoryRedactor.ProductType];
                 var newFactory = new Factory(newId, name, product, 1, new Tools(), new Workers(), new Location());
                 currentCity.Factories.Add(newFactory);
 
@@ -283,7 +273,7 @@ namespace BusinessSharkUI
                     Text = currentFactory.ProductDefinition.Name,
                     SubItems =
                     {
-                        currentFactory.ProgressProduction.ToString(),
+                        currentFactory.ProgressProduction.ToString("F2"),
                         currentFactory.ProgressQuality.ToString("F2"),
                         currentFactory.ProgressPrice.ToString("F2"),
                     }
@@ -306,6 +296,13 @@ namespace BusinessSharkUI
             cmbFactories.DataSource = _bindingSourceFactories;
             cmbFactories.DisplayMember = "Name";
             cmbFactories.ValueMember = "DivisionId";
+        }
+
+        private void BindSourceCombo()
+        {
+            cmbSources.DataSource = _bindingSourceSources;
+            cmbSources.DisplayMember = "Name";
+            cmbSources.ValueMember = "DivisionId";
         }
 
         private void btnSaveGame_Click(object sender, EventArgs e)
@@ -434,5 +431,60 @@ namespace BusinessSharkUI
             market.CalculateDay();
             SetDataSources();
         }
+
+        private void brnAddSource_Click(object sender, EventArgs e)
+        {
+            AddSource();
+            _bindingSourceSources.ResetBindings(false);
+            cmbSources.SelectedItem = currentSource;
+
+            BindingSourceProductionListView();
+        }
+
+        private void AddSource()
+        {
+            FrmSourceEditor sourceEditor = new FrmSourceEditor(market);
+            if (sourceEditor.ShowDialog() == DialogResult.OK)
+            {
+                var name = sourceEditor.SourceName;
+                var newId = currentCity.Sources.Count == 0
+                    ? 1
+                    : currentCity.Sources.Max(w => w.DivisionId) + 1;
+                ItemDefinition resource;
+
+                resource = market.ItemDefinitions[sourceEditor.ResourceType];
+
+                var newSource = new ResourceExtractor(newId, name, resource, 1, new Tools(), new Workers(), new Location());
+                currentCity.Sources.Add(newSource);
+
+                currentSource = newSource;
+
+            }
+        }
+
+        private void BindingSourceProductionListView()
+        {
+            if (currentSource != null)
+            {
+                listOfExtraction.SuspendLayout();
+                listOfExtraction.Items.Clear();
+
+                var productView = new ListViewItem
+                {
+                    Text = currentSource.ResourceDefinition.Name,
+                    SubItems =
+                    {
+                        currentSource.ProgressProduction.ToString("F2"),
+                        currentSource.ProgressQuality.ToString("F2"),
+                        "500",
+                        //currentSource.ProgressPrice.ToString("F2"),
+                    }
+                };
+
+                listOfExtraction.Items.AddRange(productView);
+                listOfExtraction.ResumeLayout();
+            }
+        }
+
     }
 }

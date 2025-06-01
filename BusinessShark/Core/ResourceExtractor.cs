@@ -1,5 +1,5 @@
 ﻿using BusinessShark.Core.Item;
-
+using BusinessShark.Core.ServiceClasses;
 using System.Drawing;
 
 
@@ -7,12 +7,12 @@ namespace BusinessShark.Core
 {
     internal class ResourceExtractor(
         int divisionId,
+        string name,
         ItemDefinition resourceDefinition,
         float techLevel,
         Tools toolPark,
         Workers workers,
-        Enums.ItemType extractingItemType,
-        Point location) : DeliveryDivision(divisionId, location)
+        Location location) : DeliveryDivision(divisionId, name, location)
 
     {
         public ItemDefinition ResourceDefinition = resourceDefinition;
@@ -22,7 +22,7 @@ namespace BusinessShark.Core
         public float TechLevel = techLevel;
         public Tools ToolPark = toolPark;
         public Workers FactoryWorkers = workers;
-        public Enums.ItemType ExtractingItemType { get; set; } = extractingItemType;
+        public Enums.ItemType ExtractingItemType { get; set; } = resourceDefinition.ItemDefinitionId;
 
         public override void StartCalculation()
         {

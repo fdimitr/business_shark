@@ -15,5 +15,6 @@ namespace BusinessShark.Core
 
         public List<Factory> Factories { get; set; } = new();
         public List<Warehouse> Warehouses { get; set; } = new();
+        public List<ResourceExtractor> Sources { get; set; } = new();
     }
 }

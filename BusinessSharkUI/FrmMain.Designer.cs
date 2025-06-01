@@ -87,9 +87,9 @@
             columnHeader28 = new ColumnHeader();
             label10 = new Label();
             button9 = new Button();
-            button10 = new Button();
-            comboBox1 = new ComboBox();
-            listView10 = new ListView();
+            brnAddSource = new Button();
+            cmbSources = new ComboBox();
+            listOfExtraction = new ListView();
             columnHeader33 = new ColumnHeader();
             columnHeader34 = new ColumnHeader();
             columnHeader35 = new ColumnHeader();
@@ -298,7 +298,7 @@
             // 
             // columnHeader10
             // 
-            columnHeader10.Text = "Количество";
+            columnHeader10.Text = "Остаток";
             columnHeader10.Width = 100;
             // 
             // columnHeader11
@@ -547,9 +547,9 @@
             groupBox2.Controls.Add(listView8);
             groupBox2.Controls.Add(label10);
             groupBox2.Controls.Add(button9);
-            groupBox2.Controls.Add(button10);
-            groupBox2.Controls.Add(comboBox1);
-            groupBox2.Controls.Add(listView10);
+            groupBox2.Controls.Add(brnAddSource);
+            groupBox2.Controls.Add(cmbSources);
+            groupBox2.Controls.Add(listOfExtraction);
             groupBox2.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
             groupBox2.ForeColor = Color.ForestGreen;
             groupBox2.Location = new Point(17, 107);
@@ -599,9 +599,9 @@
             label10.AutoSize = true;
             label10.Location = new Point(21, 122);
             label10.Name = "label10";
-            label10.Size = new Size(90, 20);
+            label10.Size = new Size(123, 20);
             label10.TabIndex = 19;
-            label10.Text = "Input items";
+            label10.Text = "Extracting items";
             // 
             // button9
             // 
@@ -613,44 +613,49 @@
             button9.Text = "Delete";
             button9.UseVisualStyleBackColor = true;
             // 
-            // button10
+            // brnAddSource
             // 
-            button10.Font = new Font("Segoe UI", 9F);
-            button10.Location = new Point(22, 48);
-            button10.Name = "button10";
-            button10.Size = new Size(94, 29);
-            button10.TabIndex = 12;
-            button10.Text = "Add";
-            button10.UseVisualStyleBackColor = true;
+            brnAddSource.Font = new Font("Segoe UI", 9F);
+            brnAddSource.Location = new Point(22, 48);
+            brnAddSource.Name = "brnAddSource";
+            brnAddSource.Size = new Size(94, 29);
+            brnAddSource.TabIndex = 12;
+            brnAddSource.Text = "Add";
+            brnAddSource.UseVisualStyleBackColor = true;
+            brnAddSource.Click += brnAddSource_Click;
             // 
-            // comboBox1
+            // cmbSources
             // 
-            comboBox1.FormattingEnabled = true;
-            comboBox1.Location = new Point(22, 93);
-            comboBox1.Name = "comboBox1";
-            comboBox1.Size = new Size(365, 28);
-            comboBox1.TabIndex = 11;
+            cmbSources.FormattingEnabled = true;
+            cmbSources.Location = new Point(22, 93);
+            cmbSources.Name = "cmbSources";
+            cmbSources.Size = new Size(365, 28);
+            cmbSources.TabIndex = 11;
             // 
-            // listView10
+            // listOfExtraction
             // 
-            listView10.Columns.AddRange(new ColumnHeader[] { columnHeader33, columnHeader34, columnHeader35, columnHeader36 });
-            listView10.Location = new Point(21, 145);
-            listView10.Name = "listView10";
-            listView10.Size = new Size(366, 168);
-            listView10.TabIndex = 10;
-            listView10.UseCompatibleStateImageBehavior = false;
+            listOfExtraction.Columns.AddRange(new ColumnHeader[] { columnHeader33, columnHeader34, columnHeader35, columnHeader36 });
+            listOfExtraction.Location = new Point(21, 145);
+            listOfExtraction.Name = "listOfExtraction";
+            listOfExtraction.Size = new Size(366, 168);
+            listOfExtraction.TabIndex = 10;
+            listOfExtraction.UseCompatibleStateImageBehavior = false;
+            listOfExtraction.View = View.Details;
             // 
             // columnHeader33
             // 
             columnHeader33.Text = "Наименование товара";
+            columnHeader33.Width = 140;
             // 
             // columnHeader34
             // 
             columnHeader34.Text = "Количество";
+            columnHeader34.Width = 80;
             // 
             // columnHeader35
             // 
             columnHeader35.Text = "Качество";
+            columnHeader35.Width = 80;
             // 
             // columnHeader36
             // 
@@ -923,9 +928,9 @@
         private ColumnHeader columnHeader28;
         private Label label10;
         private Button button9;
-        private Button button10;
-        private ComboBox comboBox1;
-        private ListView listView10;
+        private Button brnAddSource;
+        private ComboBox cmbSources;
+        private ListView listOfExtraction;
         private ColumnHeader columnHeader33;
         private ColumnHeader columnHeader34;
         private ColumnHeader columnHeader35;

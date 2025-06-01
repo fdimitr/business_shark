@@ -7,6 +7,9 @@
     <Compile Update="FrmRouteEditor.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Update="FrmSourceEditor.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Update="FrmWarehouseEditor.cs">
       <SubType>Form</SubType>
     </Compile>
