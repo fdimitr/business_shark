@@ -19,5 +19,7 @@ namespace BusinessShark.Database.Models
         public float ToolImpactQuantity { get; set; }
         public float WorkerImpactQuantity { get; set; }
 
+        public float ProductionPrice { get; set; }
+
     }
 }

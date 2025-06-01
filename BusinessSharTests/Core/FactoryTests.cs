@@ -1,6 +1,7 @@
 ﻿using System.Drawing;
 using BusinessShark.Core;
 using BusinessShark.Core.Item;
+using BusinessShark.Core.ServiceClasses;
 
 namespace BusinessSharTests.Core
 {
@@ -12,7 +13,7 @@ namespace BusinessSharTests.Core
         private static ItemDefinition CreateTestItemDefinition_With_BaseQuality(float baseProductionCount = 1.0f)
         {
             return new ItemDefinition(
-                itemDefinitionId: (int)Enums.ItemType.Bed,
+                itemDefinitionId: Enums.ItemType.Bed,
                 name: "TestProduct",
                 volume: 1.0f,
                 baseProductionCount: baseProductionCount,
@@ -22,21 +23,22 @@ namespace BusinessSharTests.Core
                 sourceImpactQuality: 1.0f,
                 techImpactQuantity: 0.30f,
                 toolImpactQuantity: 0.5f,
-                workerImpactQuantity: 0.2f
+                workerImpactQuantity: 0.2f,
+                baseProductionPrice:0.0f
             )
             {
                 ProductionUnits =
                 [
                     new ProductionUnit(
-                        productDefinitionId: 1,
-                        itemDefinitionId: (long)Enums.ItemType.Wood,
+                        productDefinitionId: Enums.ItemType.Bed,
+                        componentDefinitionId: Enums.ItemType.Wood,
                         productionQuantity: 2,
                         qualityImpact: 1.0f
                     ),
 
                     new ProductionUnit(
-                        productDefinitionId: 2,
-                        itemDefinitionId: (long)Enums.ItemType.Leather,
+                        productDefinitionId: Enums.ItemType.Bed,
+                        componentDefinitionId: Enums.ItemType.Leather,
                         productionQuantity: 1,
                         qualityImpact: 1.0f
                     )
@@ -50,11 +52,12 @@ namespace BusinessSharTests.Core
             var workers = new Workers { TechLevel = workerTechLevel, TotalQuantity = 1 };
             var factory = new Factory(
                 divisionId: 1,
+                name: "TestFactory",
                 productDefinition: productDef,
                 techLevel: techLevel,
                 toolPark: tools,
                 workers: workers,
-                location: new Point(0, 0)
+                location: new Location()
             )
             {
                 WarehouseInput =
@@ -93,11 +96,12 @@ namespace BusinessSharTests.Core
             var workers = new Workers { TechLevel = 1.0f, TotalQuantity = 1 };
             var factory = new Factory(
                 divisionId: 1,
+                name: "TestFactory",
                 productDefinition: productDef,
                 techLevel: 1.0f,
                 toolPark: tools,
                 workers: workers,
-                location: new Point(0, 0)
+                location: new Location()
             )
             {
                 WarehouseInput =
@@ -124,11 +128,12 @@ namespace BusinessSharTests.Core
             var workers = new Workers { TechLevel = 1.0f, TotalQuantity = 1 };
             var factory = new Factory(
                 divisionId: 1,
+                name: "TestFactory",
                 productDefinition: productDef,
                 techLevel: 1.0f,
                 toolPark: tools,
                 workers: workers,
-                location: new Point(0, 0)
+                location: new Location()
             );
 
             // Not enough input
@@ -150,11 +155,12 @@ namespace BusinessSharTests.Core
             var workers = new Workers { TechLevel = 1.0f, TotalQuantity = 1 };
             var factory = new Factory(
                 divisionId: 1,
+                name: "TestFactory",
                 productDefinition: productDef,
                 techLevel: 1.0f,
                 toolPark: tools,
                 workers: workers,
-                location: new Point(0, 0)
+                location: new Location()
             )
             {
                 WarehouseInput =
@@ -188,11 +194,12 @@ namespace BusinessSharTests.Core
             var workers = new Workers { TechLevel = 3.0f, TotalQuantity = 1 };
             var factory = new Factory(
                 divisionId: 1,
+                name: "TestFactory",
                 productDefinition: productDef,
                 techLevel: 1.0f,
                 toolPark: tools,
                 workers: workers,
-                location: new Point(0, 0)
+                location: new Location()
             )
             {
                 WarehouseInput =
@@ -225,11 +232,12 @@ namespace BusinessSharTests.Core
             var workers = new Workers { TechLevel = 3.0f, TotalQuantity = 1 };
             var factory = new Factory(
                 divisionId: 1,
+                name: "TestFactory",
                 productDefinition: productDef,
                 techLevel: 1.0f,
                 toolPark: tools,
                 workers: workers,
-                location: new Point(0, 0)
+                location: new Location()
             )
             {
                 WarehouseInput =

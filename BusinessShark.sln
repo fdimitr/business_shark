@@ -5,7 +5,9 @@ VisualStudioVersion = 17.13.35931.197
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BusinessShark", "BusinessShark\BusinessShark.csproj", "{8D329580-CB49-45CB-A304-A054A115514F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BusinessSharTests", "BusinessSharTests\BusinessSharTests.csproj", "{72D614C3-0BC5-4AC7-BBA5-3F9D1AE0AF22}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BusinessSharkTests", "BusinessSharTests\BusinessSharkTests.csproj", "{72D614C3-0BC5-4AC7-BBA5-3F9D1AE0AF22}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BusinessSharkUI", "BusinessSharkUI\BusinessSharkUI.csproj", "{ED5367D9-B3D3-4B8C-B5A2-34B3D0977C83}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{72D614C3-0BC5-4AC7-BBA5-3F9D1AE0AF22}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{72D614C3-0BC5-4AC7-BBA5-3F9D1AE0AF22}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{72D614C3-0BC5-4AC7-BBA5-3F9D1AE0AF22}.Release|Any CPU.Build.0 = Release|Any CPU
+		{ED5367D9-B3D3-4B8C-B5A2-34B3D0977C83}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ED5367D9-B3D3-4B8C-B5A2-34B3D0977C83}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ED5367D9-B3D3-4B8C-B5A2-34B3D0977C83}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ED5367D9-B3D3-4B8C-B5A2-34B3D0977C83}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

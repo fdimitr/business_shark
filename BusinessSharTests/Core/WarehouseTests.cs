@@ -1,8 +1,9 @@
 ﻿using System.Drawing;
 using BusinessShark.Core;
 using BusinessShark.Core.Item;
+using BusinessShark.Core.ServiceClasses;
 
-namespace BusinessSharTests.Core
+namespace BusinessSharkTests.Core
 {
     [TestFixture]
     public class WarehouseTests
@@ -14,31 +15,39 @@ namespace BusinessSharTests.Core
         private ItemDefinition _itemDef;
         private Item _fromItem;
         private Item _toItem;
+        private Market _market;
 
         [SetUp]
         public void SetUp()
         {
-            _itemDef = new ItemDefinition((int)Enums.ItemType.Wood, "Wood", 1, 1, 0.1f, 0.1f, 0.1f, 0.1f, 0.1f, 0.1f,
-                0.1f);
-            _fromDivision = new Warehouse(1, new Point(0, 0), Int32.MaxValue);
-            _toDivision = new Warehouse(2, new Point(1, 1), Int32.MaxValue);
+            _itemDef = new ItemDefinition(Enums.ItemType.Wood, "Wood", 1, 1, 0.1f, 0.1f, 0.1f, 0.1f, 0.1f, 0.1f,
+                0.1f, 0);
+            _fromDivision = new Warehouse(1, "TestWarehouseFrom", new Location(), int.MaxValue);
+            _toDivision = new Warehouse(2, "TestWarehouseTo", new Location(1, 1), int.MaxValue);
 
             _fromItem = new Item(_itemDef, quality: 10, quantity: 100);
             _toItem = new Item(_itemDef, quality: 5, quantity: 50);
 
             _fromDivision.WarehouseOutput[Enums.ItemType.Wood] = _fromItem;
             _toDivision.WarehouseInput[Enums.ItemType.Wood] = _toItem;
+
+            _market = new Market();
+            var city = new City("TestCity");
+            city.Warehouses.Add((Warehouse)_fromDivision);
+            city.Warehouses.Add((Warehouse)_toDivision);
+            _market.Cities.Add(city);
+            
         }
 
         [Test]
         public void StartTransferItems_TransfersCorrectQuantityAndQuality()
         {
             // Arrange
-            var route = new Routes(_fromDivision, _toDivision, Enums.ItemType.Wood, 30);
-            _fromDivision.Routes.Add(route);
+            var route = new Routes(_fromDivision.DivisionId, Enums.ItemType.Wood, 30);
+            _toDivision.Routes.Add(route);
 
             // Act
-            _fromDivision.StartTransferItems();
+            _toDivision.StartTransferItems(_market);
 
             // Assert
             var targetItem = _toDivision.WarehouseInput[Enums.ItemType.Wood];
@@ -51,11 +60,11 @@ namespace BusinessSharTests.Core
         public void StartTransferItems_TransfersAllIfNotEnough()
         {
             // Arrange
-            var route = new Routes(_fromDivision, _toDivision, Enums.ItemType.Wood, 200);
-            _fromDivision.Routes.Add(route);
+            var route = new Routes(_fromDivision.DivisionId, Enums.ItemType.Wood, 200);
+            _toDivision.Routes.Add(route);
 
             // Act
-            _fromDivision.StartTransferItems();
+            _toDivision.StartTransferItems(_market);
 
             // Assert
             var targetItem = _toDivision.WarehouseInput[Enums.ItemType.Wood];
@@ -67,15 +76,15 @@ namespace BusinessSharTests.Core
         public void CompleteTransferItems_MovesProcessingToQuantityAndResets()
         {
             // Arrange
-            var route = new Routes(_fromDivision, _toDivision, Enums.ItemType.Wood, 30);
-            _fromDivision.Routes.Add(route);
-            _fromDivision.StartTransferItems();
+            var route = new Routes(_fromDivision.DivisionId, Enums.ItemType.Wood, 30);
+            _toDivision.Routes.Add(route);
+            _toDivision.StartTransferItems(_market);
 
             var targetItem = _toDivision.WarehouseInput[Enums.ItemType.Wood];
             int prevQuantity = targetItem.Quantity;
 
             // Act
-            _fromDivision.CompleteTransferItems();
+            _toDivision.CompleteTransferItems();
 
             // Assert
             Assert.That(targetItem.Quantity, Is.EqualTo(prevQuantity + 30));

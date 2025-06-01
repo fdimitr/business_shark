@@ -1,28 +1,35 @@
 ﻿using System.Drawing;
+using System.Text.Json.Serialization;
 using BusinessShark.Core.Item;
+using BusinessShark.Core.ServiceClasses;
+using MessagePack;
 
 namespace BusinessShark.Core
 {
-    internal abstract class DeliveryDivision(int divisionId, Point location) : Division(divisionId, location)
+    [MessagePackObject(keyAsPropertyName: true)]
+    [MessagePack.Union(1, typeof(Warehouse))]
+    [MessagePack.Union(2, typeof(Factory))]
+    internal abstract class DeliveryDivision(int divisionId, string name, Location location) : Division(divisionId, name, location)
     {
         public Dictionary<Enums.ItemType, Item.Item> WarehouseInput = new();  //to
         public Dictionary<Enums.ItemType, Item.Item> WarehouseOutput = new(); //from
 
         public List<Routes> Routes { get; set; } = new();
 
-        public void StartTransferItems()
+        public void StartTransferItems(Market market)
         {
             foreach (var route in Routes)
             {
-                if(route.FromDivision.WarehouseOutput.TryGetValue(route.TransferringItemType, out var item))
+                DeliveryDivision fromDivision = market.GetDeliveryDivisionById(route.FromDivisionId);
+                if (fromDivision.WarehouseOutput.TryGetValue(route.TransferringItemType, out var item))
                 {
                     // ReSharper disable once ConditionIsAlwaysTrueOrFalseAccordingToNullableAPIContract
                     if(item is { Quantity: > 0 })
                     {
-                        var sourceItem = route.FromDivision.WarehouseOutput[route.TransferringItemType];
-                        var targetItem = route.ToDivision.WarehouseInput[route.TransferringItemType];
+                        var sourceItem = fromDivision.WarehouseOutput[route.TransferringItemType];
+                        var targetItem = this.WarehouseInput[route.TransferringItemType];
 
-                        if (route.ToDivision.WarehouseInput.TryAdd(route.TransferringItemType, item))
+                        if (this.WarehouseInput.TryAdd(route.TransferringItemType, item))
                         {
                             targetItem.ProcessingQuantity = 0;
                             targetItem.Quantity = 0;
@@ -55,7 +62,7 @@ namespace BusinessShark.Core
         {
             foreach (var route in Routes)
             {
-                if (route.ToDivision.WarehouseInput.TryGetValue(route.TransferringItemType, out var item))
+                if (this.WarehouseInput.TryGetValue(route.TransferringItemType, out var item))
                 {
                     if (item.ProcessingQuantity > 0)
                     {
