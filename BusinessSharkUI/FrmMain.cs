@@ -240,34 +240,20 @@ namespace BusinessSharkUI
 
         private void AddFactory()
         {
-            FrmFactoryEditor factoryRedactor = new FrmFactoryEditor(market);
-            if (factoryRedactor.ShowDialog() == DialogResult.OK)
+            FrmFactoryEditor factoryEditor = new FrmFactoryEditor(market, null);
+            if (factoryEditor.ShowDialog() == DialogResult.OK)
             {
-                var name = factoryRedactor.FactoryName;
-                var newId = currentCity.Factories.Count == 0
-                    ? 1
-                    : currentCity.Factories.Max(w => w.DivisionId) + 1;
-                ItemDefinition product;
+                currentCity.Factories.Add(factoryEditor.Factory!);
+                currentFactory = factoryEditor.Factory;
+            }
+        }
 
-                switch (factoryRedactor.ProductType)
-                {
-                    case (Enums.ItemType.Bed):
-                        {
-                            product = market.ItemDefinitions[Enums.ItemType.Bed];
-                            break;
-                        }
-                    default:
-                        {
-                            product = market.ItemDefinitions[Enums.ItemType.Bed];
-                            break;
-                        }
-
-                }
-                var newFactory = new Factory(newId, name, product, 1, new Tools(), new Workers(), new Location());
-                currentCity.Factories.Add(newFactory);
-
-                currentFactory = newFactory;
-
+        private void EditFactory()
+        {
+            FrmFactoryEditor factoryEditor = new FrmFactoryEditor(market, currentFactory);
+            if (factoryEditor.ShowDialog() == DialogResult.OK)
+            {
+                currentFactory = factoryEditor.Factory;
             }
         }
 
@@ -433,6 +419,17 @@ namespace BusinessSharkUI
         {
             market.CalculateDay();
             SetDataSources();
+        }
+
+        private void btnEditFactory_Click(object sender, EventArgs e)
+        {
+            EditFactory();
+            _bindingSourceFactories.ResetBindings(false);
+            cmbFactories.SelectedItem = currentFactory;
+
+            BindingFactoryProductionListView();
+            BindingFactoryInputListView();
+            BindingFactoryOutputListView();
         }
     }
 }
