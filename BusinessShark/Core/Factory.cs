@@ -72,7 +72,7 @@ namespace BusinessShark.Core
 
             var cycleProgressQuantity = CalculateProductionQuantity(ProductDefinition.BaseProductionCount);
 
-            ProgressQuality += CalculateWarehouseQuality(ProgressProduction, ProgressQuality, cycleProgressQuantity, cycleProgressQuality);
+            ProgressQuality = CalculateWarehouseQuality(ProgressProduction, ProgressQuality, cycleProgressQuantity, cycleProgressQuality);
             ProgressProduction += cycleProgressQuantity;
             ProgressPrice = CalculateProductionPrice();
 
