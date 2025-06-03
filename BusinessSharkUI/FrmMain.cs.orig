@@ -41,8 +41,7 @@ namespace BusinessSharkUI
             BindingFactoryRoutesListView();
             BindingWarehouseListView();
             BindingWarehouseRoutesListView();
-            BindingSourceProductionListView();
-            BindingSourceOutputListView();
+
             listViewWarehouseItems.View = View.Details;
             listOfProduction.View = View.Details;
         }
@@ -213,8 +212,6 @@ namespace BusinessSharkUI
             BindingFactoryInputListView();
             BindingFactoryOutputListView();
             BindingFactoryRoutesListView();
-            BindingSourceProductionListView();
-            BindingSourceOutputListView();
         }
 
         private void brnAddWarehouse_Click(object sender, EventArgs e)
@@ -251,10 +248,23 @@ namespace BusinessSharkUI
             FrmFactoryEditor factoryEditor = new FrmFactoryEditor(market, null);
             if (factoryEditor.ShowDialog() == DialogResult.OK)
             {
+<<<<<<< HEAD
+                var name = factoryRedactor.FactoryName;
+                var newId = currentCity.Factories.Count == 0
+                    ? 1
+                    : currentCity.Factories.Max(w => w.DivisionId) + 1;
+                ItemDefinition product;
+                product = market.ItemDefinitions[factoryRedactor.ProductType];
+                var newFactory = new Factory(newId, name, product, 1, new Tools(), new Workers(), new Location());
+                currentCity.Factories.Add(newFactory);
+
+                currentFactory = newFactory;
+=======
                 currentCity.Factories.Add(factoryEditor.Factory!);
                 currentFactory = factoryEditor.Factory;
             }
         }
+>>>>>>> main
 
         private void EditFactory()
         {
@@ -377,13 +387,6 @@ namespace BusinessSharkUI
             BindingFactoryRoutesListView();
         }
 
-        private void cmbSources_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            currentSource = cmbSources.SelectedItem as ResourceExtractor;
-            BindingSourceProductionListView();
-            BindingSourceOutputListView();
-        }
-
         private void btnEditWarehouse_Click(object sender, EventArgs e)
         {
             FrmWarehouseEditor warehouseEditor = new FrmWarehouseEditor();
@@ -443,6 +446,7 @@ namespace BusinessSharkUI
             SetDataSources();
         }
 
+<<<<<<< HEAD
         private void brnAddSource_Click(object sender, EventArgs e)
         {
             AddSource();
@@ -450,7 +454,6 @@ namespace BusinessSharkUI
             cmbSources.SelectedItem = currentSource;
 
             BindingSourceProductionListView();
-            BindingSourceOutputListView();
         }
 
         private void AddSource()
@@ -471,29 +474,6 @@ namespace BusinessSharkUI
 
                 currentSource = newSource;
 
-            }
-        }
-
-        private void BindingSourceOutputListView()
-        {
-            if (currentSource != null)
-            {
-                listViewSourceOutput.SuspendLayout();
-                listViewSourceOutput.Items.Clear();
-
-                var listViewItemCollection = currentSource.WarehouseOutput.Select(i => new ListViewItem
-                {
-                    Text = i.Value.Definition.Name,
-                    SubItems =
-                    {
-                        i.Value.Quantity.ToString(),
-                        i.Value.Quality.ToString("F2"),
-                        i.Value.Price.ToString("F2"),
-                    }
-                });
-
-                listViewSourceOutput.Items.AddRange(listViewItemCollection.ToArray());
-                listViewSourceOutput.ResumeLayout();
             }
         }
 
@@ -521,7 +501,7 @@ namespace BusinessSharkUI
             }
         }
 
-
+=======
         private void btnEditFactory_Click(object sender, EventArgs e)
         {
             EditFactory();
@@ -532,5 +512,6 @@ namespace BusinessSharkUI
             BindingFactoryInputListView();
             BindingFactoryOutputListView();
         }
+>>>>>>> main
     }
 }

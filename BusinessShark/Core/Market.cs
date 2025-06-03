@@ -37,6 +37,10 @@ namespace BusinessShark.Core
                     factory.StartTransferItems(this);
                     factory.StartCalculation();
                 } 
+                foreach (var source in city.Sources)
+                {
+                    source.StartCalculation();
+                }
             }
 
             // Complete the calculation for each city and its factories
@@ -50,6 +54,10 @@ namespace BusinessShark.Core
                 {
                     factory.CompleteTransferItems();
                     factory.CompleteCalculation();
+                }
+                foreach (var source in city.Sources)
+                {
+                    source.CompleteCalculation();
                 }
             }
         }
