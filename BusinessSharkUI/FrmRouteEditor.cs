@@ -87,6 +87,21 @@ namespace BusinessSharkUI
                 .ToList();
 
             routeViewModels.AddRange(_market.Cities
+                .SelectMany(city => city.Sources
+                    .Where(wh => wh.WarehouseOutput.ContainsKey(_requestedItemType))
+                    .Select(wh => new RouteViewModel
+                    {
+                        IsRoute = false,
+                        DevisionId = wh.DivisionId,
+                        DivisionName = wh.Name,
+                        City = city.Name,
+                        ExistingQuantity = wh.WarehouseOutput[_requestedItemType].Quantity,
+                        RequestedQuantity = 0,
+                        DeliveryPrice = 0f
+                    }))
+                .ToList());
+
+            routeViewModels.AddRange(_market.Cities
                 .SelectMany(city => city.Factories
                     .Where(fb => fb.WarehouseOutput.ContainsKey(_requestedItemType))
                     .Select(fb => new RouteViewModel

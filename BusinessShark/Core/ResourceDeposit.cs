@@ -1,10 +1,12 @@
 ﻿using BusinessShark.Core.Item;
 using BusinessShark.Core.ServiceClasses;
+using MessagePack;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace BusinessShark.Core
 {
+    [MessagePackObject(keyAsPropertyName: true)]
     internal class ResourceDeposit(
         ItemDefinition definition,
         Location location

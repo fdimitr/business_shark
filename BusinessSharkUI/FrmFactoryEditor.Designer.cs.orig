@@ -113,6 +113,8 @@
             cmbProductsList.Size = new Size(225, 28);
             cmbProductsList.TabIndex = 12;
             // 
+<<<<<<< HEAD
+=======
             // lblRentInfo
             // 
             lblRentInfo.AutoSize = true;
@@ -263,6 +265,7 @@
             txtBoxRentalCost.TabIndex = 27;
             txtBoxRentalCost.KeyPress += txtBoxRentalCost_KeyPress;
             // 
+>>>>>>> main
             // FrmFactoryEditor
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
@@ -279,6 +282,10 @@
             Controls.Add(lblVolume);
             Controls.Add(btnOK);
             Controls.Add(btnCancel);
+<<<<<<< HEAD
+            Name = "FrmFactoryEditor";
+            Text = "Factory Editor";
+=======
             FormBorderStyle = FormBorderStyle.FixedDialog;
             MaximizeBox = false;
             MinimizeBox = false;
@@ -295,6 +302,7 @@
             groupBox3.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)UpDownLocationY).EndInit();
             ((System.ComponentModel.ISupportInitialize)UpDownLocationX).EndInit();
+>>>>>>> main
             ResumeLayout(false);
             PerformLayout();
         }

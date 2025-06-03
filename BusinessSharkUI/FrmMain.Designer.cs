@@ -32,6 +32,7 @@
             button2 = new Button();
             button3 = new Button();
             groupBox1 = new GroupBox();
+            btnEditFactory = new Button();
             listViewFactoryRoutes = new ListView();
             columnHeader5 = new ColumnHeader();
             columnHeader8 = new ColumnHeader();
@@ -80,7 +81,7 @@
             btnEditWarehouse = new Button();
             groupBox2 = new GroupBox();
             label8 = new Label();
-            listView8 = new ListView();
+            listViewSourceOutput = new ListView();
             columnHeader25 = new ColumnHeader();
             columnHeader26 = new ColumnHeader();
             columnHeader27 = new ColumnHeader();
@@ -159,6 +160,7 @@
             // groupBox1
             // 
             groupBox1.BackColor = Color.Gainsboro;
+            groupBox1.Controls.Add(btnEditFactory);
             groupBox1.Controls.Add(listViewFactoryRoutes);
             groupBox1.Controls.Add(btnAddRouteToFactory);
             groupBox1.Controls.Add(label6);
@@ -178,6 +180,17 @@
             groupBox1.TabIndex = 11;
             groupBox1.TabStop = false;
             groupBox1.Text = "Factories";
+            // 
+            // btnEditFactory
+            // 
+            btnEditFactory.Font = new Font("Segoe UI", 9F);
+            btnEditFactory.Location = new Point(122, 48);
+            btnEditFactory.Name = "btnEditFactory";
+            btnEditFactory.Size = new Size(94, 29);
+            btnEditFactory.TabIndex = 32;
+            btnEditFactory.Text = "Edit";
+            btnEditFactory.UseVisualStyleBackColor = true;
+            btnEditFactory.Click += btnEditFactory_Click;
             // 
             // listViewFactoryRoutes
             // 
@@ -323,7 +336,7 @@
             // button6
             // 
             button6.Font = new Font("Segoe UI", 9F);
-            button6.Location = new Point(134, 48);
+            button6.Location = new Point(290, 48);
             button6.Name = "button6";
             button6.Size = new Size(94, 29);
             button6.TabIndex = 13;
@@ -544,7 +557,7 @@
             // 
             groupBox2.BackColor = Color.Honeydew;
             groupBox2.Controls.Add(label8);
-            groupBox2.Controls.Add(listView8);
+            groupBox2.Controls.Add(listViewSourceOutput);
             groupBox2.Controls.Add(label10);
             groupBox2.Controls.Add(button9);
             groupBox2.Controls.Add(brnAddSource);
@@ -569,26 +582,31 @@
             label8.TabIndex = 23;
             label8.Text = "Output items";
             // 
-            // listView8
+            // listViewSourceOutput
             // 
-            listView8.Columns.AddRange(new ColumnHeader[] { columnHeader25, columnHeader26, columnHeader27, columnHeader28 });
-            listView8.Location = new Point(21, 339);
-            listView8.Name = "listView8";
-            listView8.Size = new Size(366, 335);
-            listView8.TabIndex = 22;
-            listView8.UseCompatibleStateImageBehavior = false;
+            listViewSourceOutput.Columns.AddRange(new ColumnHeader[] { columnHeader25, columnHeader26, columnHeader27, columnHeader28 });
+            listViewSourceOutput.Font = new Font("Segoe UI", 9F);
+            listViewSourceOutput.Location = new Point(21, 339);
+            listViewSourceOutput.Name = "listViewSourceOutput";
+            listViewSourceOutput.Size = new Size(366, 335);
+            listViewSourceOutput.TabIndex = 22;
+            listViewSourceOutput.UseCompatibleStateImageBehavior = false;
+            listViewSourceOutput.View = View.Details;
             // 
             // columnHeader25
             // 
             columnHeader25.Text = "Наименование товара";
+            columnHeader25.Width = 140;
             // 
             // columnHeader26
             // 
             columnHeader26.Text = "Количество";
+            columnHeader26.Width = 80;
             // 
             // columnHeader27
             // 
             columnHeader27.Text = "Качество";
+            columnHeader27.Width = 80;
             // 
             // columnHeader28
             // 
@@ -631,10 +649,13 @@
             cmbSources.Name = "cmbSources";
             cmbSources.Size = new Size(365, 28);
             cmbSources.TabIndex = 11;
+            cmbSources.SelectedIndexChanged += cmbSources_SelectedIndexChanged;
             // 
             // listOfExtraction
             // 
+            listOfExtraction.BackColor = SystemColors.Control;
             listOfExtraction.Columns.AddRange(new ColumnHeader[] { columnHeader33, columnHeader34, columnHeader35, columnHeader36 });
+            listOfExtraction.Font = new Font("Segoe UI", 9F);
             listOfExtraction.Location = new Point(21, 145);
             listOfExtraction.Name = "listOfExtraction";
             listOfExtraction.Size = new Size(366, 168);
@@ -921,7 +942,7 @@
         private GroupBox WarehousesGroup;
         private GroupBox groupBox2;
         private Label label8;
-        private ListView listView8;
+        private ListView listViewSourceOutput;
         private ColumnHeader columnHeader25;
         private ColumnHeader columnHeader26;
         private ColumnHeader columnHeader27;
@@ -968,5 +989,6 @@
         private ColumnHeader columnHeader6;
         private ColumnHeader columnHeader7;
         private ColumnHeader columnHeader8;
+        private Button btnEditFactory;
     }
 }

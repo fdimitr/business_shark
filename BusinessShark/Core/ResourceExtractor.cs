@@ -1,10 +1,12 @@
 ﻿using BusinessShark.Core.Item;
 using BusinessShark.Core.ServiceClasses;
+using MessagePack;
 using System.Drawing;
 
 
 namespace BusinessShark.Core
 {
+    [MessagePackObject(keyAsPropertyName: true)]
     internal class ResourceExtractor(
         int divisionId,
         string name,
@@ -27,7 +29,7 @@ namespace BusinessShark.Core
         public override void StartCalculation()
         {
             ProgressQuality = CalculateResourceQuality();
-            ProgressProduction += CalculateResourceQuantity(ResourceDefinition.BaseProductionCount);
+            ProgressProduction = CalculateResourceQuantity(ResourceDefinition.BaseProductionCount);
 
             if (ProgressProduction >= 1)
             {
@@ -36,7 +38,7 @@ namespace BusinessShark.Core
                 if (WarehouseInput.TryGetValue(ResourceDefinition.ItemDefinitionId, out Item.Item? storedItem))
                 {
                     storedItem.ProcessingQuality = ProgressQuality;
-                    WarehouseInput[ResourceDefinition.ItemDefinitionId].ProcessingQuantity += productionCount;
+                    WarehouseInput[ResourceDefinition.ItemDefinitionId].ProcessingQuantity = productionCount;
                 }
                 else
                 {
@@ -53,10 +55,10 @@ namespace BusinessShark.Core
         {
             if(WarehouseOutput.TryGetValue(ExtractingItemType, out var item))
             {
-                if(item.Quantity > 0)
+                if(item.Quantity >= 0)
                 {
-                    item.ProcessingQuality = WarehouseInput[ExtractingItemType].Quality;
-                    item.ProcessingQuantity = WarehouseInput[ExtractingItemType].Quantity;
+                    item.ProcessingQuality = WarehouseInput[ExtractingItemType].ProcessingQuality;
+                    item.ProcessingQuantity = WarehouseInput[ExtractingItemType].ProcessingQuantity;
                     var newQuality = CalculateWarehouseQuality(item);
 
                     item.Quantity += item.ProcessingQuantity;
@@ -66,6 +68,11 @@ namespace BusinessShark.Core
                     WarehouseInput[ExtractingItemType].Quality = 0;
                     WarehouseInput[ExtractingItemType].Quantity = 0;
                 }
+            }
+            else
+            {
+                WarehouseOutput.Add(ExtractingItemType, 
+                    new Item.Item(ResourceDefinition, 0, 0, 0, 0, 0));
             }
         }
 
