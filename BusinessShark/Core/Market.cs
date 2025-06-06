@@ -24,25 +24,28 @@ namespace BusinessShark.Core
 
         public void CalculateDay()
         {
-            // Start the calculation for each city and its factories
+            StartCalculation();
+
+            CompleteCalculation();
+
+            UpdatePrices();
+
+
+        }
+
+        private void UpdatePrices()
+        {
             foreach (var city in Cities)
             {
-                foreach (var warehouse in city.Warehouses)
-                {
-                    warehouse.StartTransferItems(this);
-                }
-
+                
                 foreach (var factory in city.Factories)
                 {
-                    factory.StartTransferItems(this);
-                    factory.StartCalculation();
-                } 
-                foreach (var source in city.Sources)
-                {
-                    source.StartCalculation();
+                    factory.ProgressPrice += city.LandTax;
                 }
             }
-
+        }
+        private void CompleteCalculation()
+        {
             // Complete the calculation for each city and its factories
             foreach (var city in Cities)
             {
@@ -58,6 +61,28 @@ namespace BusinessShark.Core
                 foreach (var source in city.Sources)
                 {
                     source.CompleteCalculation();
+                }
+            }
+        }
+
+        private void StartCalculation()
+        {
+            // Start the calculation for each city and its factories
+            foreach (var city in Cities)
+            {
+                foreach (var warehouse in city.Warehouses)
+                {
+                    warehouse.StartTransferItems(this);
+                }
+
+                foreach (var factory in city.Factories)
+                {
+                    factory.StartTransferItems(this);
+                    factory.StartCalculation();
+                }
+                foreach (var source in city.Sources)
+                {
+                    source.StartCalculation();
                 }
             }
         }
@@ -110,8 +135,8 @@ namespace BusinessShark.Core
             using var con = DatabaseHelper.GetSqlConnection();
             var sql =
                 @"SELECT i.ItemDefinitionId, i.ItemGroupId, i.Name, i.Volume, i.ProductionCount, i.TechImpactQuality, i.ToolImpactQuality, i.WorkerImpactQuality,
-                            i.TechImpactQuantity, i.ToolImpactQuantity, i.WorkerImpactQuantity, i.SourceImpactQuality,
-                            p.ProductDefinitionId, p.ComponentDefinitionId, p.ProductionQuantity, p.QualityImpact, i.ProductionPrice
+                            i.TechImpactQuantity, i.ToolImpactQuantity, i.WorkerImpactQuantity, i.SourceImpactQuality, i.ProductionPrice,
+                            p.ProductDefinitionId, p.ComponentDefinitionId, p.ProductionQuantity, p.QualityImpact
                         FROM ItemDefinition i LEFT OUTER JOIN ProductionUnit p ON i.ItemDefinitionId = p.ProductDefinitionId";
 
             con.Query<ItemDefinitionDto, ProductionUnitDto?, ItemDefinition>(sql,

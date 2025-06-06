@@ -59,6 +59,10 @@ namespace BusinessShark.Core
                 {
                     item.ProcessingQuality = WarehouseInput[ExtractingItemType].ProcessingQuality;
                     item.ProcessingQuantity = WarehouseInput[ExtractingItemType].ProcessingQuantity;
+                    if (item.ProcessingQuantity == 0)
+                    {
+                        return; // No items to process
+                    }
                     var newQuality = CalculateWarehouseQuality(item);
 
                     item.Quantity += item.ProcessingQuantity;

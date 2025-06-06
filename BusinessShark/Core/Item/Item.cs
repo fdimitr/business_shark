@@ -3,7 +3,7 @@
 namespace BusinessShark.Core.Item
 {
     [MessagePackObject(keyAsPropertyName: true)]
-    internal class Item
+    internal class Item : ICloneable
     {
         public ItemDefinition Definition;
         public float Quality;
@@ -23,6 +23,22 @@ namespace BusinessShark.Core.Item
             Price = price;
             ProcessingQuality = processingQuality;
             ProcessingQuantity = processingQuantity;
+        }
+
+        public object Clone()
+        {
+            // ItemDefinition is assumed to be immutable or shared, so shallow copy is fine
+            return new Item(
+                Definition,
+                ProcessingQuality,
+                ProcessingQuantity,
+                Quantity,
+                Quality,
+                Price
+            )
+            {
+                ProcessingPrice = this.ProcessingPrice
+            };
         }
 
         public void ResetProcessing()

@@ -15,7 +15,7 @@ namespace BusinessShark.Core
         // this will have to be redone in the future
         public ItemDefinition ResourceDefinition = definition;
         public int ResourceQuality = 0;
-        public int ResourceRichness = 0;
-        string name;
+        public int ResourceCapasity = 0;
+        public string Name;
     }
 }

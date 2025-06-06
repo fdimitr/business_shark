@@ -135,7 +135,7 @@ namespace BusinessSharkUI
                     {
                         i.Value.Quantity.ToString(),
                         i.Value.Quality.ToString("F2"),
-                        i.Value.Price.ToString("F2"),
+                        i.Value.Price .ToString("F2"),
                     }
                 });
 
@@ -532,5 +532,7 @@ namespace BusinessSharkUI
             BindingFactoryInputListView();
             BindingFactoryOutputListView();
         }
+
+        
     }
 }

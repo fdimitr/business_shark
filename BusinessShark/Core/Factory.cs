@@ -106,12 +106,24 @@ namespace BusinessShark.Core
         {
             if (ProductDefinition != null && WarehouseOutput.TryGetValue(ProductDefinition.ItemDefinitionId, out var item))
             {
+                if (item.ProcessingQuantity == 0)
+                {
+                    return; // No items to process
+                }
                 var newQuality = CalculateWarehouseQuality(item);
 
                 item.Quantity += item.ProcessingQuantity;
                 item.Quality = newQuality;
 
                 item.ResetProcessing();
+            }
+            foreach (var itemOutput in WarehouseOutput.Values)
+            {
+                itemOutput.Price = itemOutput.Quantity * itemOutput.Definition.BaseProductionPrice;
+            }
+            foreach (var itemInput in WarehouseInput.Values)
+            {
+                itemInput.Price = itemInput.Quantity * itemInput.Definition.BaseProductionPrice;
             }
         }
 
@@ -165,6 +177,7 @@ namespace BusinessShark.Core
                 {
                     price += item.ProductionQuantity * (market.ItemDefinitions[item.ComponentDefinitionId].BaseProductionPrice);
                 }
+                price += (Workers.TotalQuantity * Workers.TechLevel + ToolPark.TotalQuantity * ToolPark.TechLevel);
                 return price;
 
             }

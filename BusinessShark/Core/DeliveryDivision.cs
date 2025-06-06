@@ -26,14 +26,16 @@ namespace BusinessShark.Core
                     // ReSharper disable once ConditionIsAlwaysTrueOrFalseAccordingToNullableAPIContract
                     if(item is { Quantity: > 0 })
                     {
+                        
+                        if (this.WarehouseInput.TryAdd(route.TransferringItemType, (Item.Item)item.Clone()))
+                        {
+                            this.WarehouseInput[route.TransferringItemType].ProcessingQuantity = 0;
+                            this.WarehouseInput[route.TransferringItemType].Quantity = 0;
+                        }
                         var sourceItem = fromDivision.WarehouseOutput[route.TransferringItemType];
                         var targetItem = this.WarehouseInput[route.TransferringItemType];
 
-                        if (this.WarehouseInput.TryAdd(route.TransferringItemType, item))
-                        {
-                            targetItem.ProcessingQuantity = 0;
-                            targetItem.Quantity = 0;
-                        }
+                        
 
                         if (item.Quantity >= route.TransferringCount)
                         {
