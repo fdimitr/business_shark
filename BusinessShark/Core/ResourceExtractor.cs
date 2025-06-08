@@ -1,30 +1,38 @@
 ﻿using BusinessShark.Core.Item;
 using BusinessShark.Core.ServiceClasses;
 using MessagePack;
-using System.Drawing;
 
 
 namespace BusinessShark.Core
 {
     [MessagePackObject(keyAsPropertyName: true)]
-    internal class ResourceExtractor(
-        int divisionId,
-        string name,
-        ItemDefinition resourceDefinition,
-        float techLevel,
-        Tools toolPark,
-        Workers workers,
-        Location location) : DeliveryDivision(divisionId, name, location)
+    internal class ResourceExtractor : DeliveryDivision
 
     {
-        public ItemDefinition ResourceDefinition = resourceDefinition;
-        public float ProgressProduction; //procent of single product left on production
+        public ItemDefinition ResourceDefinition;
+        public float ProgressProduction; //percent of single product left on production
         public float ProgressQuality;
         public float ResourceDepositQuality = 5; // replace with the quality of this type of resource at the deposit
-        public float TechLevel = techLevel;
-        public Tools ToolPark = toolPark;
-        public Workers FactoryWorkers = workers;
-        public Enums.ItemType ExtractingItemType { get; set; } = resourceDefinition.ItemDefinitionId;
+        public float TechLevel;
+        public Tools ToolPark;
+        public Workers Workers;
+
+        public ResourceExtractor(int divisionId,
+            string name,
+            ItemDefinition resourceDefinition,
+            float techLevel,
+            Tools toolPark,
+            Workers workers,
+            Location location) : base(divisionId, name, location)
+        {
+            ResourceDefinition = resourceDefinition;
+            TechLevel = techLevel;
+            ToolPark = toolPark;
+            Workers = workers;
+            ExtractingItemType = resourceDefinition.ItemDefinitionId;
+        }
+
+        public Enums.ItemType ExtractingItemType { get; set; }
 
         public override void StartCalculation()
         {
@@ -84,7 +92,7 @@ namespace BusinessShark.Core
         {
             float TotalQuality = ResourceDepositQuality * (TechLevel * ResourceDefinition.TechImpactQuality
                             + ToolPark.TechLevel * ResourceDefinition.ToolImpactQuality
-                            + FactoryWorkers.TechLevel * ResourceDefinition.WorkerImpactQuality);
+                            + Workers.TechLevel * ResourceDefinition.WorkerImpactQuality);
             return TotalQuality;
         }
 
@@ -92,7 +100,7 @@ namespace BusinessShark.Core
         {
             float TotatlQuantity = baseProductionCount * (TechLevel * ResourceDefinition.TechImpactQuantity
                             + ToolPark.TechLevel * ResourceDefinition.ToolImpactQuantity
-                            + FactoryWorkers.TechLevel * ResourceDefinition.WorkerImpactQuantity);
+                            + Workers.TechLevel * ResourceDefinition.WorkerImpactQuantity);
             return TotatlQuantity;
         }
     }

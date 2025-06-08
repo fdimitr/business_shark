@@ -10,6 +10,7 @@ namespace BusinessShark.Core
     [MessagePackObject(keyAsPropertyName: true)]
     internal class Market
     {
+        public DateTime CurrentDate { get; set; } = new DateTime(1970, 1, 1);
         public List<City> Cities { get; set; } = new();
 
         [NonSerialized]
@@ -30,7 +31,7 @@ namespace BusinessShark.Core
 
             UpdatePrices();
 
-
+            CurrentDate = CurrentDate.AddDays(1);
         }
 
         private void UpdatePrices()

@@ -9,7 +9,7 @@ namespace BusinessShark.Core
     {
         public Factory(int divisionId,
             string name,
-            ItemDefinition? productDefinition,
+            ItemDefinition productDefinition,
             float techLevel,
             Tools toolPark,
             Workers workers,
@@ -38,7 +38,7 @@ namespace BusinessShark.Core
 
         public override void StartCalculation()
         {
-            if (ProductDefinition == null || WarehouseInput.Count == 0)
+            if (WarehouseInput.Count == 0)
             {
                 return; // No product to produce or no resources available
             }

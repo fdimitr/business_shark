@@ -27,6 +27,8 @@ namespace BusinessSharkUI
         private readonly BindingSource _bindingSourceFactories = new BindingSource();
         private readonly BindingSource _bindingSourceSources = new BindingSource();
         private readonly BindingSource _bindingSourceWarehouse = new BindingSource();
+        // Add these fields to FrmMain class
+        private System.Threading.Timer? _calculationTimer;
 
         public FrmMain()
         {
@@ -62,17 +64,25 @@ namespace BusinessSharkUI
             currentCity.Warehouses.Add(newWarehouse);
 
             // Factory initialization
-            var newFactory = new Factory(2, "Factory(Main)", market.ItemDefinitions[Enums.ItemType.Bed], 2.3f, new Tools(), new Workers(), new Location());
+            currentFactory = new Factory(2, "Factory(Main)", market.ItemDefinitions[Enums.ItemType.Bed], 2.3f, new Tools(), new Workers(), new Location())
+                {
+                    ProgressProduction = 0.75f,
+                    ProgressQuality = 3.75f,
+                    ProgressPrice = 233
+                };
 
-            newFactory.ProgressProduction = 0.75f;
-            newFactory.ProgressQuality = 3.75f;
-            newFactory.ProgressPrice = 233;
+            currentFactory.WarehouseInput.Add(Enums.ItemType.Wood, new Item(market.ItemDefinitions[Enums.ItemType.Wood], 0, 0, 16, 2.5f, 0.15f));
+            currentFactory.WarehouseInput.Add(Enums.ItemType.Leather, new Item(market.ItemDefinitions[Enums.ItemType.Leather], 0, 0, 6, 1.2f, 22.6f));
 
-            newFactory.WarehouseInput.Add(Enums.ItemType.Wood, new Item(market.ItemDefinitions[Enums.ItemType.Wood], 0, 0, 16, 2.5f, 0.15f));
-            newFactory.WarehouseInput.Add(Enums.ItemType.Leather, new Item(market.ItemDefinitions[Enums.ItemType.Leather], 0, 0, 6, 1.2f, 22.6f));
+            currentFactory.WarehouseOutput.Add(Enums.ItemType.Bed, new Item(market.ItemDefinitions[Enums.ItemType.Bed], 0, 0, 2, 31.9f, 23.15f));
+            currentCity.Factories.Add(currentFactory);
 
-            newFactory.WarehouseOutput.Add(Enums.ItemType.Bed, new Item(market.ItemDefinitions[Enums.ItemType.Bed], 0, 0, 2, 31.9f, 23.15f));
-            currentCity.Factories.Add(newFactory);
+            currentSource =new ResourceExtractor(3, "Wood Source", market.ItemDefinitions[Enums.ItemType.Wood], 1.0f, new Tools(), new Workers(), new Location())
+            {
+                ProgressProduction = 0.5f,
+                ProgressQuality = 2.5f
+            };
+            currentCity.Sources.Add(currentSource);
         }
 
         private void BindingWarehouseListView()
@@ -215,6 +225,8 @@ namespace BusinessSharkUI
             BindingFactoryRoutesListView();
             BindingSourceProductionListView();
             BindingSourceOutputListView();
+
+            lblCurrentDate.Text = market.CurrentDate.ToLongDateString();
         }
 
         private void brnAddWarehouse_Click(object sender, EventArgs e)
@@ -533,6 +545,32 @@ namespace BusinessSharkUI
             BindingFactoryOutputListView();
         }
 
-        
+        // Add this method to FrmMain class
+        private void btnStartCalculation_Click(object sender, EventArgs e)
+        {
+            if (_calculationTimer == null)
+            {
+                _calculationTimer = new System.Threading.Timer(_ =>
+                {
+                    // Run CalculateDay in a background thread
+                    market.CalculateDay();
+                    // Update UI on the main thread
+                    if (this.IsHandleCreated)
+                    {
+                        this.BeginInvoke(new Action(SetDataSources));
+                    }
+                }, null, 0, 2000);
+
+                btnStartCalculation.Enabled = false; // Disable the button to prevent multiple timers
+            }
+        }
+
+        // Add this method to FrmMain class
+        private void btnStopCalculation_Click(object sender, EventArgs e)
+        {
+            _calculationTimer?.Dispose();
+            _calculationTimer = null;
+            btnStartCalculation.Enabled = true; // Re-enable the button
+        }
     }
 }

@@ -29,8 +29,8 @@
         private void InitializeComponent()
         {
             btnCalculateStep = new Button();
-            button2 = new Button();
-            button3 = new Button();
+            btnStartCalculation = new Button();
+            btnStopCalculation = new Button();
             groupBox1 = new GroupBox();
             btnEditFactory = new Button();
             listViewFactoryRoutes = new ListView();
@@ -120,6 +120,7 @@
             columnHeader44 = new ColumnHeader();
             btnLoadGame = new Button();
             btnSaveGame = new Button();
+            lblCurrentDate = new Label();
             groupBox1.SuspendLayout();
             WarehousesGroup.SuspendLayout();
             groupBox2.SuspendLayout();
@@ -137,25 +138,27 @@
             btnCalculateStep.UseVisualStyleBackColor = false;
             btnCalculateStep.Click += btnCalculateStep_Click;
             // 
-            // button2
+            // btnStartCalculation
             // 
-            button2.BackColor = Color.GhostWhite;
-            button2.Location = new Point(180, 12);
-            button2.Name = "button2";
-            button2.Size = new Size(220, 55);
-            button2.TabIndex = 2;
-            button2.Text = "Run calculation each 5 sec";
-            button2.UseVisualStyleBackColor = false;
+            btnStartCalculation.BackColor = Color.GhostWhite;
+            btnStartCalculation.Location = new Point(180, 12);
+            btnStartCalculation.Name = "btnStartCalculation";
+            btnStartCalculation.Size = new Size(220, 55);
+            btnStartCalculation.TabIndex = 2;
+            btnStartCalculation.Text = "Run calculation each 5 sec";
+            btnStartCalculation.UseVisualStyleBackColor = false;
+            btnStartCalculation.Click += btnStartCalculation_Click;
             // 
-            // button3
+            // btnStopCalculation
             // 
-            button3.BackColor = Color.GhostWhite;
-            button3.Location = new Point(406, 12);
-            button3.Name = "button3";
-            button3.Size = new Size(197, 55);
-            button3.TabIndex = 3;
-            button3.Text = "Stop calculation";
-            button3.UseVisualStyleBackColor = false;
+            btnStopCalculation.BackColor = Color.GhostWhite;
+            btnStopCalculation.Location = new Point(406, 12);
+            btnStopCalculation.Name = "btnStopCalculation";
+            btnStopCalculation.Size = new Size(197, 55);
+            btnStopCalculation.TabIndex = 3;
+            btnStopCalculation.Text = "Stop calculation";
+            btnStopCalculation.UseVisualStyleBackColor = false;
+            btnStopCalculation.Click += btnStopCalculation_Click;
             // 
             // groupBox1
             // 
@@ -867,19 +870,29 @@
             btnSaveGame.UseVisualStyleBackColor = false;
             btnSaveGame.Click += btnSaveGame_Click;
             // 
+            // lblCurrentDate
+            // 
+            lblCurrentDate.AutoSize = true;
+            lblCurrentDate.Location = new Point(635, 30);
+            lblCurrentDate.Name = "lblCurrentDate";
+            lblCurrentDate.Size = new Size(50, 20);
+            lblCurrentDate.TabIndex = 29;
+            lblCurrentDate.Text = "label7";
+            // 
             // FrmMain
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1672, 821);
+            Controls.Add(lblCurrentDate);
             Controls.Add(btnSaveGame);
             Controls.Add(btnLoadGame);
             Controls.Add(groupBox3);
             Controls.Add(groupBox2);
             Controls.Add(groupBox1);
             Controls.Add(WarehousesGroup);
-            Controls.Add(button3);
-            Controls.Add(button2);
+            Controls.Add(btnStopCalculation);
+            Controls.Add(btnStartCalculation);
             Controls.Add(btnCalculateStep);
             FormBorderStyle = FormBorderStyle.FixedDialog;
             MaximizeBox = false;
@@ -894,13 +907,14 @@
             groupBox3.ResumeLayout(false);
             groupBox3.PerformLayout();
             ResumeLayout(false);
+            PerformLayout();
         }
 
         #endregion
 
         private Button btnCalculateStep;
-        private Button button2;
-        private Button button3;
+        private Button btnStartCalculation;
+        private Button btnStopCalculation;
         private GroupBox groupBox1;
         private Button button6;
         private Button btnAddFactory;
@@ -990,5 +1004,6 @@
         private ColumnHeader columnHeader7;
         private ColumnHeader columnHeader8;
         private Button btnEditFactory;
+        private Label lblCurrentDate;
     }
 }

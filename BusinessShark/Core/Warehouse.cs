@@ -11,7 +11,6 @@ namespace BusinessShark.Core
     {
         public int Volume { get; }
 
-        [JsonConstructor]
         public Warehouse(int divisionId, string name, Location location, int volume) : base(divisionId, name, location)
         {
             Volume = volume;
