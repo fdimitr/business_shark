@@ -2,7 +2,7 @@
 using BusinessShark.Core.Divisions;
 using MessagePack;
 
-namespace BusinessShark.Core
+namespace BusinessShark.Core.City
 {
     [MessagePackObject(keyAsPropertyName: true)]
     internal class City(string name)
