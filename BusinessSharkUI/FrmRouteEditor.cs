@@ -152,7 +152,13 @@ namespace BusinessSharkUI
                     .SelectMany(city => city.Warehouses
                         .Concat(city.Factories.Cast<DeliveryDivision>()))
                     .FirstOrDefault(div => div.DivisionId == divisionId);
-
+                if (fromDivision == null)
+                {
+                    fromDivision = _market.Cities
+                    .SelectMany(city => city.Warehouses
+                        .Concat(city.Sources.Cast<DeliveryDivision>()))
+                    .FirstOrDefault(div => div.DivisionId == divisionId);
+                }
                 if (fromDivision == null)
                     continue;
 

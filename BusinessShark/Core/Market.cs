@@ -106,6 +106,13 @@ namespace BusinessShark.Core
                         return factory;
                     }
                 }
+                foreach (var source in city.Sources)
+                {
+                    if (source.DivisionId == divisionId)
+                    {
+                        return source;
+                    }
+                }
             }
             return null!; // Return null if no division found with the given ID
         }

@@ -117,14 +117,6 @@ namespace BusinessShark.Core
 
                 item.ResetProcessing();
             }
-            foreach (var itemOutput in WarehouseOutput.Values)
-            {
-                itemOutput.Price = itemOutput.Quantity * itemOutput.Definition.BaseProductionPrice;
-            }
-            foreach (var itemInput in WarehouseInput.Values)
-            {
-                itemInput.Price = itemInput.Quantity * itemInput.Definition.BaseProductionPrice;
-            }
         }
 
         private bool PossibleToProduce()
