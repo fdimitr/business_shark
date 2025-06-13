@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using BusinessShark.Core.Item;
 using BusinessShark.Core;
 using BusinessShark.Core.ServiceClasses;
+using BusinessShark.Core.Divisions;
 
 namespace BusinessSharTests.Core
 {

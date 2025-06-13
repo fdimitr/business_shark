@@ -1,4 +1,5 @@
 ﻿using System.Text.Json.Serialization;
+using BusinessShark.Core.Divisions;
 using MessagePack;
 
 namespace BusinessShark.Core

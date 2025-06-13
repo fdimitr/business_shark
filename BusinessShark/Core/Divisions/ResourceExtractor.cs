@@ -3,7 +3,7 @@ using BusinessShark.Core.ServiceClasses;
 using MessagePack;
 
 
-namespace BusinessShark.Core
+namespace BusinessShark.Core.Divisions
 {
     [MessagePackObject(keyAsPropertyName: true)]
     internal class ResourceExtractor : DeliveryDivision

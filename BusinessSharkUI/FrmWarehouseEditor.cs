@@ -1,5 +1,5 @@
 ﻿using System.ComponentModel;
-using BusinessShark.Core;
+using BusinessShark.Core.Divisions;
 
 namespace BusinessSharkUI
 {

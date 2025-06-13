@@ -4,7 +4,7 @@ using BusinessShark.Core.Item;
 using BusinessShark.Core.ServiceClasses;
 using MessagePack;
 
-namespace BusinessShark.Core
+namespace BusinessShark.Core.Divisions
 {
     [MessagePackObject(keyAsPropertyName: true)]
     internal class Warehouse : DeliveryDivision

@@ -1,6 +1,7 @@
 ﻿using System.ComponentModel;
 using System.Globalization;
 using BusinessShark.Core;
+using BusinessShark.Core.Divisions;
 using BusinessShark.Core.Item;
 using BusinessShark.Core.ServiceClasses;
 

@@ -4,11 +4,11 @@ using BusinessShark.Core.Item;
 using BusinessShark.Core.ServiceClasses;
 using MessagePack;
 
-namespace BusinessShark.Core
+namespace BusinessShark.Core.Divisions
 {
     [MessagePackObject(keyAsPropertyName: true)]
-    [MessagePack.Union(1, typeof(Warehouse))]
-    [MessagePack.Union(2, typeof(Factory))]
+    [Union(1, typeof(Warehouse))]
+    [Union(2, typeof(Factory))]
     internal abstract class DeliveryDivision(int divisionId, string name, Location location) : Division(divisionId, name, location)
     {
         public Dictionary<Enums.ItemType, Item.Item> WarehouseInput = new();  //to
@@ -27,13 +27,13 @@ namespace BusinessShark.Core
                     if(item is { Quantity: > 0 })
                     {
                         
-                        if (this.WarehouseInput.TryAdd(route.TransferringItemType, (Item.Item)item.Clone()))
+                        if (WarehouseInput.TryAdd(route.TransferringItemType, (Item.Item)item.Clone()))
                         {
-                            this.WarehouseInput[route.TransferringItemType].ProcessingQuantity = 0;
-                            this.WarehouseInput[route.TransferringItemType].Quantity = 0;
+                            WarehouseInput[route.TransferringItemType].ProcessingQuantity = 0;
+                            WarehouseInput[route.TransferringItemType].Quantity = 0;
                         }
                         var sourceItem = fromDivision.WarehouseOutput[route.TransferringItemType];
-                        var targetItem = this.WarehouseInput[route.TransferringItemType];
+                        var targetItem = WarehouseInput[route.TransferringItemType];
 
                         
 
@@ -64,7 +64,7 @@ namespace BusinessShark.Core
         {
             foreach (var route in Routes)
             {
-                if (this.WarehouseInput.TryGetValue(route.TransferringItemType, out var item))
+                if (WarehouseInput.TryGetValue(route.TransferringItemType, out var item))
                 {
                     if (item.ProcessingQuantity > 0)
                     {

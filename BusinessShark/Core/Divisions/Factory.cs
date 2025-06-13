@@ -2,7 +2,7 @@
 using BusinessShark.Core.ServiceClasses;
 using MessagePack;
 
-namespace BusinessShark.Core
+namespace BusinessShark.Core.Divisions
 {
     [MessagePackObject(keyAsPropertyName: true)]
     internal class Factory : DeliveryDivision
@@ -167,9 +167,9 @@ namespace BusinessShark.Core
                 Market market = new Market();
                 foreach(var item in ProductDefinition.ProductionUnits)
                 {
-                    price += item.ProductionQuantity * (market.ItemDefinitions[item.ComponentDefinitionId].BaseProductionPrice);
+                    price += item.ProductionQuantity * market.ItemDefinitions[item.ComponentDefinitionId].BaseProductionPrice;
                 }
-                price += (Workers.TotalQuantity * Workers.TechLevel + ToolPark.TotalQuantity * ToolPark.TechLevel);
+                price += Workers.TotalQuantity * Workers.TechLevel + ToolPark.TotalQuantity * ToolPark.TechLevel;
                 return price;
 
             }
