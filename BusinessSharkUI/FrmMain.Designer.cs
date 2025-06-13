@@ -121,10 +121,14 @@
             btnLoadGame = new Button();
             btnSaveGame = new Button();
             lblCurrentDate = new Label();
+            grpBox_PlayerName = new GroupBox();
+            label7 = new Label();
+            lblBudget = new Label();
             groupBox1.SuspendLayout();
             WarehousesGroup.SuspendLayout();
             groupBox2.SuspendLayout();
             groupBox3.SuspendLayout();
+            grpBox_PlayerName.SuspendLayout();
             SuspendLayout();
             // 
             // btnCalculateStep
@@ -879,11 +883,41 @@
             lblCurrentDate.TabIndex = 29;
             lblCurrentDate.Text = "label7";
             // 
+            // grpBox_PlayerName
+            // 
+            grpBox_PlayerName.Controls.Add(lblBudget);
+            grpBox_PlayerName.Controls.Add(label7);
+            grpBox_PlayerName.Location = new Point(881, 13);
+            grpBox_PlayerName.Name = "grpBox_PlayerName";
+            grpBox_PlayerName.Size = new Size(444, 78);
+            grpBox_PlayerName.TabIndex = 30;
+            grpBox_PlayerName.TabStop = false;
+            // 
+            // label7
+            // 
+            label7.AutoSize = true;
+            label7.Location = new Point(160, 32);
+            label7.Name = "label7";
+            label7.Size = new Size(63, 20);
+            label7.TabIndex = 0;
+            label7.Text = "Бюджет";
+            // 
+            // lblBudget
+            // 
+            lblBudget.BorderStyle = BorderStyle.Fixed3D;
+            lblBudget.Font = new Font("Segoe UI", 10F);
+            lblBudget.Location = new Point(238, 23);
+            lblBudget.Name = "lblBudget";
+            lblBudget.Size = new Size(184, 37);
+            lblBudget.TabIndex = 1;
+            lblBudget.TextAlign = ContentAlignment.MiddleRight;
+            // 
             // FrmMain
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1672, 821);
+            Controls.Add(grpBox_PlayerName);
             Controls.Add(lblCurrentDate);
             Controls.Add(btnSaveGame);
             Controls.Add(btnLoadGame);
@@ -906,6 +940,8 @@
             groupBox2.PerformLayout();
             groupBox3.ResumeLayout(false);
             groupBox3.PerformLayout();
+            grpBox_PlayerName.ResumeLayout(false);
+            grpBox_PlayerName.PerformLayout();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -1005,5 +1041,8 @@
         private ColumnHeader columnHeader8;
         private Button btnEditFactory;
         private Label lblCurrentDate;
+        private GroupBox grpBox_PlayerName;
+        private Label lblBudget;
+        private Label label7;
     }
 }

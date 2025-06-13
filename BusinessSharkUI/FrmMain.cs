@@ -1,16 +1,10 @@
+using System.Globalization;
 using BusinessShark.Core;
 using BusinessShark.Core.Divisions;
 using BusinessShark.Core.Item;
 using BusinessShark.Core.ServiceClasses;
 using MessagePack;
 using MessagePack.Resolvers;
-using Microsoft.VisualBasic;
-using System.Drawing;
-using System.Linq;
-using System.Text.Json;
-using System.Text.Json.Serialization;
-using System.Xml.Linq;
-using static System.Windows.Forms.ListView;
 
 
 namespace BusinessSharkUI
@@ -28,6 +22,9 @@ namespace BusinessSharkUI
         private readonly BindingSource _bindingSourceFactories = new BindingSource();
         private readonly BindingSource _bindingSourceSources = new BindingSource();
         private readonly BindingSource _bindingSourceWarehouse = new BindingSource();
+
+        private Player currentPlayer;
+
         // Add these fields to FrmMain class
         private System.Threading.Timer? _calculationTimer;
 
@@ -38,6 +35,7 @@ namespace BusinessSharkUI
 
             SetDataSources();
 
+            BindingPlayerInfo();
             BindWarehouseCombo();
             BindFactoryCombo();
             BindSourceCombo();
@@ -52,6 +50,8 @@ namespace BusinessSharkUI
 
         private void InitialData()
         {
+            currentPlayer = new Player("Default Player");
+
             // This method can be used to initialize any additional data if needed.
             // For example, you can add some factories or warehouses here.
             currentCity = new City("Wroclaw");
@@ -84,6 +84,12 @@ namespace BusinessSharkUI
                 ProgressQuality = 2.5f
             };
             currentCity.Sources.Add(currentSource);
+        }
+
+        private void BindingPlayerInfo()
+        {
+            grpBox_PlayerName.Text = currentPlayer.Name;
+            lblBudget.Text = currentPlayer.Wallet.ToString("C", CultureInfo.CurrentCulture);
         }
 
         private void BindingWarehouseListView()
