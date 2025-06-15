@@ -122,8 +122,8 @@
             btnSaveGame = new Button();
             lblCurrentDate = new Label();
             grpBox_PlayerName = new GroupBox();
-            label7 = new Label();
             lblBudget = new Label();
+            label7 = new Label();
             groupBox1.SuspendLayout();
             WarehousesGroup.SuspendLayout();
             groupBox2.SuspendLayout();
@@ -879,9 +879,9 @@
             lblCurrentDate.AutoSize = true;
             lblCurrentDate.Location = new Point(635, 30);
             lblCurrentDate.Name = "lblCurrentDate";
-            lblCurrentDate.Size = new Size(50, 20);
+            lblCurrentDate.Size = new Size(89, 20);
             lblCurrentDate.TabIndex = 29;
-            lblCurrentDate.Text = "label7";
+            lblCurrentDate.Text = "CurrentDate";
             // 
             // grpBox_PlayerName
             // 
@@ -893,15 +893,6 @@
             grpBox_PlayerName.TabIndex = 30;
             grpBox_PlayerName.TabStop = false;
             // 
-            // label7
-            // 
-            label7.AutoSize = true;
-            label7.Location = new Point(160, 32);
-            label7.Name = "label7";
-            label7.Size = new Size(63, 20);
-            label7.TabIndex = 0;
-            label7.Text = "Бюджет";
-            // 
             // lblBudget
             // 
             lblBudget.BorderStyle = BorderStyle.Fixed3D;
@@ -911,6 +902,15 @@
             lblBudget.Size = new Size(184, 37);
             lblBudget.TabIndex = 1;
             lblBudget.TextAlign = ContentAlignment.MiddleRight;
+            // 
+            // label7
+            // 
+            label7.AutoSize = true;
+            label7.Location = new Point(160, 32);
+            label7.Name = "label7";
+            label7.Size = new Size(63, 20);
+            label7.TabIndex = 0;
+            label7.Text = "Бюджет";
             // 
             // FrmMain
             // 

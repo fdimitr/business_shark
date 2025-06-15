@@ -56,6 +56,15 @@ namespace BusinessSharkUI
 
         }
 
+        private void txtDeliveryPrice_TextChanged(object sender, EventArgs e)
+        {
+            float price = 0;
+            foreach (DataGridViewRow row in dataGridViewRoutes.Rows)
+            {
+                price += Convert.ToSingle(row.Cells[3].Value!);
+            }
+        }
+
 
         private void btnOK_Click(object sender, EventArgs e)
         {

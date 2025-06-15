@@ -1,12 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using BusinessShark.Core.Item;
+﻿using BusinessShark.Core.Item;
+using MessagePack;
 
-namespace BusinessShark.Core.City
+namespace BusinessShark.Core.CityClasses
 {
+    [MessagePackObject(keyAsPropertyName: true)]
     internal class CityCell
     {
         public int X { get; set; }

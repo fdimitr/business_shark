@@ -16,7 +16,7 @@ namespace BusinessShark.Core.Item
             float workerImpactQuality, 
             float sourceImpactQuality, 
             float techImpactQuantity, 
-            float toolImpactQuantity, float workerImpactQuantity, float baseProductionPrice, float deliveryPrice)
+            float toolImpactQuantity, float workerImpactQuantity, float baseProductionPrice, float deliveryPrice, float necessity = 0.1f)
         {
             ItemDefinitionId = itemDefinitionId;
             Name = name;
@@ -31,6 +31,7 @@ namespace BusinessShark.Core.Item
             WorkerImpactQuantity = workerImpactQuantity;
             BaseProductionPrice = baseProductionPrice;
             DeliveryPrice = deliveryPrice;
+            Necessity = necessity;
         }
 
         public ItemType ItemDefinitionId { get; }
@@ -49,6 +50,10 @@ namespace BusinessShark.Core.Item
         public float ToolImpactQuantity { get; }
         public float WorkerImpactQuantity { get; }
         public float DeliveryPrice { get; }
+
+        // The demand coefficient for this product on the market
+        public float Necessity { get; }
+
         public void CheckTotalImpact()
         {
             var totalImpact = ProductionUnits.Sum(p => p.QualityImpact)

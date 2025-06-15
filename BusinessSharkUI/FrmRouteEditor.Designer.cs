@@ -28,8 +28,8 @@
         /// </summary>
         private void InitializeComponent()
         {
-            DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle3 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle4 = new DataGridViewCellStyle();
             cmbRequestedItems = new ComboBox();
             label1 = new Label();
             btnCancel = new Button();
@@ -42,6 +42,8 @@
             ExistingQuantity = new DataGridViewTextBoxColumn();
             ReqestedQuantity = new DataGridViewTextBoxColumn();
             DivisionId = new DataGridViewTextBoxColumn();
+            txtDeliveryPrice = new TextBox();
+            label2 = new Label();
             ((System.ComponentModel.ISupportInitialize)dataGridViewRoutes).BeginInit();
             SuspendLayout();
             // 
@@ -100,9 +102,9 @@
             // IsRoute
             // 
             IsRoute.DataPropertyName = "IsRoute";
-            dataGridViewCellStyle1.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle1.NullValue = "False";
-            IsRoute.DefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle3.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle3.NullValue = "False";
+            IsRoute.DefaultCellStyle = dataGridViewCellStyle3;
             IsRoute.HeaderText = "Route";
             IsRoute.MinimumWidth = 6;
             IsRoute.Name = "IsRoute";
@@ -146,9 +148,9 @@
             // ReqestedQuantity
             // 
             ReqestedQuantity.DataPropertyName = "ReqestedQuantity";
-            dataGridViewCellStyle2.Format = "N0";
-            dataGridViewCellStyle2.NullValue = "0";
-            ReqestedQuantity.DefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle4.Format = "N0";
+            dataGridViewCellStyle4.NullValue = "0";
+            ReqestedQuantity.DefaultCellStyle = dataGridViewCellStyle4;
             ReqestedQuantity.HeaderText = "Requested quantity";
             ReqestedQuantity.MaxInputLength = 10;
             ReqestedQuantity.MinimumWidth = 6;
@@ -163,11 +165,30 @@
             DivisionId.Visible = false;
             DivisionId.Width = 125;
             // 
+            // txtDeliveryPrice
+            // 
+            txtDeliveryPrice.Location = new Point(724, 111);
+            txtDeliveryPrice.Name = "txtDeliveryPrice";
+            txtDeliveryPrice.ReadOnly = true;
+            txtDeliveryPrice.Size = new Size(125, 27);
+            txtDeliveryPrice.TabIndex = 14;
+            // 
+            // label2
+            // 
+            label2.AutoSize = true;
+            label2.Location = new Point(724, 77);
+            label2.Name = "label2";
+            label2.Size = new Size(99, 20);
+            label2.TabIndex = 15;
+            label2.Text = "Delivery Price";
+            // 
             // FrmRouteEditor
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(906, 337);
+            Controls.Add(label2);
+            Controls.Add(txtDeliveryPrice);
             Controls.Add(dataGridViewRoutes);
             Controls.Add(btnOK);
             Controls.Add(btnCancel);
@@ -196,5 +217,7 @@
         private DataGridViewTextBoxColumn ExistingQuantity;
         private DataGridViewTextBoxColumn ReqestedQuantity;
         private DataGridViewTextBoxColumn DivisionId;
+        private TextBox txtDeliveryPrice;
+        private Label label2;
     }
 }

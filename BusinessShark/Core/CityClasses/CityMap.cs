@@ -1,12 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using BusinessShark.Core.Item;
+using MessagePack;
 
-namespace BusinessShark.Core.City
+namespace BusinessShark.Core.CityClasses
 {
+    [MessagePackObject(keyAsPropertyName: true)]
     internal class CityMap
     {
         public int Width { get; }
@@ -65,6 +62,41 @@ namespace BusinessShark.Core.City
 
             return Enums.ResourceType.None;
         }
+
+        public int GetPopulationAtDistance(int startX, int startY, int width = 1, int height = 1, int distance = 3)
+        {
+            HashSet<(int, int)> considered = new HashSet<(int, int)>();
+            int totalPopulation = 0;
+
+            for (int x = 0; x < Width; x++)
+            {
+                for (int y = 0; y < Height; y++)
+                {
+                    // Вычисляем минимальное расстояние от (x, y) до прямоугольной области
+                    int dx = 0;
+                    if (x < startX) dx = startX - x;
+                    else if (x >= startX + width) dx = x - (startX + width - 1);
+
+                    int dy = 0;
+                    if (y < startY) dy = startY - y;
+                    else if (y >= startY + height) dy = y - (startY + height - 1);
+
+                    int manhattanDistance = dx + dy;
+
+                    if (manhattanDistance == distance)
+                    {
+                        // Учитываем только уникальные ячейки (на случай перекрытия)
+                        if (considered.Add((x, y)))
+                        {
+                            totalPopulation += Grid[x, y].Population;
+                        }
+                    }
+                }
+            }
+
+            return totalPopulation;
+        }
+
 
         public void PrintMap()
         {

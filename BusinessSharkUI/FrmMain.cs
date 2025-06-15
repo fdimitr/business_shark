@@ -1,6 +1,6 @@
 using System.Globalization;
 using BusinessShark.Core;
-using BusinessShark.Core.City;
+using BusinessShark.Core.CityClasses;
 using BusinessShark.Core.Divisions;
 using BusinessShark.Core.Item;
 using BusinessShark.Core.ServiceClasses;
@@ -55,7 +55,7 @@ namespace BusinessSharkUI
 
             // This method can be used to initialize any additional data if needed.
             // For example, you can add some factories or warehouses here.
-            currentCity = new City("Wroclaw");
+            currentCity = new City("Wroclaw", 100, 100);
             market.Cities.Add(currentCity);
 
             // Warehouse initialization
@@ -370,7 +370,7 @@ namespace BusinessSharkUI
                     options.WithCompression(MessagePackCompression.Lz4Block);
 
                     market = MessagePackSerializer.Deserialize<Market>(bytes, options);
-                    currentCity = market.Cities.FirstOrDefault() ?? new City("Wroclaw");
+                    currentCity = market.Cities.FirstOrDefault() ?? new City("Wroclaw", 100, 100);
                     SetDataSources();
                     MessageBox.Show("Game loaded successfully!", "Load", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
