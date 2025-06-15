@@ -1,4 +1,5 @@
-﻿using BusinessShark.Core.Divisions;
+﻿using BusinessShark.Core.CityClasses;
+using BusinessShark.Core.Divisions;
 using BusinessShark.Core.Item;
 using BusinessShark.Database;
 using BusinessShark.Database.Models;

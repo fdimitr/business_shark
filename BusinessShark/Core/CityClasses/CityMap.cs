@@ -1,4 +1,4 @@
-﻿namespace BusinessShark.Core.City
+﻿namespace BusinessShark.Core.CityClasses
 {
     public enum ResourceType
     {

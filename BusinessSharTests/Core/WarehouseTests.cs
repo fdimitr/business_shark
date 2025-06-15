@@ -1,5 +1,5 @@
-﻿using System.Drawing;
-using BusinessShark.Core;
+﻿using BusinessShark.Core;
+using BusinessShark.Core.CityClasses;
 using BusinessShark.Core.Divisions;
 using BusinessShark.Core.Item;
 using BusinessShark.Core.ServiceClasses;
@@ -33,11 +33,10 @@ namespace BusinessSharkTests.Core
             _toDivision.WarehouseInput[Enums.ItemType.Wood] = _toItem;
 
             _market = new Market();
-            var city = new City("TestCity");
+            var city = new City("TestCity", 100, 100);
             city.Warehouses.Add((Warehouse)_fromDivision);
             city.Warehouses.Add((Warehouse)_toDivision);
             _market.Cities.Add(city);
-            
         }
 
         [Test]
