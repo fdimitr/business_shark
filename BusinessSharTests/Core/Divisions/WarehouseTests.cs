@@ -4,7 +4,7 @@ using BusinessShark.Core.Divisions;
 using BusinessShark.Core.Item;
 using BusinessShark.Core.ServiceClasses;
 
-namespace BusinessSharkTests.Core
+namespace BusinessSharkTests.Core.Divisions
 {
     [TestFixture]
     public class WarehouseTests
