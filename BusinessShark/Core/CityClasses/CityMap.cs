@@ -63,29 +63,34 @@ namespace BusinessShark.Core.CityClasses
             return Enums.ResourceType.None;
         }
 
-        public int GetPopulationAtDistance(int startX, int startY, int width = 1, int height = 1, int distance = 3)
+        public int GetPopulationAtDistance(int startX, int startY, int width = 1, int height = 1, int distance = 1)
         {
+            double minDistance = 1; // Минимальное расстояние для учета
+            double maxDistance = distance + 0.5; // Максимальное расстояние для учета
+
             HashSet<(int, int)> considered = new HashSet<(int, int)>();
             int totalPopulation = 0;
 
-            for (int x = 0; x < Width; x++)
+            int searchRadius = (int)Math.Ceiling(maxDistance);
+            int minX = Math.Max(0, startX - searchRadius);
+            int maxX = Math.Min(Width - 1, startX + width - 1 + searchRadius);
+            int minY = Math.Max(0, startY - searchRadius);
+            int maxY = Math.Min(Height - 1, startY + height - 1 + searchRadius);
+
+            for (int x = minX; x <= maxX; x++)
             {
-                for (int y = 0; y < Height; y++)
+                for (int y = minY; y <= maxY; y++)
                 {
-                    // Вычисляем минимальное расстояние от (x, y) до прямоугольной области
-                    int dx = 0;
-                    if (x < startX) dx = startX - x;
-                    else if (x >= startX + width) dx = x - (startX + width - 1);
+                    if (x >= startX && x < startX + width && y >= startY && y < startY + height)
+                        continue;
 
-                    int dy = 0;
-                    if (y < startY) dy = startY - y;
-                    else if (y >= startY + height) dy = y - (startY + height - 1);
+                    int nearestX = Math.Max(startX, Math.Min(x, startX + width - 1));
+                    int nearestY = Math.Max(startY, Math.Min(y, startY + height - 1));
 
-                    int manhattanDistance = dx + dy;
+                    double euclideanDistance = Math.Sqrt((x - nearestX) * (x - nearestX) + (y - nearestY) * (y - nearestY));
 
-                    if (manhattanDistance == distance)
+                    if (euclideanDistance >= minDistance && euclideanDistance <= maxDistance)
                     {
-                        // Учитываем только уникальные ячейки (на случай перекрытия)
                         if (considered.Add((x, y)))
                         {
                             totalPopulation += Grid[x, y].Population;
