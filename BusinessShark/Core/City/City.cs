@@ -1,6 +1,8 @@
 ﻿using System.Text.Json.Serialization;
 using BusinessShark.Core.Divisions;
 using MessagePack;
+using System.Collections.Generic;
+using BusinessShark.Core.Item;
 
 namespace BusinessShark.Core.City
 {

@@ -9,6 +9,7 @@ namespace BusinessShark.Core.Item
         public float Quality;
         public int Quantity;
         public float Price;
+        
 
         public float ProcessingPrice;
         public float ProcessingQuality;

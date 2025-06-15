@@ -1,5 +1,6 @@
 ﻿using BusinessShark.Core.Divisions;
 using BusinessShark.Core.Item;
+using BusinessShark.Core.City;
 using BusinessShark.Database;
 using BusinessShark.Database.Models;
 using Dapper;
@@ -12,7 +13,7 @@ namespace BusinessShark.Core
     internal class Market
     {
         public DateTime CurrentDate { get; set; } = new DateTime(1970, 1, 1);
-        public List<City> Cities { get; set; } = new();
+        public List<City.City> Cities { get; set; } = new();
 
         [NonSerialized]
         public Dictionary<ItemType, ItemDefinition> ItemDefinitions = new();
@@ -144,7 +145,7 @@ namespace BusinessShark.Core
             using var con = DatabaseHelper.GetSqlConnection();
             var sql =
                 @"SELECT i.ItemDefinitionId, i.ItemGroupId, i.Name, i.Volume, i.ProductionCount, i.TechImpactQuality, i.ToolImpactQuality, i.WorkerImpactQuality,
-                            i.TechImpactQuantity, i.ToolImpactQuantity, i.WorkerImpactQuantity, i.SourceImpactQuality, i.ProductionPrice,
+                            i.TechImpactQuantity, i.ToolImpactQuantity, i.WorkerImpactQuantity, i.SourceImpactQuality, i.ProductionPrice, i.DeliveryPrice,
                             p.ProductDefinitionId, p.ComponentDefinitionId, p.ProductionQuantity, p.QualityImpact
                         FROM ItemDefinition i LEFT OUTER JOIN ProductionUnit p ON i.ItemDefinitionId = p.ProductDefinitionId";
 
@@ -170,7 +171,8 @@ namespace BusinessShark.Core
                             definitionDto.TechImpactQuantity,
                             definitionDto.ToolImpactQuantity,
                             definitionDto.WorkerImpactQuantity,
-                            definitionDto.ProductionPrice);
+                            definitionDto.ProductionPrice,
+                            definitionDto.DeliveryPrice);
 
                         ItemDefinitions.Add((ItemType)definitionDto.ItemDefinitionId, definition);
                     }
