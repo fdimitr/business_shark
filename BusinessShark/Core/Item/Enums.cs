@@ -8,5 +8,11 @@
             Leather = 2,
             Bed = 3
         }
+        internal enum ResourceType
+        {
+            None,
+            Forest,
+            Agriculture
+        }
     }
 }

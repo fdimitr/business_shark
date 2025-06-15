@@ -4,10 +4,23 @@ using MessagePack;
 namespace BusinessShark.Core.CityClasses
 {
     [MessagePackObject(keyAsPropertyName: true)]
-    internal class City(string name, int width, int height)
+    internal class City
     {
-        public CityMap Map { get; set; } = new(width, height);
-        public string Name { get; set; } = name;
+        public City(string name, int width, int height)
+        {
+            Name = name;
+            Map = new CityMap(width, height);
+        }
+
+        [SerializationConstructor]
+        public City(string name, CityMap map)
+        {
+            Name = name;
+            Map = map;
+        }
+
+        public CityMap Map { get; set; }
+        public string Name { get; set; }
 
         public int Population
         {

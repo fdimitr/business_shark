@@ -1,41 +1,20 @@
-﻿namespace BusinessShark.Core.CityClasses
+using BusinessShark.Core.Item;
+using MessagePack;
+
+namespace BusinessShark.Core.CityClasses
 {
-    public enum ResourceType
-    {
-        None,
-        Forest,
-        Agriculture
-    }
-
-    public class Cell
-    {
-        public int X { get; set; }
-        public int Y { get; set; }
-
-        public int LandCost { get; set; }
-        public int RentCost { get; set; }
-        public int Population { get; set; }
-        public int Wealth { get; set; }
-
-        public ResourceType Resource { get; set; }
-
-        public override string ToString()
-        {
-            return $"({X},{Y}) | Land: {LandCost}, Rent: {RentCost}, Pop: {Population}, Wealth: {Wealth}, Res: {Resource}";
-        }
-    }
-
-    public class CityMap
+    [MessagePackObject(keyAsPropertyName: true)]
+    internal class CityMap
     {
         public int Width { get; }
         public int Height { get; }
-        public Cell[,] Grid { get; }
+        public CityCell[,] Grid { get; }
 
         public CityMap(int width, int height)
         {
             Width = width;
             Height = height;
-            Grid = new Cell[width, height];
+            Grid = new CityCell[width, height];
             GenerateMap();
         }
 
@@ -55,7 +34,7 @@
                     int dy = Math.Abs(y - centerY);
                     double distanceFactor = 1.0 - (double)(dx + dy) / (2.0 * maxDistance); // 1.0 в центре, 0.0 на краях
 
-                    var cell = new Cell
+                    var cell = new CityCell
                     {
                         X = x,
                         Y = y,
@@ -71,18 +50,53 @@
             }
         }
 
-        private ResourceType GenerateResource(int x, int y, double distanceFactor, Random rand)
+        private Enums.ResourceType GenerateResource(int x, int y, double distanceFactor, Random rand)
         {
             // Чем дальше от центра, тем больше шанс на наличие ресурсов
             if (distanceFactor < 0.4)
             {
                 int chance = rand.Next(100);
-                if (chance < 30) return ResourceType.Forest;
-                if (chance < 60) return ResourceType.Agriculture;
+                if (chance < 30) return Enums.ResourceType.Forest;
+                if (chance < 60) return Enums.ResourceType.Agriculture;
             }
 
-            return ResourceType.None;
+            return Enums.ResourceType.None;
         }
+
+        public int GetPopulationAtDistance(int startX, int startY, int width = 1, int height = 1, int distance = 3)
+        {
+            HashSet<(int, int)> considered = new HashSet<(int, int)>();
+            int totalPopulation = 0;
+
+            for (int x = 0; x < Width; x++)
+            {
+                for (int y = 0; y < Height; y++)
+                {
+                    // Вычисляем минимальное расстояние от (x, y) до прямоугольной области
+                    int dx = 0;
+                    if (x < startX) dx = startX - x;
+                    else if (x >= startX + width) dx = x - (startX + width - 1);
+
+                    int dy = 0;
+                    if (y < startY) dy = startY - y;
+                    else if (y >= startY + height) dy = y - (startY + height - 1);
+
+                    int manhattanDistance = dx + dy;
+
+                    if (manhattanDistance == distance)
+                    {
+                        // Учитываем только уникальные ячейки (на случай перекрытия)
+                        if (considered.Add((x, y)))
+                        {
+                            totalPopulation += Grid[x, y].Population;
+                        }
+                    }
+                }
+            }
+
+            return totalPopulation;
+        }
+
 
         public void PrintMap()
         {
@@ -106,6 +120,8 @@
                 }
             }
         }
+
+        
     }
 
 }

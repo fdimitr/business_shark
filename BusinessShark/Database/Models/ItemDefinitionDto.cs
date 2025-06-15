@@ -21,5 +21,8 @@ namespace BusinessShark.Database.Models
 
         public float ProductionPrice { get; set; }
 
+        public float DeliveryPrice { get; set; }
+        public float Necessity { get; set; }
+
     }
 }
