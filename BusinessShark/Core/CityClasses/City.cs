@@ -47,5 +47,6 @@ namespace BusinessShark.Core.CityClasses
         public List<Factory> Factories { get; set; } = new();
         public List<Warehouse> Warehouses { get; set; } = new();
         public List<ResourceExtractor> Sources { get; set; } = new();
+        public List<Store> Stores { get; set; } = new();
     }
 }

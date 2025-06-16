@@ -32,7 +32,7 @@ namespace BusinessSharkTests.Core.CityClasses
         public void TestPopulationAroundCenter_IncludesDiagonals()
         {
             // Center (1,1)
-            int result = _map.GetPopulationAtDistance(1, 1);
+            int result = _map.GetCityCellsAtDistance(1, 1).Sum(c=>c.Population);
 
             // Sum of all neighbors except the center:
             // 10 + 20 + 30 + 40 + 60 + 70 + 80 + 90 = 400
@@ -43,7 +43,7 @@ namespace BusinessSharkTests.Core.CityClasses
         public void TestPopulationAroundCorner_IncludesDiagonals()
         {
             // Upper left corner (0,0)
-            int result = _map.GetPopulationAtDistance(0, 0);
+            int result = _map.GetCityCellsAtDistance(0, 0).Sum(c => c.Population);
 
             // Neighbours (0,0): (0,1)=40, (1,0)=20, (1,1)=50
             // All at a distance of 1 or ~1.41
@@ -55,7 +55,7 @@ namespace BusinessSharkTests.Core.CityClasses
         public void TestPopulationAroundEdge_IncludesDiagonals()
         {
             // Left side (0,1)
-            int result = _map.GetPopulationAtDistance(0, 1);
+            int result = _map.GetCityCellsAtDistance(0, 1).Sum(c => c.Population);
 
             // Neighbours: (0,0)=10, (1,0)=20, (1,1)=50, (1,2)=80, (0,2)=70
             int expected = 10 + 20 + 50 + 80 + 70;
@@ -68,7 +68,7 @@ namespace BusinessSharkTests.Core.CityClasses
             // Rectangle width 2, height 1, starts at (0,1)
             // Cells: (0,1)=40 and (1,1)=50
 
-            int result = _map.GetPopulationAtDistance(0, 1, 2, height: 1);
+            int result = _map.GetCityCellsAtDistance(0, 1, 2, height: 1).Sum(c => c.Population);
 
             /*
                 Neighbors for rectangle (0,1)-(1,1):
@@ -90,7 +90,7 @@ namespace BusinessSharkTests.Core.CityClasses
             // Rectangle width 1, height 2, starts at (1,0)
             // Cells: (1,0)=20 and (1,1)=50
 
-            int result = _map.GetPopulationAtDistance(1, 0, 1, 2);
+            int result = _map.GetCityCellsAtDistance(1, 0, 1, 2).Sum(c => c.Population);
 
             /*
                 Neighbors:
@@ -111,7 +111,7 @@ namespace BusinessSharkTests.Core.CityClasses
             // 2x2 rectangle with top left corner at (0,0)
             // Cells: (0,0)=10, (1,0)=20, (0,1)=40, (1,1)=50
 
-            int result = _map.GetPopulationAtDistance(0, 0, 2, 2);
+            int result = _map.GetCityCellsAtDistance(0, 0, 2, 2).Sum(c => c.Population);
 
             /*
                 Neighbors (cells around 2x2):

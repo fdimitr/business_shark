@@ -64,6 +64,11 @@ namespace BusinessShark.Core
                 {
                     source.CompleteCalculation();
                 }
+
+                foreach (var source in city.Stores)
+                {
+                    source.CompleteCalculation();
+                }
             }
         }
 
@@ -82,9 +87,20 @@ namespace BusinessShark.Core
                     factory.StartTransferItems(this);
                     factory.StartCalculation();
                 }
+
                 foreach (var source in city.Sources)
                 {
                     source.StartCalculation();
+                }
+
+                foreach (var source in city.Stores)
+                {
+                    source.StartCalculation();
+                }
+
+                foreach (var cell in city.Map.Grid)
+                {
+                    cell.CalculateLevelSale(this);
                 }
             }
         }
