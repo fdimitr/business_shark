@@ -131,6 +131,7 @@ namespace BusinessSharkUI
                         market.GetDeliveryDivisionById(i.FromDivisionId).Name,
                         market.GetDeliveryDivisionById(i.FromDivisionId).WarehouseOutput[i.TransferringItemType].Quality.ToString(),
                         i.TransferringCount.ToString(),
+                        i.DeliveryPrice.ToString("F2"),
                     }
                 });
 
@@ -207,6 +208,7 @@ namespace BusinessSharkUI
                             division.Name,
                             quality,
                             i.TransferringCount.ToString(),
+                            i.DeliveryPrice.ToString("F2"),
                         }
                     };
                 }

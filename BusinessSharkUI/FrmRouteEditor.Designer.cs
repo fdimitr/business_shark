@@ -219,5 +219,27 @@
         private DataGridViewTextBoxColumn DivisionId;
         private TextBox txtDeliveryPrice;
         private Label label2;
+
+        private void InicializeComponent()
+        {
+            components = new System.ComponentModel.Container();
+            cmbRequestedItems = new ComboBox();
+            label1 = new Label();
+            btnCancel = new Button();
+            btnOK = new Button();
+            dataGridViewRoutes = new DataGridView();
+            IsRoute = new DataGridViewCheckBoxColumn();
+            NameDivision = new DataGridViewTextBoxColumn();
+            City = new DataGridViewTextBoxColumn();
+            DeliveryPrice = new DataGridViewTextBoxColumn();
+            ExistingQuantity = new DataGridViewTextBoxColumn();
+            ReqestedQuantity = new DataGridViewTextBoxColumn();
+            DivisionId = new DataGridViewTextBoxColumn();
+            txtDeliveryPrice = new TextBox();
+            label2 = new Label();
+            ((System.ComponentModel.ISupportInitialize)dataGridViewRoutes).BeginInit();
+            SuspendLayout();
+            // Initialize components here
+        }
     }
 }

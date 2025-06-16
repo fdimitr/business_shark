@@ -124,6 +124,8 @@
             grpBox_PlayerName = new GroupBox();
             lblBudget = new Label();
             label7 = new Label();
+            PriceOfDelivery = new ColumnHeader();
+            columnHeader17 = new ColumnHeader();
             groupBox1.SuspendLayout();
             WarehousesGroup.SuspendLayout();
             groupBox2.SuspendLayout();
@@ -203,7 +205,7 @@
             // 
             listViewFactoryRoutes.AllowColumnReorder = true;
             listViewFactoryRoutes.AllowDrop = true;
-            listViewFactoryRoutes.Columns.AddRange(new ColumnHeader[] { columnHeader5, columnHeader8, columnHeader7, columnHeader6 });
+            listViewFactoryRoutes.Columns.AddRange(new ColumnHeader[] { columnHeader5, columnHeader8, columnHeader7, columnHeader6, columnHeader17 });
             listViewFactoryRoutes.Font = new Font("Segoe UI", 9F);
             listViewFactoryRoutes.Location = new Point(26, 529);
             listViewFactoryRoutes.Name = "listViewFactoryRoutes";
@@ -225,12 +227,12 @@
             // columnHeader7
             // 
             columnHeader7.Text = "Качество";
-            columnHeader7.Width = 80;
+            columnHeader7.Width = 50;
             // 
             // columnHeader6
             // 
             columnHeader6.Text = "Количество";
-            columnHeader6.Width = 80;
+            columnHeader6.Width = 50;
             // 
             // btnAddRouteToFactory
             // 
@@ -479,7 +481,7 @@
             // 
             listViewWarehouseRoutes.AllowColumnReorder = true;
             listViewWarehouseRoutes.AllowDrop = true;
-            listViewWarehouseRoutes.Columns.AddRange(new ColumnHeader[] { ItemName, RouteSource, ItemQuality, ItemQuantity });
+            listViewWarehouseRoutes.Columns.AddRange(new ColumnHeader[] { ItemName, RouteSource, ItemQuality, ItemQuantity, PriceOfDelivery });
             listViewWarehouseRoutes.Font = new Font("Segoe UI", 9F);
             listViewWarehouseRoutes.Location = new Point(21, 453);
             listViewWarehouseRoutes.Name = "listViewWarehouseRoutes";
@@ -496,17 +498,17 @@
             // RouteSource
             // 
             RouteSource.Text = "Откуда";
-            RouteSource.Width = 90;
+            RouteSource.Width = 80;
             // 
             // ItemQuality
             // 
             ItemQuality.Text = "Качество";
-            ItemQuality.Width = 80;
+            ItemQuality.Width = 50;
             // 
             // ItemQuantity
             // 
             ItemQuantity.Text = "Количество";
-            ItemQuantity.Width = 80;
+            ItemQuantity.Width = 50;
             // 
             // label2
             // 
@@ -912,6 +914,14 @@
             label7.TabIndex = 0;
             label7.Text = "Бюджет";
             // 
+            // PriceOfDelivery
+            // 
+            PriceOfDelivery.Text = "Цена доставки";
+            // 
+            // columnHeader17
+            // 
+            columnHeader17.Text = "Цена за доставку";
+            // 
             // FrmMain
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
@@ -1044,5 +1054,7 @@
         private GroupBox grpBox_PlayerName;
         private Label lblBudget;
         private Label label7;
+        private ColumnHeader PriceOfDelivery;
+        private ColumnHeader columnHeader17;
     }
 }

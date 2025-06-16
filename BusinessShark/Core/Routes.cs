@@ -9,5 +9,7 @@ namespace BusinessShark.Core
         public int FromDivisionId { get; set; } = fromDivisionId;
         public Enums.ItemType TransferringItemType { get; set; } = transferringItemType;
         public int TransferringCount { get; set; } = transferringCount;
+
+        public float DeliveryPrice { get; set; } = 0.0f;
     }
 }

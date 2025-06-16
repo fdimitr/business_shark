@@ -56,13 +56,14 @@ namespace BusinessSharkUI
 
         }
 
-        private void txtDeliveryPrice_TextChanged(object sender, EventArgs e)
+        private void txtDeliveryPrice_PriceChanged(object sender, EventArgs e)
         {
             float price = 0;
             foreach (DataGridViewRow row in dataGridViewRoutes.Rows)
             {
                 price += Convert.ToSingle(row.Cells[3].Value!);
             }
+            txtDeliveryPrice.Text = price.ToString("F2");
         }
 
 
@@ -174,10 +175,19 @@ namespace BusinessSharkUI
 
                 // For this context, assume ToDivision is not set (or set to null)
                 var route = new Routes(fromDivision.DivisionId, _requestedItemType, requestedQuantity);
+                RouteDeliveryPriceCalculation(route);
                 Routes.Add(route);
             }
         }
 
+        private void RouteDeliveryPriceCalculation(Routes route)
+        {
+            _market.ItemDefinitions.TryGetValue(route.TransferringItemType, out var itemDefinition);
+            if (itemDefinition != null)
+            {
+                route.DeliveryPrice = itemDefinition.DeliveryPrice * route.TransferringCount;
+            }
+        }
         private void cmbRequestedItems_SelectionChangeCommitted(object sender, EventArgs e)
         {
             SaveRoutes();
