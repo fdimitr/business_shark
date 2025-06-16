@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using BusinessShark.Core.Item;
 using MessagePack;
 
@@ -63,13 +64,14 @@ namespace BusinessShark.Core.CityClasses
             return Enums.ResourceType.None;
         }
 
-        public int GetPopulationAtDistance(int startX, int startY, int width = 1, int height = 1, int distance = 1)
+        public List<CityCell> GetCityCellsAtDistance(int startX, int startY, int width = 1, int height = 1, int distance = 1)
         {
+            var result = new List<CityCell>();
+
             double minDistance = 1; // Минимальное расстояние для учета
             double maxDistance = distance + 0.5; // Максимальное расстояние для учета
 
             HashSet<(int, int)> considered = new HashSet<(int, int)>();
-            int totalPopulation = 0;
 
             int searchRadius = (int)Math.Ceiling(maxDistance);
             int minX = Math.Max(0, startX - searchRadius);
@@ -93,13 +95,13 @@ namespace BusinessShark.Core.CityClasses
                     {
                         if (considered.Add((x, y)))
                         {
-                            totalPopulation += Grid[x, y].Population;
+                            result.Add(Grid[x, y]);
                         }
                     }
                 }
             }
 
-            return totalPopulation;
+            return result;
         }
 
 

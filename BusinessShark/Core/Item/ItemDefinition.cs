@@ -51,6 +51,9 @@ namespace BusinessShark.Core.Item
         public float WorkerImpactQuantity { get; }
         public float DeliveryPrice { get; }
 
+        public float MinAttractivenessThreshold { get; set; } = 0f; // Default to no minimum attractiveness threshold
+        public float MaxPriceThreshold { get; set; } = float.MaxValue; // Default to no maximum price threshold8
+
         // The demand coefficient for this product on the market
         public float Necessity { get; }
 
