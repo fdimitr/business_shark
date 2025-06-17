@@ -42,6 +42,8 @@
             ExistingQuantity = new DataGridViewTextBoxColumn();
             ReqestedQuantity = new DataGridViewTextBoxColumn();
             DivisionId = new DataGridViewTextBoxColumn();
+            txtDeliveryPrice = new TextBox();
+            label2 = new Label();
             ((System.ComponentModel.ISupportInitialize)dataGridViewRoutes).BeginInit();
             SuspendLayout();
             // 
@@ -96,6 +98,7 @@
             dataGridViewRoutes.RowHeadersWidth = 51;
             dataGridViewRoutes.Size = new Size(698, 313);
             dataGridViewRoutes.TabIndex = 13;
+            dataGridViewRoutes.RowValidated += dataGridViewRoutes_RowValidated;
             // 
             // IsRoute
             // 
@@ -163,11 +166,30 @@
             DivisionId.Visible = false;
             DivisionId.Width = 125;
             // 
+            // txtDeliveryPrice
+            // 
+            txtDeliveryPrice.Location = new Point(724, 111);
+            txtDeliveryPrice.Name = "txtDeliveryPrice";
+            txtDeliveryPrice.ReadOnly = true;
+            txtDeliveryPrice.Size = new Size(125, 27);
+            txtDeliveryPrice.TabIndex = 14;
+            // 
+            // label2
+            // 
+            label2.AutoSize = true;
+            label2.Location = new Point(724, 77);
+            label2.Name = "label2";
+            label2.Size = new Size(99, 20);
+            label2.TabIndex = 15;
+            label2.Text = "Delivery Price";
+            // 
             // FrmRouteEditor
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(906, 337);
+            Controls.Add(label2);
+            Controls.Add(txtDeliveryPrice);
             Controls.Add(dataGridViewRoutes);
             Controls.Add(btnOK);
             Controls.Add(btnCancel);
@@ -196,5 +218,30 @@
         private DataGridViewTextBoxColumn ExistingQuantity;
         private DataGridViewTextBoxColumn ReqestedQuantity;
         private DataGridViewTextBoxColumn DivisionId;
+        private TextBox txtDeliveryPrice;
+        private Label label2;
+
+        private void InicializeComponent()
+        {
+            components = new System.ComponentModel.Container();
+            cmbRequestedItems = new ComboBox();
+            label1 = new Label();
+            btnCancel = new Button();
+            btnOK = new Button();
+            dataGridViewRoutes = new DataGridView();
+            IsRoute = new DataGridViewCheckBoxColumn();
+            NameDivision = new DataGridViewTextBoxColumn();
+            City = new DataGridViewTextBoxColumn();
+            DeliveryPrice = new DataGridViewTextBoxColumn();
+            ExistingQuantity = new DataGridViewTextBoxColumn();
+            ReqestedQuantity = new DataGridViewTextBoxColumn();
+            DivisionId = new DataGridViewTextBoxColumn();
+            txtDeliveryPrice = new TextBox();
+            label2 = new Label();
+            ((System.ComponentModel.ISupportInitialize)dataGridViewRoutes).BeginInit();
+            SuspendLayout();
+            
+            // Initialize components here
+        }
     }
 }

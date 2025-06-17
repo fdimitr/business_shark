@@ -56,6 +56,18 @@ namespace BusinessSharkUI
 
         }
 
+        private void txtDeliveryPrice_PriceChanged()
+        {
+            float price = 0;
+            foreach (DataGridViewRow row in dataGridViewRoutes.Rows)
+            {
+                if (Convert.ToBoolean(row.Cells[0].Value!))
+                    price += Convert.ToSingle(row.Cells[5].Value!);
+            }
+            price *= _market.ItemDefinitions[_requestedItemType].DeliveryPrice; // Assuming DeliveryPrice is per item type
+            txtDeliveryPrice.Text = price.ToString("F2");
+        }
+
 
         private void btnOK_Click(object sender, EventArgs e)
         {
@@ -165,10 +177,19 @@ namespace BusinessSharkUI
 
                 // For this context, assume ToDivision is not set (or set to null)
                 var route = new Routes(fromDivision.DivisionId, _requestedItemType, requestedQuantity);
+                RouteDeliveryPriceCalculation(route);
                 Routes.Add(route);
             }
         }
 
+        private void RouteDeliveryPriceCalculation(Routes route)
+        {
+            _market.ItemDefinitions.TryGetValue(route.TransferringItemType, out var itemDefinition);
+            if (itemDefinition != null)
+            {
+                route.DeliveryPrice = itemDefinition.DeliveryPrice * route.TransferringCount;
+            }
+        }
         private void cmbRequestedItems_SelectionChangeCommitted(object sender, EventArgs e)
         {
             SaveRoutes();
@@ -199,6 +220,11 @@ namespace BusinessSharkUI
             {
                 e.Handled = true;
             }
+        }
+
+        private void dataGridViewRoutes_RowValidated(object sender, DataGridViewCellEventArgs e)
+        {
+            txtDeliveryPrice_PriceChanged();
         }
     }
 }
