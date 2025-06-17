@@ -23,12 +23,12 @@ namespace BusinessShark.Core.Divisions
 
                     if (cell.SellInfo.TryGetValue(kvp.Key, out List<CityCell.SellIndicator>? indicators))
                     {
-                        indicators?.Add(new CityCell.SellIndicator(attractiveness, this ));
+                        indicators?.Add(new CityCell.SellIndicator(attractiveness, item.Quantity ));
                     }
                     else
                     {
                         cell.SellInfo[kvp.Key] =
-                            [new CityCell.SellIndicator(attractiveness, this)];
+                            [new CityCell.SellIndicator(attractiveness, item.Quantity)];
                     }
                 }
             }
