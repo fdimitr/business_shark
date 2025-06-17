@@ -74,6 +74,7 @@ namespace BusinessShark.Core.CityClasses
             while (remaining > 0)
             {
                 // Пересчитываем "оставшиеся" магазины (те, кто не достиг лимита)
+                /*
                 var eligible = Enumerable.Range(0, n)
                     .Where(i => !fulfilled[i])
                     .Select(i => new
@@ -87,7 +88,7 @@ namespace BusinessShark.Core.CityClasses
                 if (subTotalAttractiveness == 0 || !eligible.Any())
                     break; // Никто больше не может продать
 
-                /*
+                
                 // Пытаемся перераспределить остаток
                 var additionalSales = new int[n];
                 foreach (var e in eligible)
@@ -101,14 +102,48 @@ namespace BusinessShark.Core.CityClasses
                 */
 
                 // Обновляем продажи и пересчитываем остаток
-                int actuallyAssigned = 0;
-                for (int i = 0; i < n; i++)
+                if (remaining >= n)
                 {
-                    if(fulfilled[i]) continue; // Пропускаем уже заполненные
-                    indicators[i].CountOfSell++;
-                    remaining--;
-                    if(remaining == 0) break; // Если распределили все, выходим
+                    int actuallyAssigned = remaining / n;
+
+                    for (int i = 0; i < n; i++)
+                    {
+                        if (fulfilled[i]) continue; // Пропускаем уже заполненные
+                        if (indicators[i].MaxSales - indicators[i].CountOfSell > actuallyAssigned)
+                        {
+                            indicators[i].CountOfSell += actuallyAssigned;
+                            remaining -= actuallyAssigned;
+
+                        }
+                        else
+                        {
+                            indicators[i].CountOfSell += indicators[i].MaxSales - indicators[i].CountOfSell;
+                            remaining -= indicators[i].MaxSales - indicators[i].CountOfSell;
+                            fulfilled[i] = true; // Отмечаем как выполненное
+                        }
+                        if (remaining == 0) break; // Если распределили все, выходим
+                    }
                 }
+                else
+                {
+                    for(int i = 0; i < n; i++)
+                    {
+                        if (fulfilled[i]) continue;
+                        indicators[i].CountOfSell += 1;
+                        remaining -= 1;
+                        if (indicators[i].CountOfSell == indicators[i].MaxSales)
+                            fulfilled[i] = true; // Отмечаем как выполненное
+                        if (remaining == 0) break; // Если распределили все, выходим
+                    }
+                }
+
+                var check = 0;
+                for(int i = 0; i < n; i++)
+                {
+                    
+                    if (fulfilled[i]) check++;
+                }
+                if (check == n) break; //свободного места во всех магазинах нет
 
                 /*
                 remaining -= actuallyAssigned;
