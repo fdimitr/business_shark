@@ -85,6 +85,12 @@ namespace BusinessSharkUI
                 ProgressQuality = 2.5f
             };
             currentCity.Sources.Add(currentSource);
+
+            currentCity.Stores.Add(new Store(4, "Store(Main)", new Location(), new List<CityCell>
+            {
+                new CityCell { X = 0, Y = 0, LandCost = 1000, RentCost = 500, Population = 1000, Wealth = 10000, Resource = Enums.ResourceType.Forest },
+                new CityCell { X = 1, Y = 0, LandCost = 1200, RentCost = 600, Population = 1200, Wealth = 12000, Resource = Enums.ResourceType.Agriculture }
+            }));
         }
 
         private void BindingPlayerInfo()

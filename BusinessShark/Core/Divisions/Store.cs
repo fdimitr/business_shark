@@ -23,12 +23,12 @@ namespace BusinessShark.Core.Divisions
 
                     if (cell.SellInfo.TryGetValue(kvp.Key, out List<CityCell.SellIndicator>? indicators))
                     {
-                        indicators?.Add(new CityCell.SellIndicator(attractiveness, item.Quantity ));
+                        indicators?.Add(new CityCell.SellIndicator(attractiveness, item.Quantity, this));
                     }
                     else
                     {
                         cell.SellInfo[kvp.Key] =
-                            [new CityCell.SellIndicator(attractiveness, item.Quantity)];
+                            [new CityCell.SellIndicator(attractiveness, item.Quantity, this)];
                     }
                 }
             }
@@ -36,7 +36,17 @@ namespace BusinessShark.Core.Divisions
 
         public override void CompleteCalculation()
         {
-            throw new NotImplementedException();
+            foreach (var cell in TradeArea)
+            {
+                foreach(var item in WarehouseOutput)
+                {
+                    if (item.Value.Quantity == 0)
+                        continue; // Skip items with zero quantity
+
+                    var indicator = cell.SellInfo[item.Key].FirstOrDefault(si => si.Store == this);
+                    item.Value.Quantity -= indicator.CountOfSell;
+                }
+            }
         }
     }
 }

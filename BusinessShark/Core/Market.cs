@@ -1,4 +1,5 @@
-﻿using BusinessShark.Core.Divisions;
+﻿using BusinessShark.Core.CityClasses;
+using BusinessShark.Core.Divisions;
 using BusinessShark.Core.Items;
 using BusinessShark.Database;
 using BusinessShark.Database.Models;
@@ -65,12 +66,14 @@ namespace BusinessShark.Core
                     source.CompleteCalculation();
                 }
 
-                foreach (var source in city.Stores)
+                foreach (var store in city.Stores)
                 {
-                    source.CompleteCalculation();
+                    store.CompleteCalculation();
                 }
             }
         }
+
+        
 
         private void StartCalculation()
         {
@@ -93,9 +96,9 @@ namespace BusinessShark.Core
                     source.StartCalculation();
                 }
 
-                foreach (var source in city.Stores)
+                foreach (var store in city.Stores)
                 {
-                    source.StartCalculation();
+                    store.StartCalculation();
                 }
 
                 foreach (var cell in city.Map.Grid)
