@@ -87,6 +87,7 @@ namespace BusinessShark.Core.CityClasses
                 if (subTotalAttractiveness == 0 || !eligible.Any())
                     break; // Никто больше не может продать
 
+                /*
                 // Пытаемся перераспределить остаток
                 var additionalSales = new int[n];
                 foreach (var e in eligible)
@@ -97,22 +98,25 @@ namespace BusinessShark.Core.CityClasses
                     int toAssign = Math.Min(extra, capacityLeft);
                     additionalSales[e.Index] += toAssign;
                 }
+                */
 
                 // Обновляем продажи и пересчитываем остаток
                 int actuallyAssigned = 0;
                 for (int i = 0; i < n; i++)
                 {
-                    indicators[i].CountOfSell += additionalSales[i];
-                    if (indicators[i].CountOfSell >= indicators[i].MaxSales)
-                        fulfilled[i] = true;
-                    actuallyAssigned += additionalSales[i];
+                    if(fulfilled[i]) continue; // Пропускаем уже заполненные
+                    indicators[i].CountOfSell++;
+                    remaining--;
+                    if(remaining == 0) break; // Если распределили все, выходим
                 }
 
+                /*
                 remaining -= actuallyAssigned;
 
                 // Если никому не удалось распределить — прерываем, чтобы избежать бесконечного цикла
                 if (actuallyAssigned == 0)
                     break;
+                */
             }
 
         }

@@ -28,8 +28,8 @@
         /// </summary>
         private void InitializeComponent()
         {
-            DataGridViewCellStyle dataGridViewCellStyle3 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle4 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
             cmbRequestedItems = new ComboBox();
             label1 = new Label();
             btnCancel = new Button();
@@ -98,13 +98,14 @@
             dataGridViewRoutes.RowHeadersWidth = 51;
             dataGridViewRoutes.Size = new Size(698, 313);
             dataGridViewRoutes.TabIndex = 13;
+            dataGridViewRoutes.RowValidated += dataGridViewRoutes_RowValidated;
             // 
             // IsRoute
             // 
             IsRoute.DataPropertyName = "IsRoute";
-            dataGridViewCellStyle3.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle3.NullValue = "False";
-            IsRoute.DefaultCellStyle = dataGridViewCellStyle3;
+            dataGridViewCellStyle1.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle1.NullValue = "False";
+            IsRoute.DefaultCellStyle = dataGridViewCellStyle1;
             IsRoute.HeaderText = "Route";
             IsRoute.MinimumWidth = 6;
             IsRoute.Name = "IsRoute";
@@ -148,9 +149,9 @@
             // ReqestedQuantity
             // 
             ReqestedQuantity.DataPropertyName = "ReqestedQuantity";
-            dataGridViewCellStyle4.Format = "N0";
-            dataGridViewCellStyle4.NullValue = "0";
-            ReqestedQuantity.DefaultCellStyle = dataGridViewCellStyle4;
+            dataGridViewCellStyle2.Format = "N0";
+            dataGridViewCellStyle2.NullValue = "0";
+            ReqestedQuantity.DefaultCellStyle = dataGridViewCellStyle2;
             ReqestedQuantity.HeaderText = "Requested quantity";
             ReqestedQuantity.MaxInputLength = 10;
             ReqestedQuantity.MinimumWidth = 6;

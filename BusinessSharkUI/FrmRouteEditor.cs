@@ -64,6 +64,7 @@ namespace BusinessSharkUI
                 if (Convert.ToBoolean(row.Cells[0].Value!))
                     price += Convert.ToSingle(row.Cells[5].Value!);
             }
+            price *= _market.ItemDefinitions[_requestedItemType].DeliveryPrice; // Assuming DeliveryPrice is per item type
             txtDeliveryPrice.Text = price.ToString("F2");
         }
 
@@ -219,6 +220,11 @@ namespace BusinessSharkUI
             {
                 e.Handled = true;
             }
+        }
+
+        private void dataGridViewRoutes_RowValidated(object sender, DataGridViewCellEventArgs e)
+        {
+            txtDeliveryPrice_PriceChanged();
         }
     }
 }
