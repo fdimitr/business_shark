@@ -239,6 +239,7 @@
             label2 = new Label();
             ((System.ComponentModel.ISupportInitialize)dataGridViewRoutes).BeginInit();
             SuspendLayout();
+            
             // Initialize components here
         }
     }
