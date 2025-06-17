@@ -8,11 +8,11 @@ namespace BusinessShark.Core.CityClasses
     [MessagePackObject(keyAsPropertyName: true)]
     internal class CityCell
     {
-        public class SellIndicator(float attractiveness, Store store)
+        public class SellIndicator(float attractiveness, int maxSales)
         {
             public float Attractiveness = attractiveness;
             public int CountOfSell;
-            public Store Store = store;
+            public int MaxSales = maxSales;
         }
 
         public int X { get; set; }
@@ -36,43 +36,85 @@ namespace BusinessShark.Core.CityClasses
             foreach (var kvp in SellInfo)
             {
                 var indicators = kvp.Value;
-                if (indicators == null) continue;
+                if (indicators == null || indicators.Count == 0) continue;
 
-                var itemType = kvp.Key;
+                var totalSales = Convert.ToInt32(Population * market.ItemDefinitions[kvp.Key].Necessity);
 
-                var totalSales = Convert.ToInt32(Population * market.ItemDefinitions[itemType].Necessity);
-
-                float sum = indicators.Sum(i => i.Attractiveness);
-                if (sum == 0) return;
-
-                // Step 1: Calculate sales as floating point values
-                var rawSales = indicators
-                    .Select(a => (a.Attractiveness / sum) * totalSales)
-                    .ToList();
-
-                // Step 2: Round down and accumulate the remainder
-                var intSales = rawSales.Select(s => Convert.ToInt32(Math.Floor(s))).ToList();
-                int assigned = intSales.Sum();
-                int remainder = totalSales - assigned;
-
-                // Step 3: Add the remainder to the largest decimal fractions
-                var fractionalParts = rawSales
-                    .Select((val, index) => new { Index = index, Fraction = val - Math.Floor(val) })
-                    .OrderByDescending(x => x.Fraction)
-                    .ToList();
-
-                for (int i = 0; i < remainder; i++)
-                {
-                    intSales[fractionalParts[i].Index]++;
-                }
-
-                // Collect the result
-                for (int i = 0; i < intSales.Count; i++)
-                {
-                    var x = indicators[i];
-                    x.CountOfSell = intSales[i]; // i — store number (can be replaced with ID if available)
-                }
+                CalculateSalesDistribution(indicators, totalSales);
             }
+        }
+
+        internal void CalculateSalesDistribution(List<SellIndicator> indicators, int totalSales)
+        {
+            int n = indicators.Count;
+            var rawSales = new float[n];
+            var fulfilled = new bool[n];
+
+            // 1. Сумма всех коэффициентов привлекательности
+            float totalAttractiveness = indicators.Sum(i => i.Attractiveness);
+
+            if (totalAttractiveness == 0)
+            {
+                return;
+            }
+
+            // 2. Первичное распределение с округлением вниз
+            for (int i = 0; i < n; i++)
+            {
+                var indicator = indicators[i];
+                rawSales[i] = (indicator.Attractiveness / totalAttractiveness) * totalSales;
+                indicator.CountOfSell = Math.Min((int)Math.Floor(rawSales[i]), indicator.MaxSales);
+                fulfilled[i] = indicator.CountOfSell >= indicator.MaxSales;
+            }
+
+            int assignedTotal = indicators.Sum(i=>i.CountOfSell);
+            int remaining = totalSales - assignedTotal;
+
+            // 3. Распределяем оставшиеся единицы
+            while (remaining > 0)
+            {
+                // Пересчитываем "оставшиеся" магазины (те, кто не достиг лимита)
+                var eligible = Enumerable.Range(0, n)
+                    .Where(i => !fulfilled[i])
+                    .Select(i => new
+                    {
+                        Index = i,
+                        Weight = indicators[i].Attractiveness
+                    })
+                    .ToList();
+
+                float subTotalAttractiveness = eligible.Sum(e => e.Weight);
+                if (subTotalAttractiveness == 0 || !eligible.Any())
+                    break; // Никто больше не может продать
+
+                // Пытаемся перераспределить остаток
+                var additionalSales = new int[n];
+                foreach (var e in eligible)
+                {
+                    float ratio = e.Weight / subTotalAttractiveness;
+                    int extra = (int)Math.Floor(ratio * remaining);
+                    int capacityLeft = indicators[e.Index].MaxSales - indicators[e.Index].CountOfSell;
+                    int toAssign = Math.Min(extra, capacityLeft);
+                    additionalSales[e.Index] += toAssign;
+                }
+
+                // Обновляем продажи и пересчитываем остаток
+                int actuallyAssigned = 0;
+                for (int i = 0; i < n; i++)
+                {
+                    indicators[i].CountOfSell += additionalSales[i];
+                    if (indicators[i].CountOfSell >= indicators[i].MaxSales)
+                        fulfilled[i] = true;
+                    actuallyAssigned += additionalSales[i];
+                }
+
+                remaining -= actuallyAssigned;
+
+                // Если никому не удалось распределить — прерываем, чтобы избежать бесконечного цикла
+                if (actuallyAssigned == 0)
+                    break;
+            }
+
         }
     }
 }
