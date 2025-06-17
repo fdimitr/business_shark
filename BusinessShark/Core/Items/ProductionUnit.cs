@@ -1,7 +1,6 @@
-﻿using System.Text.Json.Serialization;
-using MessagePack;
+﻿using MessagePack;
 
-namespace BusinessShark.Core.Item
+namespace BusinessShark.Core.Items
 {
     [MessagePackObject(keyAsPropertyName: true)]
     internal class ProductionUnit

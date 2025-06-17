@@ -1,4 +1,4 @@
-﻿using BusinessShark.Core.Item;
+﻿using BusinessShark.Core.Items;
 using BusinessShark.Core.ServiceClasses;
 using MessagePack;
 
@@ -43,7 +43,7 @@ namespace BusinessShark.Core.Divisions
             {
                 var productionCount = (int)Math.Round(ProgressProduction);
 
-                if (WarehouseInput.TryGetValue(ResourceDefinition.ItemDefinitionId, out Item.Item? storedItem))
+                if (WarehouseInput.TryGetValue(ResourceDefinition.ItemDefinitionId, out Items.Item? storedItem))
                 {
                     storedItem.ProcessingQuality = ProgressQuality;
                     WarehouseInput[ResourceDefinition.ItemDefinitionId].ProcessingQuantity = productionCount;
@@ -51,7 +51,7 @@ namespace BusinessShark.Core.Divisions
                 else
                 {
                     WarehouseInput[ResourceDefinition.ItemDefinitionId] =
-                        new Item.Item(ResourceDefinition, 0, 0, productionCount, ProgressQuality);
+                        new Items.Item(ResourceDefinition, 0, 0, productionCount, ProgressQuality);
                 }
 
                 ProgressProduction -= productionCount;
@@ -84,7 +84,7 @@ namespace BusinessShark.Core.Divisions
             else
             {
                 WarehouseOutput.Add(ExtractingItemType, 
-                    new Item.Item(ResourceDefinition, 0, 0, 0, 0, 0));
+                    new Items.Item(ResourceDefinition, 0, 0, 0, 0, 0));
             }
         }
 

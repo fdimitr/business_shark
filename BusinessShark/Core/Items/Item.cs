@@ -1,7 +1,7 @@
 ﻿using BusinessShark.Core.Divisions;
 using MessagePack;
 
-namespace BusinessShark.Core.Item
+namespace BusinessShark.Core.Items
 {
     [MessagePackObject(keyAsPropertyName: true)]
     internal class Item : ICloneable

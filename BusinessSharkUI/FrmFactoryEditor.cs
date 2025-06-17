@@ -2,7 +2,7 @@
 using System.Globalization;
 using BusinessShark.Core;
 using BusinessShark.Core.Divisions;
-using BusinessShark.Core.Item;
+using BusinessShark.Core.Items;
 using BusinessShark.Core.ServiceClasses;
 
 namespace BusinessSharkUI
@@ -90,7 +90,7 @@ namespace BusinessSharkUI
                 Factory.Location = location;
             }
 
-            Factory.ProductDefinition = _market.ItemDefinitions[(Enums.ItemType)cmbProductsList.SelectedValue];
+            Factory.ProductDefinition = _market.ItemDefinitions[(Enums.ItemType)(cmbProductsList.SelectedValue ?? throw new InvalidOperationException())];
             Factory.RentalCost = float.Parse(txtBoxRentalCost.Text, CultureInfo.InvariantCulture);
         }
 

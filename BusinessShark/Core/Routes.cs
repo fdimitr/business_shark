@@ -1,4 +1,4 @@
-﻿using BusinessShark.Core.Item;
+﻿using BusinessShark.Core.Items;
 using MessagePack;
 
 namespace BusinessShark.Core

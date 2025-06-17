@@ -1,6 +1,4 @@
-﻿using BusinessShark.Core.Item;
-
-namespace BusinessShark.Database.Models
+﻿namespace BusinessShark.Database.Models
 {
     internal class ProductionUnitDto
     {

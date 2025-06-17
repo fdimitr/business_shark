@@ -1,4 +1,4 @@
-﻿using BusinessShark.Core.Item;
+﻿using BusinessShark.Core.Items;
 using BusinessShark.Core.ServiceClasses;
 using MessagePack;
 
@@ -83,7 +83,7 @@ namespace BusinessShark.Core.Divisions
                 var productionCount = (int)Math.Truncate(ProgressProduction);
                 ProgressProduction -= productionCount;
 
-                if (WarehouseOutput.TryGetValue(ProductDefinition.ItemDefinitionId, out Item.Item? storedItem))
+                if (WarehouseOutput.TryGetValue(ProductDefinition.ItemDefinitionId, out Items.Item? storedItem))
                 {
                     storedItem.ProcessingQuality = ProgressQuality;
                     WarehouseOutput[ProductDefinition.ItemDefinitionId].ProcessingQuantity += productionCount;
@@ -91,7 +91,7 @@ namespace BusinessShark.Core.Divisions
                 else
                 {
                     WarehouseOutput[ProductDefinition.ItemDefinitionId] =
-                        new Item.Item(ProductDefinition, 
+                        new Items.Item(ProductDefinition, 
                             processingQuantity: productionCount, 
                             processingQuality: ProgressQuality);
                 }
@@ -125,7 +125,7 @@ namespace BusinessShark.Core.Divisions
 
             foreach (var unit in ProductDefinition.ProductionUnits)
             {
-                WarehouseInput.TryGetValue(unit.ComponentDefinitionId, out Item.Item? item);
+                WarehouseInput.TryGetValue(unit.ComponentDefinitionId, out Items.Item? item);
                 if (item == null || item.Quantity < unit.ProductionQuantity)
                     return false;
             }

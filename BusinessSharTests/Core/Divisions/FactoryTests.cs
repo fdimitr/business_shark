@@ -1,7 +1,7 @@
 ﻿using System.Drawing;
 using BusinessShark.Core;
 using BusinessShark.Core.Divisions;
-using BusinessShark.Core.Item;
+using BusinessShark.Core.Items;
 using BusinessShark.Core.ServiceClasses;
 
 namespace BusinessSharTests.Core

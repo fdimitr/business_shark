@@ -1,10 +1,10 @@
 ﻿using BusinessShark.Core.Divisions;
-using BusinessShark.Core.Item;
+using BusinessShark.Core.Items;
 using BusinessShark.Database;
 using BusinessShark.Database.Models;
 using Dapper;
 using MessagePack;
-using static BusinessShark.Core.Item.Enums;
+using static BusinessShark.Core.Items.Enums;
 
 namespace BusinessShark.Core
 {

@@ -1,7 +1,7 @@
 using BusinessShark.Core;
 using BusinessShark.Core.CityClasses;
 using BusinessShark.Core.Divisions;
-using BusinessShark.Core.Item;
+using BusinessShark.Core.Items;
 using BusinessShark.Core.ServiceClasses;
 
 namespace BusinessSharkTests.Core.Divisions
