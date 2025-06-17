@@ -1,6 +1,4 @@
-﻿using System.Drawing;
-using System.Text.Json.Serialization;
-using BusinessShark.Core.Item;
+﻿using BusinessShark.Core.Items;
 using BusinessShark.Core.ServiceClasses;
 using MessagePack;
 
@@ -11,8 +9,8 @@ namespace BusinessShark.Core.Divisions
     [Union(2, typeof(Factory))]
     internal abstract class DeliveryDivision(int divisionId, string name, Location location) : Division(divisionId, name, location)
     {
-        public Dictionary<Enums.ItemType, Item.Item> WarehouseInput = new();  //to
-        public Dictionary<Enums.ItemType, Item.Item> WarehouseOutput = new(); //from
+        public Dictionary<Enums.ItemType, Items.Item> WarehouseInput = new();  //to
+        public Dictionary<Enums.ItemType, Items.Item> WarehouseOutput = new(); //from
 
         public List<Routes> Routes { get; set; } = new();
 
@@ -27,7 +25,7 @@ namespace BusinessShark.Core.Divisions
                     if(item is { Quantity: > 0 })
                     {
                         
-                        if (WarehouseInput.TryAdd(route.TransferringItemType, (Item.Item)item.Clone()))
+                        if (WarehouseInput.TryAdd(route.TransferringItemType, (Items.Item)item.Clone()))
                         {
                             WarehouseInput[route.TransferringItemType].ProcessingQuantity = 0;
                             WarehouseInput[route.TransferringItemType].Quantity = 0;
@@ -89,7 +87,7 @@ namespace BusinessShark.Core.Divisions
             return weightedSum / totalWeight;
         }
 
-        internal static float CalculateWarehouseQuality(Item.Item item)
+        internal static float CalculateWarehouseQuality(Items.Item item)
         {
             return CalculateWarehouseQuality(item.Quantity, item.Quality, item.ProcessingQuantity, item.ProcessingQuality);
         }

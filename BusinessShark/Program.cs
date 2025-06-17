@@ -1,6 +1,5 @@
 ﻿using System.Drawing;
 using BusinessShark.Core;
-using BusinessShark.Core.Item;
 
 namespace BusinessShark
 {

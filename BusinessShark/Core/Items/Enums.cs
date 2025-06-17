@@ -1,4 +1,4 @@
-﻿namespace BusinessShark.Core.Item
+﻿namespace BusinessShark.Core.Items
 {
     internal static class Enums
     {

@@ -4,10 +4,10 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using BusinessShark.Core.Item;
 using BusinessShark.Core;
 using BusinessShark.Core.ServiceClasses;
 using BusinessShark.Core.Divisions;
+using BusinessShark.Core.Items;
 
 namespace BusinessSharTests.Core
 {

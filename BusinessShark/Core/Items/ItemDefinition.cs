@@ -1,7 +1,7 @@
 ﻿using MessagePack;
-using static BusinessShark.Core.Item.Enums;
+using static BusinessShark.Core.Items.Enums;
 
-namespace BusinessShark.Core.Item
+namespace BusinessShark.Core.Items
 {
     [MessagePackObject(keyAsPropertyName: true)]
     internal class ItemDefinition

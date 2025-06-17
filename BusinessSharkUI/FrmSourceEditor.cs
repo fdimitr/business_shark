@@ -1,6 +1,6 @@
 ﻿using BusinessShark.Core;
-using BusinessShark.Core.Item;
 using System.ComponentModel;
+using BusinessShark.Core.Items;
 
 namespace BusinessSharkUI
 {
