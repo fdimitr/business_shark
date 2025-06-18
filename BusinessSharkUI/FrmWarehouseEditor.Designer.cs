@@ -2,7 +2,6 @@
 {
     partial class FrmWarehouseEditor
     {
-        private System.ComponentModel.IContainer components = null;
         private TextBox txtName;
         private NumericUpDown numVolume;
         private Label lblName;

@@ -43,8 +43,17 @@ namespace BusinessShark.Core.Divisions
                     if (item.Value.Quantity == 0)
                         continue; // Skip items with zero quantity
 
-                    var indicator = cell.SellInfo[item.Key].FirstOrDefault(si => si.Store == this);
-                    item.Value.Quantity -= indicator.CountOfSell;
+                    if (cell.SellInfo.TryGetValue(item.Key, out var value) && value != null)
+                    {
+                        var indicator = value.FirstOrDefault(si => si.Store == this);
+                        if (indicator != null)
+                        {
+
+                            item.Value.Quantity = item.Value.Quantity <= indicator.CountOfSell
+                                ? 0
+                                : item.Value.Quantity - indicator.CountOfSell;
+                        }
+                    }
                 }
             }
         }

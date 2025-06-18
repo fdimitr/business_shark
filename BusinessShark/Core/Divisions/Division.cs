@@ -8,7 +8,7 @@ namespace BusinessShark.Core.Divisions
     {
         public int DivisionId { get; } = divisionId;
         public string Name { get; set; } = name;
-        public string Description { get; set; }
+        public string? Description { get; set; }
         public Location Location { get; set; } = location;
         public float RentalCost { get; set; }
 

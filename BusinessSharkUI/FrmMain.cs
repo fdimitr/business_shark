@@ -24,13 +24,19 @@ namespace BusinessSharkUI
         private readonly BindingSource _bindingSourceSources = new BindingSource();
         private readonly BindingSource _bindingSourceWarehouse = new BindingSource();
 
-        private Player currentPlayer;
+        private readonly Player _currentPlayer;
 
         // Add these fields to FrmMain class
         private System.Threading.Timer? _calculationTimer;
 
         public FrmMain()
         {
+            //TODO: Remove this when you have a real player and logic to get current city
+            _currentPlayer = new Player("Default Player");
+            currentCity = new City("Wroclaw", 100, 100);
+            market.Cities.Add(currentCity);
+
+
             InitializeComponent();
             InitialData();
 
@@ -51,12 +57,8 @@ namespace BusinessSharkUI
 
         private void InitialData()
         {
-            currentPlayer = new Player("Default Player");
-
             // This method can be used to initialize any additional data if needed.
             // For example, you can add some factories or warehouses here.
-            currentCity = new City("Wroclaw", 100, 100);
-            market.Cities.Add(currentCity);
 
             // Warehouse initialization
             var newWarehouse = new Warehouse(1, "Warehouse(Main)", new Location(), 222);
@@ -95,8 +97,8 @@ namespace BusinessSharkUI
 
         private void BindingPlayerInfo()
         {
-            grpBox_PlayerName.Text = currentPlayer.Name;
-            lblBudget.Text = currentPlayer.Wallet.ToString("C", CultureInfo.CurrentCulture);
+            grpBox_PlayerName.Text = _currentPlayer.Name;
+            lblBudget.Text = _currentPlayer.Wallet.ToString("C", CultureInfo.CurrentCulture);
         }
 
         private void BindingWarehouseListView()
@@ -135,7 +137,7 @@ namespace BusinessSharkUI
                     SubItems =
                     {
                         market.GetDeliveryDivisionById(i.FromDivisionId).Name,
-                        market.GetDeliveryDivisionById(i.FromDivisionId).WarehouseOutput[i.TransferringItemType].Quality.ToString(),
+                        market.GetDeliveryDivisionById(i.FromDivisionId).WarehouseOutput[i.TransferringItemType].Quality.ToString(CultureInfo.InvariantCulture),
                         i.TransferringCount.ToString(),
                         i.DeliveryPrice.ToString("F2"),
                     }
@@ -202,8 +204,8 @@ namespace BusinessSharkUI
                 var listViewItemCollection = currentFactory.Routes.Select(i =>
                 {
                     var division = market.GetDeliveryDivisionById(i.FromDivisionId);
-                    var quality = division.WarehouseOutput.ContainsKey(i.TransferringItemType)
-                        ? division.WarehouseOutput[i.TransferringItemType].Quality.ToString()
+                    var quality = division.WarehouseOutput.TryGetValue(i.TransferringItemType, out var value)
+                        ? value.Quality.ToString(CultureInfo.InvariantCulture)
                         : "N/A";
 
                     return new ListViewItem

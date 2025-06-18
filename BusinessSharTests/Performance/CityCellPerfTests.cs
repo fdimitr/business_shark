@@ -1,5 +1,7 @@
 ﻿using System.Diagnostics;
 using BusinessShark.Core.CityClasses;
+using BusinessShark.Core.Divisions;
+using BusinessShark.Core.ServiceClasses;
 
 namespace BusinessSharkTests.Performance
 {
@@ -11,7 +13,7 @@ namespace BusinessSharkTests.Performance
         {
             var cell = new CityCell();
             var rand = new Random(42);
-
+            var store = new Store(1, "Test Store", new Location(), [new CityCell(), new CityCell(), new CityCell()]);
             var totalRuns = 1_000_000;
             var indicatorsList = new List<List<CityCell.SellIndicator>>(totalRuns);
             var totalSalesList = new int[totalRuns];
@@ -25,7 +27,7 @@ namespace BusinessSharkTests.Performance
                 {
                     float attractiveness = (float)(rand.NextDouble() * 10 + 1);
                     int maxSales = rand.Next(100, 1000);
-                    indicators.Add(new CityCell.SellIndicator(attractiveness, maxSales));
+                    indicators.Add(new CityCell.SellIndicator(attractiveness, maxSales, store));
                 }
                 indicatorsList.Add(indicators);
                 totalSalesList[i] = rand.Next(100, 2000);
@@ -37,7 +39,7 @@ namespace BusinessSharkTests.Performance
                 // Use a new list instance each time to avoid side effects
                 var indicatorsCopy = new List<CityCell.SellIndicator>();
                 foreach (var ind in indicatorsList[i])
-                    indicatorsCopy.Add(new CityCell.SellIndicator(ind.Attractiveness, ind.MaxSales));
+                    indicatorsCopy.Add(new CityCell.SellIndicator(ind.Attractiveness, ind.MaxSales, store));
                 cell.CalculateSalesDistribution(indicatorsCopy, totalSalesList[i]);
             }
             sw.Stop();

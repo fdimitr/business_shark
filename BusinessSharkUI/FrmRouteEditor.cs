@@ -12,9 +12,9 @@ namespace BusinessSharkUI
         private class RouteViewModel
         {
             public bool IsRoute { get; set; }
-            public int DevisionId { get; init; }
-            public string DivisionName { get; init; }
-            public string City { get; init; }
+            public int DivisionId { get; init; }
+            public required string DivisionName { get; init; }
+            public required string City { get; init; }
             public int ExistingQuantity { get; init; }
             public int RequestedQuantity { get; set; }
             public float DeliveryPrice { get; init; }
@@ -51,7 +51,7 @@ namespace BusinessSharkUI
             foreach (var model in routeViewModels)
             {
                 dataGridViewRoutes.Rows.Add(model.IsRoute, model.DivisionName, model.City, model.DeliveryPrice,
-                    model.ExistingQuantity, model.RequestedQuantity, model.DevisionId);
+                    model.ExistingQuantity, model.RequestedQuantity, model.DivisionId);
             }
 
         }
@@ -90,7 +90,7 @@ namespace BusinessSharkUI
                     .Select(wh => new RouteViewModel
                     {
                         IsRoute = false,
-                        DevisionId = wh.DivisionId,
+                        DivisionId = wh.DivisionId,
                         DivisionName = wh.Name,
                         City = city.Name,
                         ExistingQuantity = wh.WarehouseOutput[_requestedItemType].Quantity,
@@ -105,7 +105,7 @@ namespace BusinessSharkUI
                     .Select(wh => new RouteViewModel
                     {
                         IsRoute = false,
-                        DevisionId = wh.DivisionId,
+                        DivisionId = wh.DivisionId,
                         DivisionName = wh.Name,
                         City = city.Name,
                         ExistingQuantity = wh.WarehouseOutput[_requestedItemType].Quantity,
@@ -120,7 +120,7 @@ namespace BusinessSharkUI
                     .Select(fb => new RouteViewModel
                     {
                         IsRoute = false,
-                        DevisionId = fb.DivisionId,
+                        DivisionId = fb.DivisionId,
                         DivisionName = fb.Name,
                         City = city.Name,
                         ExistingQuantity = fb.WarehouseOutput[_requestedItemType].Quantity,
@@ -131,7 +131,7 @@ namespace BusinessSharkUI
 
             foreach (var route in Routes.Where(r => r.TransferringItemType == _requestedItemType))
             {
-                var model = routeViewModels.FirstOrDefault(m => m.DevisionId == route.FromDivisionId);
+                var model = routeViewModels.FirstOrDefault(m => m.DivisionId == route.FromDivisionId);
                 if (model != null)
                 {
                     model.IsRoute = true;
@@ -195,14 +195,9 @@ namespace BusinessSharkUI
             SaveRoutes();
         }
 
-        private void dataGridViewRoutes_CellBeginEdit(object sender, DataGridViewCellCancelEventArgs e)
+        private void dataGridViewRoutes_EditingControlShowing(object? sender, DataGridViewEditingControlShowingEventArgs e)
         {
-
-        }
-
-        private void dataGridViewRoutes_EditingControlShowing(object sender, DataGridViewEditingControlShowingEventArgs e)
-        {
-            if (dataGridViewRoutes.CurrentCell.ColumnIndex == 5 && e.Control is TextBox tb)
+            if (dataGridViewRoutes.CurrentCell is { ColumnIndex: 5 } && e.Control is TextBox tb)
             {
                 tb.KeyPress -= RequestedQuantity_KeyPress; // Avoid attaching multiple times
                 tb.KeyPress += RequestedQuantity_KeyPress;
@@ -213,7 +208,7 @@ namespace BusinessSharkUI
             }
         }
 
-        private void RequestedQuantity_KeyPress(object sender, KeyPressEventArgs e)
+        private void RequestedQuantity_KeyPress(object? sender, KeyPressEventArgs e)
         {
             // Allow only digits and control keys (like backspace)
             if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar))

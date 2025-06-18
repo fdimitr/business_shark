@@ -78,19 +78,22 @@ namespace BusinessSharkUI
                 TechLevel = float.Parse(txtBoxToolsTechLevel.Text, CultureInfo.InvariantCulture)
             };
 
+            var productDefinition =
+                _market.ItemDefinitions[
+                    (Enums.ItemType)(cmbProductsList.SelectedValue ?? throw new InvalidOperationException())];
             if (Factory == null)
             {
                 int newDivisionId = _market.GetNewDivisionId();
-                Factory = new Factory(newDivisionId, txtName.Text.Trim(), null, 1, tools, workers, location);
+                Factory = new Factory(newDivisionId, txtName.Text.Trim(), productDefinition, 1, tools, workers, location);
             }
             else
             {
                 Factory.Workers = workers;
                 Factory.ToolPark = tools;
                 Factory.Location = location;
+                Factory.ProductDefinition = productDefinition;
             }
 
-            Factory.ProductDefinition = _market.ItemDefinitions[(Enums.ItemType)(cmbProductsList.SelectedValue ?? throw new InvalidOperationException())];
             Factory.RentalCost = float.Parse(txtBoxRentalCost.Text, CultureInfo.InvariantCulture);
         }
 

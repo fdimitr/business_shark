@@ -1,4 +1,7 @@
 ﻿using BusinessShark.Core.CityClasses;
+using BusinessShark.Core.Divisions;
+using BusinessShark.Core.Items;
+using BusinessShark.Core.ServiceClasses;
 
 namespace BusinessSharkTests.Core.CityClasses
 {
@@ -6,10 +9,12 @@ namespace BusinessSharkTests.Core.CityClasses
     public class CityCellTests
     {
         private CityCell _cell;
+        private Store _store;
 
         [SetUp]
         public void SetUp()
         {
+            _store = new Store(1, "Test Store",new Location(), [new CityCell(), new CityCell(), new CityCell()]);
             _cell = new CityCell();
         }
 
@@ -18,7 +23,7 @@ namespace BusinessSharkTests.Core.CityClasses
         {
             var indicators = new List<CityCell.SellIndicator>
             {
-                new(1.0f, 10)
+                new(1.0f, 10, _store)
             };
 
             _cell.CalculateSalesDistribution(indicators, 8);
@@ -31,7 +36,7 @@ namespace BusinessSharkTests.Core.CityClasses
         {
             var indicators = new List<CityCell.SellIndicator>
             {
-                new(1.0f, 5)
+                new(1.0f, 5, _store)
             };
 
             _cell.CalculateSalesDistribution(indicators, 10);
@@ -44,8 +49,8 @@ namespace BusinessSharkTests.Core.CityClasses
         {
             var indicators = new List<CityCell.SellIndicator>
             {
-                new(2.0f, 10),
-                new(1.0f, 10)
+                new(2.0f, 10, _store),
+                new(1.0f, 10, _store)
             };
 
             _cell.CalculateSalesDistribution(indicators, 9);
@@ -60,8 +65,8 @@ namespace BusinessSharkTests.Core.CityClasses
         {
             var indicators = new List<CityCell.SellIndicator>
             {
-                new(2.0f, 4),
-                new(1.0f, 10)
+                new(2.0f, 4, _store),
+                new(1.0f, 10, _store)
             };
 
             _cell.CalculateSalesDistribution(indicators, 9);
@@ -76,8 +81,8 @@ namespace BusinessSharkTests.Core.CityClasses
         {
             var indicators = new List<CityCell.SellIndicator>
             {
-                new(0.0f, 10),
-                new(0.0f, 10)
+                new(0.0f, 10, _store),
+                new(0.0f, 10, _store)
             };
 
             _cell.CalculateSalesDistribution(indicators, 10);
@@ -91,8 +96,8 @@ namespace BusinessSharkTests.Core.CityClasses
         {
             var indicators = new List<CityCell.SellIndicator>
             {
-                new(1.0f, 2),
-                new(1.0f, 10)
+                new(1.0f, 2, _store),
+                new(1.0f, 10, _store)
             };
 
             _cell.CalculateSalesDistribution(indicators, 5);
@@ -107,9 +112,9 @@ namespace BusinessSharkTests.Core.CityClasses
         {
             var indicators = new List<CityCell.SellIndicator>
             {
-                new(1.0f, 10),
-                new(1.0f, 10),
-                new(1.0f, 10)
+                new(1.0f, 10, _store),
+                new(1.0f, 10, _store),
+                new(1.0f, 10, _store)
             };
 
             _cell.CalculateSalesDistribution(indicators, 10);
