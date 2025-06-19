@@ -71,8 +71,8 @@ namespace BusinessShark.Core
 
                 foreach (var store in city.Stores)
                 {
-                    store.CompleteCalculation();
                     store.CompleteTransferItems();
+                    store.CompleteCalculation();
                 }
             }
         }
@@ -102,7 +102,9 @@ namespace BusinessShark.Core
 
                 foreach (var store in city.Stores)
                 {
+                    store.StartTransferItems(this);
                     store.StartCalculation();
+                    store.PutUpForSale();
                 }
 
                 foreach (var cell in city.Map.Grid)

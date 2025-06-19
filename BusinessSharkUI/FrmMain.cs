@@ -115,7 +115,9 @@ namespace BusinessSharkUI
                 listViewWarehouseItems.SuspendLayout();
                 listViewWarehouseItems.Items.Clear();
 
-                var listViewItemCollection = currentWarehouse.WarehouseOutput.Select(i => new ListViewItem
+                var listViewItemCollection = currentWarehouse.WarehouseOutput
+                    .Where(i => i.Value.Quantity > 0)
+                    .Select(i => new ListViewItem
                 {
                     Text = i.Value.Definition.Name,
                     SubItems =
@@ -162,7 +164,9 @@ namespace BusinessSharkUI
                 listViewFactoryInput.SuspendLayout();
                 listViewFactoryInput.Items.Clear();
 
-                var listViewItemCollection = currentFactory.WarehouseInput.Select(i => new ListViewItem
+                var listViewItemCollection = currentFactory.WarehouseInput
+                    .Where(i => i.Value.Quantity > 0)
+                    .Select(i => new ListViewItem
                 {
                     Text = i.Value.Definition.Name,
                     SubItems =
@@ -185,7 +189,9 @@ namespace BusinessSharkUI
                 listViewFactoryOutput.SuspendLayout();
                 listViewFactoryOutput.Items.Clear();
 
-                var listViewItemCollection = currentFactory.WarehouseOutput.Select(i => new ListViewItem
+                var listViewItemCollection = currentFactory.WarehouseOutput
+                    .Where(i => i.Value.Quantity > 0)
+                    .Select(i => new ListViewItem
                 {
                     Text = i.Value.Definition.Name,
                     SubItems =
@@ -208,7 +214,9 @@ namespace BusinessSharkUI
                 listViewStoreOutput.SuspendLayout();
                 listViewStoreOutput.Items.Clear();
 
-                var listViewItemCollection = currentStore.WarehouseOutput.Select(i => new ListViewItem
+                var listViewItemCollection = currentStore.WarehouseOutput
+                    .Where(i => i.Value.Quantity > 0)
+                    .Select(i => new ListViewItem
                 {
                     Text = i.Value.Definition.Name,
                     SubItems =
@@ -231,16 +239,18 @@ namespace BusinessSharkUI
                 listViewStoreInput.SuspendLayout();
                 listViewStoreInput.Items.Clear();
 
-                var listViewItemCollection = currentStore.WarehouseInput.Select(i => new ListViewItem
-                {
-                    Text = i.Value.Definition.Name,
-                    SubItems =
+                var listViewItemCollection = currentStore.WarehouseInput
+                    .Where(i => i.Value.Quantity > 0)
+                    .Select(i => new ListViewItem
                     {
-                        i.Value.Quantity.ToString(),
-                        i.Value.Quality.ToString("F2"),
-                        i.Value.Definition.BaseProductionPrice.ToString("F2"),
-                    }
-                });
+                        Text = i.Value.Definition.Name,
+                        SubItems =
+                        {
+                            i.Value.Quantity.ToString(),
+                            i.Value.Quality.ToString("F2"),
+                            i.Value.Definition.BaseProductionPrice.ToString("F2"),
+                        }
+                    });
 
                 listViewStoreInput.Items.AddRange(listViewItemCollection.ToArray());
                 listViewStoreInput.ResumeLayout();
@@ -332,6 +342,8 @@ namespace BusinessSharkUI
             BindingSourceProductionListView();
             BindingSourceOutputListView();
             BindingStoreRoutesListView();
+            BindingStoreOutputListView();
+            BindingStoreInputListView();
 
             lblCurrentDate.Text = market.CurrentDate.ToLongDateString();
         }

@@ -102,6 +102,7 @@
             label9 = new Label();
             listViewStoreRoutes = new ListView();
             columnHeader29 = new ColumnHeader();
+            columnHeader18 = new ColumnHeader();
             columnHeader30 = new ColumnHeader();
             columnHeader31 = new ColumnHeader();
             columnHeader32 = new ColumnHeader();
@@ -126,7 +127,6 @@
             grpBox_PlayerName = new GroupBox();
             lblBudget = new Label();
             label7 = new Label();
-            columnHeader18 = new ColumnHeader();
             groupBox1.SuspendLayout();
             WarehousesGroup.SuspendLayout();
             groupBox2.SuspendLayout();
@@ -758,6 +758,11 @@
             columnHeader29.Text = "Наименование товара";
             columnHeader29.Width = 80;
             // 
+            // columnHeader18
+            // 
+            columnHeader18.Text = "Откуда";
+            columnHeader18.Width = 80;
+            // 
             // columnHeader30
             // 
             columnHeader30.Text = "Количество";
@@ -782,27 +787,33 @@
             // listViewStoreOutput
             // 
             listViewStoreOutput.Columns.AddRange(new ColumnHeader[] { columnHeader37, columnHeader38, columnHeader39, columnHeader40 });
+            listViewStoreOutput.Font = new Font("Segoe UI", 9F);
             listViewStoreOutput.Location = new Point(21, 339);
             listViewStoreOutput.Name = "listViewStoreOutput";
             listViewStoreOutput.Size = new Size(366, 149);
             listViewStoreOutput.TabIndex = 22;
             listViewStoreOutput.UseCompatibleStateImageBehavior = false;
+            listViewStoreOutput.View = View.Details;
             // 
             // columnHeader37
             // 
             columnHeader37.Text = "Наименование товара";
+            columnHeader37.Width = 100;
             // 
             // columnHeader38
             // 
             columnHeader38.Text = "Количество";
+            columnHeader38.Width = 80;
             // 
             // columnHeader39
             // 
             columnHeader39.Text = "Качество";
+            columnHeader39.Width = 80;
             // 
             // columnHeader40
             // 
             columnHeader40.Text = "Цена";
+            columnHeader40.Width = 80;
             // 
             // label12
             // 
@@ -844,27 +855,33 @@
             // listViewStoreInput
             // 
             listViewStoreInput.Columns.AddRange(new ColumnHeader[] { columnHeader41, columnHeader42, columnHeader43, columnHeader44 });
+            listViewStoreInput.Font = new Font("Segoe UI", 9F);
             listViewStoreInput.Location = new Point(21, 145);
             listViewStoreInput.Name = "listViewStoreInput";
             listViewStoreInput.Size = new Size(366, 168);
             listViewStoreInput.TabIndex = 10;
             listViewStoreInput.UseCompatibleStateImageBehavior = false;
+            listViewStoreInput.View = View.Details;
             // 
             // columnHeader41
             // 
             columnHeader41.Text = "Наименование товара";
+            columnHeader41.Width = 100;
             // 
             // columnHeader42
             // 
             columnHeader42.Text = "Количество";
+            columnHeader42.Width = 80;
             // 
             // columnHeader43
             // 
             columnHeader43.Text = "Качество";
+            columnHeader43.Width = 80;
             // 
             // columnHeader44
             // 
             columnHeader44.Text = "Цена";
+            columnHeader44.Width = 80;
             // 
             // btnLoadGame
             // 
@@ -925,11 +942,6 @@
             label7.Size = new Size(63, 20);
             label7.TabIndex = 0;
             label7.Text = "Бюджет";
-            // 
-            // columnHeader18
-            // 
-            columnHeader18.Text = "Откуда";
-            columnHeader18.Width = 80;
             // 
             // FrmMain
             // 

@@ -48,7 +48,6 @@ namespace BusinessShark.Core.Divisions
                         var indicator = value.FirstOrDefault(si => si.Store == this);
                         if (indicator != null)
                         {
-
                             item.Value.Quantity = item.Value.Quantity <= indicator.CountOfSell
                                 ? 0
                                 : item.Value.Quantity - indicator.CountOfSell;
@@ -56,6 +55,25 @@ namespace BusinessShark.Core.Divisions
                     }
                 }
             }
+        }
+
+        public void PutUpForSale()
+        {
+            foreach(var item in WarehouseInput)
+            {
+                WarehouseOutput.TryGetValue(item.Key, out var existingItem);
+                if(existingItem == null)
+                    {
+                    WarehouseOutput[item.Key] = (Items.Item)item.Value.Clone();
+                }
+                else
+                {
+                    existingItem.Quality = CalculateWarehouseQuality(existingItem.Quantity, existingItem.Quality, item.Value.Quantity, item.Value.Quality);
+                    existingItem.Quantity += item.Value.Quantity;
+                }
+                WarehouseInput[item.Key].Quantity = 0;
+            }
+            
         }
     }
 }
