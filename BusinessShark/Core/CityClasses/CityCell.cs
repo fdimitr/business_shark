@@ -1,6 +1,5 @@
 ﻿using System.Linq;
 using BusinessShark.Core.Divisions;
-using BusinessShark.Core.Items;
 using MessagePack;
 
 namespace BusinessShark.Core.CityClasses

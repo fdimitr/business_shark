@@ -1,4 +1,4 @@
-﻿using static BusinessShark.Core.Items.Enums;
+﻿using static BusinessShark.Core.Enums;
 
 namespace BusinessShark.Database.Models
 {

@@ -1,4 +1,4 @@
-﻿namespace BusinessShark.Core.Items
+﻿namespace BusinessShark.Core
 {
     internal static class Enums
     {
@@ -13,6 +13,12 @@
             None,
             Forest,
             Agriculture
+        }
+
+        internal enum TechType
+        {
+            WoodProcessing = 1,
+            FurnitureProduction = 2,
         }
     }
 }
