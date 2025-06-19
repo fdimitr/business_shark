@@ -17,12 +17,14 @@ namespace BusinessSharkUI
         private City currentCity { get; set; }
         private Warehouse? currentWarehouse { get; set; }
         private Factory? currentFactory { get; set; }
+        private Store? currentStore { get; set; }
 
         private ResourceExtractor? currentSource { get; set; }
 
         private readonly BindingSource _bindingSourceFactories = new BindingSource();
         private readonly BindingSource _bindingSourceSources = new BindingSource();
         private readonly BindingSource _bindingSourceWarehouse = new BindingSource();
+        private readonly BindingSource _bindingSourceStores = new BindingSource();
 
         private readonly Player _currentPlayer;
 
@@ -46,11 +48,15 @@ namespace BusinessSharkUI
             BindWarehouseCombo();
             BindFactoryCombo();
             BindSourceCombo();
+            BindStoreCombo();
             BindingFactoryRoutesListView();
             BindingWarehouseListView();
             BindingWarehouseRoutesListView();
+            BindingStoreRoutesListView();
             BindingSourceProductionListView();
             BindingSourceOutputListView();
+            BindingStoreInputListView();
+            BindingStoreOutputListView();
             listViewWarehouseItems.View = View.Details;
             listOfProduction.View = View.Details;
         }
@@ -88,11 +94,12 @@ namespace BusinessSharkUI
             };
             currentCity.Sources.Add(currentSource);
 
-            currentCity.Stores.Add(new Store(4, "Store(Main)", new Location(), new List<CityCell>
+            currentStore = (new Store(4, "Store(Main)", new Location(), new List<CityCell>
             {
                 new CityCell { X = 0, Y = 0, LandCost = 1000, RentCost = 500, Population = 1000, Wealth = 10000, Resource = Enums.ResourceType.Forest },
                 new CityCell { X = 1, Y = 0, LandCost = 1200, RentCost = 600, Population = 1200, Wealth = 12000, Resource = Enums.ResourceType.Agriculture }
             }));
+            currentCity.Stores.Add(currentStore);
         }
 
         private void BindingPlayerInfo()
@@ -194,6 +201,86 @@ namespace BusinessSharkUI
             }
         }
 
+        private void BindingStoreOutputListView()
+        {
+            if (currentStore != null)
+            {
+                listViewStoreOutput.SuspendLayout();
+                listViewStoreOutput.Items.Clear();
+
+                var listViewItemCollection = currentStore.WarehouseOutput.Select(i => new ListViewItem
+                {
+                    Text = i.Value.Definition.Name,
+                    SubItems =
+                    {
+                        i.Value.Quantity.ToString(),
+                        i.Value.Quality.ToString("F2"),
+                        i.Value.Definition.BaseProductionPrice.ToString("F2"),
+                    }
+                });
+
+                listViewStoreOutput.Items.AddRange(listViewItemCollection.ToArray());
+                listViewStoreOutput.ResumeLayout();
+            }
+        }
+
+        private void BindingStoreInputListView()
+        {
+            if (currentStore != null)
+            {
+                listViewStoreInput.SuspendLayout();
+                listViewStoreInput.Items.Clear();
+
+                var listViewItemCollection = currentStore.WarehouseInput.Select(i => new ListViewItem
+                {
+                    Text = i.Value.Definition.Name,
+                    SubItems =
+                    {
+                        i.Value.Quantity.ToString(),
+                        i.Value.Quality.ToString("F2"),
+                        i.Value.Definition.BaseProductionPrice.ToString("F2"),
+                    }
+                });
+
+                listViewStoreInput.Items.AddRange(listViewItemCollection.ToArray());
+                listViewStoreInput.ResumeLayout();
+            }
+        }
+
+        private void BindingStoreRoutesListView()
+        {
+            if (currentStore != null)
+            {
+                listViewStoreRoutes.SuspendLayout();
+                listViewStoreRoutes.Items.Clear();
+
+                var listViewItemCollection = currentStore.Routes.Select(i =>
+                {
+                    var division = market.GetDeliveryDivisionById(i.FromDivisionId);
+                    var quality = division.WarehouseOutput.TryGetValue(i.TransferringItemType, out var value)
+                        ? value.Quality.ToString(CultureInfo.InvariantCulture)
+                        : "N/A";
+
+                    return new ListViewItem
+                    {
+                        Text = market.ItemDefinitions[i.TransferringItemType].Name,
+                        SubItems =
+                        {
+                            division.Name,
+                            quality,
+                            i.TransferringCount.ToString(),
+                            i.DeliveryPrice.ToString("F2"),
+                        }
+                    };
+                }
+                );
+
+                listViewStoreRoutes.Items.AddRange(listViewItemCollection.ToArray());
+                listViewStoreRoutes.ResumeLayout();
+            }
+        }
+
+
         private void BindingFactoryRoutesListView()
         {
             if (currentFactory != null)
@@ -232,6 +319,7 @@ namespace BusinessSharkUI
             _bindingSourceFactories.DataSource = currentCity.Factories;
             _bindingSourceSources.DataSource = currentCity.Sources;
             _bindingSourceWarehouse.DataSource = currentCity.Warehouses;
+            _bindingSourceStores.DataSource = currentCity.Stores;
 
             currentWarehouse = cmbWarehouses.SelectedItem as Warehouse;
             currentFactory = cmbFactories.SelectedItem as Factory;
@@ -243,6 +331,7 @@ namespace BusinessSharkUI
             BindingFactoryRoutesListView();
             BindingSourceProductionListView();
             BindingSourceOutputListView();
+            BindingStoreRoutesListView();
 
             lblCurrentDate.Text = market.CurrentDate.ToLongDateString();
         }
@@ -323,6 +412,13 @@ namespace BusinessSharkUI
             cmbWarehouses.DataSource = _bindingSourceWarehouse;
             cmbWarehouses.DisplayMember = "Name";
             cmbWarehouses.ValueMember = "DivisionId";
+        }
+
+        private void BindStoreCombo()
+        {
+            cmbStores.DataSource = _bindingSourceStores;
+            cmbStores.DisplayMember = "Name";
+            cmbStores.ValueMember = "DivisionId";
         }
 
         private void BindFactoryCombo()
@@ -463,8 +559,18 @@ namespace BusinessSharkUI
 
         private void btnAddRouteToStore_Click(object sender, EventArgs e)
         {
-            //var routeEditor = new FrmRouteEditor(market);
-            //routeEditor.ShowDialog();
+            if (currentStore == null)
+            {
+                MessageBox.Show("Please select a store first.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+            var frmRouteEditor = new FrmRouteEditor(market, currentStore.Routes);
+            frmRouteEditor.ShowDialog();
+            if (frmRouteEditor.DialogResult == DialogResult.OK)
+            {
+                currentStore.Routes = frmRouteEditor.Routes;
+                BindingStoreRoutesListView();
+            }
         }
 
         private void btnCalculateStep_Click(object sender, EventArgs e)

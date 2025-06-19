@@ -129,6 +129,21 @@ namespace BusinessSharkUI
                     }))
                 .ToList());
 
+            routeViewModels.AddRange(_market.Cities
+                .SelectMany(city => city.Stores
+                    .Where(fb => fb.WarehouseOutput.ContainsKey(_requestedItemType))
+                    .Select(fb => new RouteViewModel
+                    {
+                        IsRoute = false,
+                        DivisionId = fb.DivisionId,
+                        DivisionName = fb.Name,
+                        City = city.Name,
+                        ExistingQuantity = fb.WarehouseOutput[_requestedItemType].Quantity,
+                        RequestedQuantity = 0,
+                        DeliveryPrice = 0f
+                    }))
+                .ToList());
+
             foreach (var route in Routes.Where(r => r.TransferringItemType == _requestedItemType))
             {
                 var model = routeViewModels.FirstOrDefault(m => m.DivisionId == route.FromDivisionId);

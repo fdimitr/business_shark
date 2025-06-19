@@ -38,6 +38,7 @@
             columnHeader8 = new ColumnHeader();
             columnHeader7 = new ColumnHeader();
             columnHeader6 = new ColumnHeader();
+            columnHeader17 = new ColumnHeader();
             btnAddRouteToFactory = new Button();
             label6 = new Label();
             label5 = new Label();
@@ -75,6 +76,7 @@
             RouteSource = new ColumnHeader();
             ItemQuality = new ColumnHeader();
             ItemQuantity = new ColumnHeader();
+            PriceOfDelivery = new ColumnHeader();
             label2 = new Label();
             WarehousesGroup = new GroupBox();
             btnAddRouteToWarehouse = new Button();
@@ -98,13 +100,13 @@
             groupBox3 = new GroupBox();
             btnAddRouteToStore = new Button();
             label9 = new Label();
-            listView9 = new ListView();
+            listViewStoreRoutes = new ListView();
             columnHeader29 = new ColumnHeader();
             columnHeader30 = new ColumnHeader();
             columnHeader31 = new ColumnHeader();
             columnHeader32 = new ColumnHeader();
             label11 = new Label();
-            listView11 = new ListView();
+            listViewStoreOutput = new ListView();
             columnHeader37 = new ColumnHeader();
             columnHeader38 = new ColumnHeader();
             columnHeader39 = new ColumnHeader();
@@ -112,8 +114,8 @@
             label12 = new Label();
             button12 = new Button();
             button13 = new Button();
-            comboBox2 = new ComboBox();
-            listView12 = new ListView();
+            cmbStores = new ComboBox();
+            listViewStoreInput = new ListView();
             columnHeader41 = new ColumnHeader();
             columnHeader42 = new ColumnHeader();
             columnHeader43 = new ColumnHeader();
@@ -124,8 +126,7 @@
             grpBox_PlayerName = new GroupBox();
             lblBudget = new Label();
             label7 = new Label();
-            PriceOfDelivery = new ColumnHeader();
-            columnHeader17 = new ColumnHeader();
+            columnHeader18 = new ColumnHeader();
             groupBox1.SuspendLayout();
             WarehousesGroup.SuspendLayout();
             groupBox2.SuspendLayout();
@@ -233,6 +234,10 @@
             // 
             columnHeader6.Text = "Количество";
             columnHeader6.Width = 50;
+            // 
+            // columnHeader17
+            // 
+            columnHeader17.Text = "Цена за доставку";
             // 
             // btnAddRouteToFactory
             // 
@@ -510,6 +515,10 @@
             ItemQuantity.Text = "Количество";
             ItemQuantity.Width = 50;
             // 
+            // PriceOfDelivery
+            // 
+            PriceOfDelivery.Text = "Цена доставки";
+            // 
             // label2
             // 
             label2.AutoSize = true;
@@ -696,14 +705,14 @@
             groupBox3.BackColor = Color.AliceBlue;
             groupBox3.Controls.Add(btnAddRouteToStore);
             groupBox3.Controls.Add(label9);
-            groupBox3.Controls.Add(listView9);
+            groupBox3.Controls.Add(listViewStoreRoutes);
             groupBox3.Controls.Add(label11);
-            groupBox3.Controls.Add(listView11);
+            groupBox3.Controls.Add(listViewStoreOutput);
             groupBox3.Controls.Add(label12);
             groupBox3.Controls.Add(button12);
             groupBox3.Controls.Add(button13);
-            groupBox3.Controls.Add(comboBox2);
-            groupBox3.Controls.Add(listView12);
+            groupBox3.Controls.Add(cmbStores);
+            groupBox3.Controls.Add(listViewStoreInput);
             groupBox3.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
             groupBox3.ForeColor = Color.SteelBlue;
             groupBox3.Location = new Point(1245, 107);
@@ -733,18 +742,21 @@
             label9.TabIndex = 25;
             label9.Text = "Routes";
             // 
-            // listView9
+            // listViewStoreRoutes
             // 
-            listView9.Columns.AddRange(new ColumnHeader[] { columnHeader29, columnHeader30, columnHeader31, columnHeader32 });
-            listView9.Location = new Point(22, 529);
-            listView9.Name = "listView9";
-            listView9.Size = new Size(366, 145);
-            listView9.TabIndex = 24;
-            listView9.UseCompatibleStateImageBehavior = false;
+            listViewStoreRoutes.Columns.AddRange(new ColumnHeader[] { columnHeader29, columnHeader18, columnHeader30, columnHeader31, columnHeader32 });
+            listViewStoreRoutes.Font = new Font("Segoe UI", 9F);
+            listViewStoreRoutes.Location = new Point(22, 529);
+            listViewStoreRoutes.Name = "listViewStoreRoutes";
+            listViewStoreRoutes.Size = new Size(366, 145);
+            listViewStoreRoutes.TabIndex = 24;
+            listViewStoreRoutes.UseCompatibleStateImageBehavior = false;
+            listViewStoreRoutes.View = View.Details;
             // 
             // columnHeader29
             // 
             columnHeader29.Text = "Наименование товара";
+            columnHeader29.Width = 80;
             // 
             // columnHeader30
             // 
@@ -767,14 +779,14 @@
             label11.TabIndex = 23;
             label11.Text = "Trading";
             // 
-            // listView11
+            // listViewStoreOutput
             // 
-            listView11.Columns.AddRange(new ColumnHeader[] { columnHeader37, columnHeader38, columnHeader39, columnHeader40 });
-            listView11.Location = new Point(21, 339);
-            listView11.Name = "listView11";
-            listView11.Size = new Size(366, 149);
-            listView11.TabIndex = 22;
-            listView11.UseCompatibleStateImageBehavior = false;
+            listViewStoreOutput.Columns.AddRange(new ColumnHeader[] { columnHeader37, columnHeader38, columnHeader39, columnHeader40 });
+            listViewStoreOutput.Location = new Point(21, 339);
+            listViewStoreOutput.Name = "listViewStoreOutput";
+            listViewStoreOutput.Size = new Size(366, 149);
+            listViewStoreOutput.TabIndex = 22;
+            listViewStoreOutput.UseCompatibleStateImageBehavior = false;
             // 
             // columnHeader37
             // 
@@ -821,22 +833,22 @@
             button13.Text = "Add";
             button13.UseVisualStyleBackColor = true;
             // 
-            // comboBox2
+            // cmbStores
             // 
-            comboBox2.FormattingEnabled = true;
-            comboBox2.Location = new Point(22, 93);
-            comboBox2.Name = "comboBox2";
-            comboBox2.Size = new Size(365, 28);
-            comboBox2.TabIndex = 11;
+            cmbStores.FormattingEnabled = true;
+            cmbStores.Location = new Point(22, 93);
+            cmbStores.Name = "cmbStores";
+            cmbStores.Size = new Size(365, 28);
+            cmbStores.TabIndex = 11;
             // 
-            // listView12
+            // listViewStoreInput
             // 
-            listView12.Columns.AddRange(new ColumnHeader[] { columnHeader41, columnHeader42, columnHeader43, columnHeader44 });
-            listView12.Location = new Point(21, 145);
-            listView12.Name = "listView12";
-            listView12.Size = new Size(366, 168);
-            listView12.TabIndex = 10;
-            listView12.UseCompatibleStateImageBehavior = false;
+            listViewStoreInput.Columns.AddRange(new ColumnHeader[] { columnHeader41, columnHeader42, columnHeader43, columnHeader44 });
+            listViewStoreInput.Location = new Point(21, 145);
+            listViewStoreInput.Name = "listViewStoreInput";
+            listViewStoreInput.Size = new Size(366, 168);
+            listViewStoreInput.TabIndex = 10;
+            listViewStoreInput.UseCompatibleStateImageBehavior = false;
             // 
             // columnHeader41
             // 
@@ -914,13 +926,10 @@
             label7.TabIndex = 0;
             label7.Text = "Бюджет";
             // 
-            // PriceOfDelivery
+            // columnHeader18
             // 
-            PriceOfDelivery.Text = "Цена доставки";
-            // 
-            // columnHeader17
-            // 
-            columnHeader17.Text = "Цена за доставку";
+            columnHeader18.Text = "Откуда";
+            columnHeader18.Width = 80;
             // 
             // FrmMain
             // 
@@ -1018,13 +1027,13 @@
         private ColumnHeader columnHeader36;
         private GroupBox groupBox3;
         private Label label9;
-        private ListView listView9;
+        private ListView listViewStoreRoutes;
         private ColumnHeader columnHeader29;
         private ColumnHeader columnHeader30;
         private ColumnHeader columnHeader31;
         private ColumnHeader columnHeader32;
         private Label label11;
-        private ListView listView11;
+        private ListView listViewStoreOutput;
         private ColumnHeader columnHeader37;
         private ColumnHeader columnHeader38;
         private ColumnHeader columnHeader39;
@@ -1032,8 +1041,8 @@
         private Label label12;
         private Button button12;
         private Button button13;
-        private ComboBox comboBox2;
-        private ListView listView12;
+        private ComboBox cmbStores;
+        private ListView listViewStoreInput;
         private ColumnHeader columnHeader41;
         private ColumnHeader columnHeader42;
         private ColumnHeader columnHeader43;
@@ -1056,5 +1065,6 @@
         private Label label7;
         private ColumnHeader PriceOfDelivery;
         private ColumnHeader columnHeader17;
+        private ColumnHeader columnHeader18;
     }
 }

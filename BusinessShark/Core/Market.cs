@@ -69,6 +69,7 @@ namespace BusinessShark.Core
                 foreach (var store in city.Stores)
                 {
                     store.CompleteCalculation();
+                    store.CompleteTransferItems();
                 }
             }
         }
