@@ -1,11 +1,12 @@
 ﻿using BusinessShark.Core.CityClasses;
 using BusinessShark.Core.Divisions;
 using BusinessShark.Core.Items;
+using BusinessShark.Core.Technologies;
 using BusinessShark.Database;
 using BusinessShark.Database.Models;
 using Dapper;
 using MessagePack;
-using static BusinessShark.Core.Items.Enums;
+using static BusinessShark.Core.Enums;
 
 namespace BusinessShark.Core
 {
@@ -13,7 +14,8 @@ namespace BusinessShark.Core
     internal class Market
     {
         public DateTime CurrentDate { get; set; } = new DateTime(1970, 1, 1);
-        public List<CityClasses.City> Cities { get; set; } = new();
+        public List<City> Cities { get; set; } = new();
+        public List<Technology> Technologies { get; set; } = new();
 
         [NonSerialized]
         public Dictionary<ItemType, ItemDefinition> ItemDefinitions = new();
@@ -22,6 +24,7 @@ namespace BusinessShark.Core
         public Market()
         {
             LoadItemDefinitions();
+            LoadTechnologies();
             // Initialize the market with some cities and factories if needed
         }
 
@@ -213,6 +216,15 @@ namespace BusinessShark.Core
             {
                 kvp.Value.CheckTotalImpact();
             }
+        }
+
+        public void LoadTechnologies()
+        {
+            using var con = DatabaseHelper.GetSqlConnection();
+            var sql = "SELECT TechnologyId, Name, Description, ExponentBase FROM Technology";
+
+            Technologies = con.Query<TechnologyDto>(sql)
+                .Select(t => new Technology((TechType)t.TechnologyId, t.Name, t.Description, t.ExponentBase)).ToList();
         }
     }
 }

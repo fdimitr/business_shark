@@ -1,5 +1,5 @@
 ﻿using MessagePack;
-using static BusinessShark.Core.Items.Enums;
+using static BusinessShark.Core.Enums;
 
 namespace BusinessShark.Core.Items
 {

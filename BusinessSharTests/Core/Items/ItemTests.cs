@@ -3,7 +3,7 @@ using BusinessShark.Core.CityClasses;
 using BusinessShark.Core.Divisions;
 using BusinessShark.Core.Items;
 using BusinessShark.Core.ServiceClasses;
-using static BusinessShark.Core.Items.Enums;
+using static BusinessShark.Core.Enums;
 
 namespace BusinessSharkTests.Core.Items
 {

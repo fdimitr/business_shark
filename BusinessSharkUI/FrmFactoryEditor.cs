@@ -2,7 +2,6 @@
 using System.Globalization;
 using BusinessShark.Core;
 using BusinessShark.Core.Divisions;
-using BusinessShark.Core.Items;
 using BusinessShark.Core.ServiceClasses;
 
 namespace BusinessSharkUI

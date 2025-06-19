@@ -23,5 +23,10 @@
     &lt;TestId&gt;NUnit3x::72D614C3-0BC5-4AC7-BBA5-3F9D1AE0AF22::net9.0::BusinessSharTests.Core.WarehouseTests.CompleteTransferItems_MovesProcessingToQuantityAndResets&lt;/TestId&gt;&#xD;
     &lt;TestId&gt;NUnit3x::72D614C3-0BC5-4AC7-BBA5-3F9D1AE0AF22::net9.0::BusinessSharTests.Core.WarehouseTests&lt;/TestId&gt;&#xD;
     &lt;TestId&gt;NUnit3x::72D614C3-0BC5-4AC7-BBA5-3F9D1AE0AF22::net9.0::BusinessSharkTests.Core.CityClasses.CityMapTests&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;NUnit3x::72D614C3-0BC5-4AC7-BBA5-3F9D1AE0AF22::net9.0::BusinessSharkTests.Core.Items.ItemTests.CalculateAttractiveness_ReturnsExpectedValue_WithTypicalInputs&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;NUnit3x::72D614C3-0BC5-4AC7-BBA5-3F9D1AE0AF22::net9.0::BusinessSharkTests.Core.Items.ItemTests&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;NUnit3x::72D614C3-0BC5-4AC7-BBA5-3F9D1AE0AF22::net9.0::BusinessSharkTests.Core.CityClasses.CityCellTests&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;NUnit3x::72D614C3-0BC5-4AC7-BBA5-3F9D1AE0AF22::net9.0::BusinessSharkTests.Performance.CityCellPerfTest.RunSalesDistributionPerfTest&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;NUnit3x::72D614C3-0BC5-4AC7-BBA5-3F9D1AE0AF22::net9.0::BusinessSharkTests.Performance.CityCellPerfTest&lt;/TestId&gt;&#xD;
   &lt;/TestAncestor&gt;&#xD;
 &lt;/SessionState&gt;</s:String></wpf:ResourceDictionary>

@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using BusinessShark.Core.Items;
 using MessagePack;
 
 namespace BusinessShark.Core.CityClasses
