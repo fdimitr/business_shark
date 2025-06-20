@@ -36,6 +36,8 @@ namespace BusinessShark.Core.Divisions
 
         public override void CompleteCalculation()
         {
+            WarehouseOutput = WarehouseInput;
+            /*
             foreach (var cell in TradeArea)
             {
                 foreach(var item in WarehouseOutput)
@@ -55,6 +57,7 @@ namespace BusinessShark.Core.Divisions
                     }
                 }
             }
+            */
         }
 
         public void PutUpForSale()

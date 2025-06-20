@@ -114,7 +114,7 @@
             columnHeader40 = new ColumnHeader();
             label12 = new Label();
             button12 = new Button();
-            button13 = new Button();
+            btnAddStore = new Button();
             cmbStores = new ComboBox();
             listViewStoreInput = new ListView();
             columnHeader41 = new ColumnHeader();
@@ -710,7 +710,7 @@
             groupBox3.Controls.Add(listViewStoreOutput);
             groupBox3.Controls.Add(label12);
             groupBox3.Controls.Add(button12);
-            groupBox3.Controls.Add(button13);
+            groupBox3.Controls.Add(btnAddStore);
             groupBox3.Controls.Add(cmbStores);
             groupBox3.Controls.Add(listViewStoreInput);
             groupBox3.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
@@ -834,15 +834,16 @@
             button12.Text = "Delete";
             button12.UseVisualStyleBackColor = true;
             // 
-            // button13
+            // btnAddStore
             // 
-            button13.Font = new Font("Segoe UI", 9F);
-            button13.Location = new Point(22, 48);
-            button13.Name = "button13";
-            button13.Size = new Size(94, 29);
-            button13.TabIndex = 12;
-            button13.Text = "Add";
-            button13.UseVisualStyleBackColor = true;
+            btnAddStore.Font = new Font("Segoe UI", 9F);
+            btnAddStore.Location = new Point(22, 48);
+            btnAddStore.Name = "btnAddStore";
+            btnAddStore.Size = new Size(94, 29);
+            btnAddStore.TabIndex = 12;
+            btnAddStore.Text = "Add";
+            btnAddStore.UseVisualStyleBackColor = true;
+            btnAddStore.Click += btnAddStore_Click;
             // 
             // cmbStores
             // 
@@ -1052,7 +1053,7 @@
         private ColumnHeader columnHeader40;
         private Label label12;
         private Button button12;
-        private Button button13;
+        private Button btnAddStore;
         private ComboBox cmbStores;
         private ListView listViewStoreInput;
         private ColumnHeader columnHeader41;

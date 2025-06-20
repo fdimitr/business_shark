@@ -104,7 +104,6 @@ namespace BusinessShark.Core
                 {
                     store.StartTransferItems(this);
                     store.StartCalculation();
-                    store.PutUpForSale();
                 }
 
                 foreach (var cell in city.Map.Grid)

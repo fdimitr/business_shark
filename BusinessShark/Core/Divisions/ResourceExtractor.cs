@@ -12,6 +12,7 @@ namespace BusinessShark.Core.Divisions
         public ItemDefinition ResourceDefinition;
         public float ProgressProduction; //percent of single product left on production
         public float ProgressQuality;
+        public float ProgressPrice;
         public float ResourceDepositQuality = 5; // replace with the quality of this type of resource at the deposit
         public float TechLevel;
         public Tools ToolPark;
@@ -79,6 +80,7 @@ namespace BusinessShark.Core.Divisions
                     item.ResetProcessing();
                     WarehouseInput[ExtractingItemType].Quality = 0;
                     WarehouseInput[ExtractingItemType].Quantity = 0;
+                    ProgressPrice = item.Quantity * item.Definition.BaseProductionPrice;
                 }
             }
             else

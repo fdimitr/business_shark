@@ -75,11 +75,11 @@ namespace BusinessSharkUI
 
             // Factory initialization
             currentFactory = new Factory(2, "Factory(Main)", market.ItemDefinitions[Enums.ItemType.Bed], 2.3f, new Tools(), new Workers(), new Location())
-                {
-                    ProgressProduction = 0.75f,
-                    ProgressQuality = 3.75f,
-                    ProgressPrice = 233
-                };
+            {
+                ProgressProduction = 0.75f,
+                ProgressQuality = 3.75f,
+                ProgressPrice = 233
+            };
 
             currentFactory.WarehouseInput.Add(Enums.ItemType.Wood, new Item(market.ItemDefinitions[Enums.ItemType.Wood], 0, 0, 16, 2.5f, 0.15f));
             currentFactory.WarehouseInput.Add(Enums.ItemType.Leather, new Item(market.ItemDefinitions[Enums.ItemType.Leather], 0, 0, 6, 1.2f, 22.6f));
@@ -87,7 +87,7 @@ namespace BusinessSharkUI
             currentFactory.WarehouseOutput.Add(Enums.ItemType.Bed, new Item(market.ItemDefinitions[Enums.ItemType.Bed], 0, 0, 2, 31.9f, 23.15f));
             currentCity.Factories.Add(currentFactory);
 
-            currentSource =new ResourceExtractor(3, "Wood Source", market.ItemDefinitions[Enums.ItemType.Wood], 1.0f, new Tools(), new Workers(), new Location())
+            currentSource = new ResourceExtractor(3, "Wood Source", market.ItemDefinitions[Enums.ItemType.Wood], 1.0f, new Tools(), new Workers(), new Location())
             {
                 ProgressProduction = 0.5f,
                 ProgressQuality = 2.5f
@@ -118,15 +118,15 @@ namespace BusinessSharkUI
                 var listViewItemCollection = currentWarehouse.WarehouseOutput
                     .Where(i => i.Value.Quantity > 0)
                     .Select(i => new ListViewItem
-                {
-                    Text = i.Value.Definition.Name,
-                    SubItems =
+                    {
+                        Text = i.Value.Definition.Name,
+                        SubItems =
                     {
                         i.Value.Quantity.ToString(),
                         i.Value.Quality.ToString("F2"),
                         i.Value.Price.ToString("F2"),
                     }
-                });
+                    });
 
                 listViewWarehouseItems.Items.AddRange(listViewItemCollection.ToArray());
                 listViewWarehouseItems.ResumeLayout();
@@ -167,15 +167,15 @@ namespace BusinessSharkUI
                 var listViewItemCollection = currentFactory.WarehouseInput
                     .Where(i => i.Value.Quantity > 0)
                     .Select(i => new ListViewItem
-                {
-                    Text = i.Value.Definition.Name,
-                    SubItems =
+                    {
+                        Text = i.Value.Definition.Name,
+                        SubItems =
                     {
                         i.Value.Quantity.ToString(),
                         i.Value.Quality.ToString("F2"),
                         i.Value.Definition.BaseProductionPrice.ToString("F2"),
                     }
-                });
+                    });
 
                 listViewFactoryInput.Items.AddRange(listViewItemCollection.ToArray());
                 listViewFactoryInput.ResumeLayout();
@@ -192,15 +192,15 @@ namespace BusinessSharkUI
                 var listViewItemCollection = currentFactory.WarehouseOutput
                     .Where(i => i.Value.Quantity > 0)
                     .Select(i => new ListViewItem
-                {
-                    Text = i.Value.Definition.Name,
-                    SubItems =
+                    {
+                        Text = i.Value.Definition.Name,
+                        SubItems =
                     {
                         i.Value.Quantity.ToString(),
                         i.Value.Quality.ToString("F2"),
                         i.Value.Definition.BaseProductionPrice.ToString("F2"),
                     }
-                });
+                    });
 
                 listViewFactoryOutput.Items.AddRange(listViewItemCollection.ToArray());
                 listViewFactoryOutput.ResumeLayout();
@@ -217,15 +217,15 @@ namespace BusinessSharkUI
                 var listViewItemCollection = currentStore.WarehouseOutput
                     .Where(i => i.Value.Quantity > 0)
                     .Select(i => new ListViewItem
-                {
-                    Text = i.Value.Definition.Name,
-                    SubItems =
+                    {
+                        Text = i.Value.Definition.Name,
+                        SubItems =
                     {
                         i.Value.Quantity.ToString(),
                         i.Value.Quality.ToString("F2"),
                         i.Value.Definition.BaseProductionPrice.ToString("F2"),
                     }
-                });
+                    });
 
                 listViewStoreOutput.Items.AddRange(listViewItemCollection.ToArray());
                 listViewStoreOutput.ResumeLayout();
@@ -636,7 +636,7 @@ namespace BusinessSharkUI
                     {
                         i.Value.Quantity.ToString(),
                         i.Value.Quality.ToString("F2"),
-                        i.Value.Price.ToString("F2"),
+                        currentSource.ProgressPrice.ToString("F2"),
                     }
                 });
 
@@ -707,6 +707,26 @@ namespace BusinessSharkUI
             _calculationTimer?.Dispose();
             _calculationTimer = null;
             btnStartCalculation.Enabled = true; // Re-enable the button
+        }
+
+        private void btnAddStore_Click(object sender, EventArgs e)
+        {
+            AddStore();
+        }
+        private void AddStore()
+        {
+            FrmStoreEditor storeEditor = new FrmStoreEditor(market);
+            if (storeEditor.ShowDialog() == DialogResult.OK)
+            {
+                var name = storeEditor.StoreName;
+                var xCoordinate = storeEditor.StoreXCoordinate;
+                var yCoordinate = storeEditor.StoreYCoordinate;
+                var range = storeEditor.StoreRange;
+                int newId = currentCity.Stores.Max(s => s.DivisionId) + 1;
+                Location location = new Location(xCoordinate, yCoordinate);
+                currentStore = new Store(newId, name, location, new List<CityCell>());
+                currentCity.Stores.Add(currentStore);
+            }
         }
     }
 }
