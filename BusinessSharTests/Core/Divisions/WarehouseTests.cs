@@ -21,10 +21,11 @@ namespace BusinessSharkTests.Core.Divisions
         [SetUp]
         public void SetUp()
         {
+            var city = new City("TestCity", 100, 100);
             _itemDef = new ItemDefinition(Enums.ItemType.Wood, "Wood", 1, 1, 0.1f, 0.1f, 0.1f, 0.1f, 0.1f, 0.1f,
                 0.1f, 0, 40);
-            _fromDivision = new Warehouse(1, "TestWarehouseFrom", new Location(), int.MaxValue);
-            _toDivision = new Warehouse(2, "TestWarehouseTo", new Location(1, 1), int.MaxValue);
+            _fromDivision = new Warehouse(1, "TestWarehouseFrom", new Location(1, 1, city), int.MaxValue);
+            _toDivision = new Warehouse(2, "TestWarehouseTo", new Location(5, 5, city), int.MaxValue);
 
             _fromItem = new Item(_itemDef, quality: 10, quantity: 100);
             _toItem = new Item(_itemDef, quality: 5, quantity: 50);
@@ -33,7 +34,6 @@ namespace BusinessSharkTests.Core.Divisions
             _toDivision.WarehouseInput[Enums.ItemType.Wood] = _toItem;
 
             _market = new Market();
-            var city = new City("TestCity", 100, 100);
             city.Warehouses.Add((Warehouse)_fromDivision);
             city.Warehouses.Add((Warehouse)_toDivision);
             _market.Cities.Add(city);

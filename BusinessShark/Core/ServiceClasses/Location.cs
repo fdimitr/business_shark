@@ -1,23 +1,17 @@
 ﻿using System.Drawing;
+using BusinessShark.Core.CityClasses;
 using MessagePack;
 
 namespace BusinessShark.Core.ServiceClasses
 {
     [MessagePackObject(keyAsPropertyName: true)]
-    internal class Location
+    internal class Location(int x, int y, City city)
     {
-        public int X { get; set; }
+        public int X { get; } = x;
+        public int Y { get; } = y;
 
-        public int Y { get; set; }
+        public City City { get; } = city;
 
-        public Location() { }
-
-        public Location(int x, int y)
-        {
-            X = x;
-            Y = y;
-        }
-
-        public Point ToSystemPoint() => new Point(X, Y);
+        public Point Position { get; } = new(x, y);
     }
 }

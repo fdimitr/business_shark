@@ -1,10 +1,8 @@
-﻿using System.Drawing;
-using BusinessShark.Core;
+﻿using BusinessShark.Core;
 using BusinessShark.Core.Divisions;
 using BusinessShark.Core.Items;
-using BusinessShark.Core.ServiceClasses;
 
-namespace BusinessSharTests.Core
+namespace BusinessSharkTests.Core.Divisions
 {
     [TestFixture]
     internal partial class FactoryTests
@@ -48,7 +46,7 @@ namespace BusinessSharTests.Core
             };
         }
 
-        private static Factory CreateFactoryWithResources(ItemDefinition productDef, float techLevel = 1.0f, float toolTechLevel = 1.0f, float workerTechLevel = 1.0f)
+        private Factory CreateFactoryWithResources(ItemDefinition productDef, float techLevel = 1.0f, float toolTechLevel = 1.0f, float workerTechLevel = 1.0f)
         {
             var tools = new Tools { TechLevel = toolTechLevel, TotalQuantity = 1 };
             var workers = new Workers { TechLevel = workerTechLevel, TotalQuantity = 1 };
@@ -59,7 +57,7 @@ namespace BusinessSharTests.Core
                 techLevel: techLevel,
                 toolPark: tools,
                 workers: workers,
-                location: new Location()
+                location: _location
             )
             {
                 WarehouseInput =
@@ -103,7 +101,7 @@ namespace BusinessSharTests.Core
                 techLevel: 1.0f,
                 toolPark: tools,
                 workers: workers,
-                location: new Location()
+                location: _location
             )
             {
                 WarehouseInput =
@@ -135,7 +133,7 @@ namespace BusinessSharTests.Core
                 techLevel: 1.0f,
                 toolPark: tools,
                 workers: workers,
-                location: new Location()
+                location: _location
             );
 
             // Not enough input
@@ -162,7 +160,7 @@ namespace BusinessSharTests.Core
                 techLevel: 1.0f,
                 toolPark: tools,
                 workers: workers,
-                location: new Location()
+                location: _location
             )
             {
                 WarehouseInput =
@@ -201,7 +199,7 @@ namespace BusinessSharTests.Core
                 techLevel: 1.0f,
                 toolPark: tools,
                 workers: workers,
-                location: new Location()
+                location: _location
             )
             {
                 WarehouseInput =
@@ -239,7 +237,7 @@ namespace BusinessSharTests.Core
                 techLevel: 1.0f,
                 toolPark: tools,
                 workers: workers,
-                location: new Location()
+                location: _location
             )
             {
                 WarehouseInput =

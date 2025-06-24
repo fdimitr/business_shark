@@ -5,7 +5,7 @@ using MessagePack;
 namespace BusinessShark.Core.Divisions
 {
     [MessagePackObject(keyAsPropertyName: true)]
-    internal class Store(int divisionId, string name, Location location, List<CityCell> tradeArea) : DeliveryDivision(divisionId, name, location)
+    internal class Store(int divisionId, string name, Location location, Enums.SizeType sizeType, List<CityCell> tradeArea) : DeliveryDivision(divisionId, name, location, sizeType)
     {
         public float RecognitionLevel { get; set; } = 0f; // 0.0 - 1.0, 1.0 - max recognition
 

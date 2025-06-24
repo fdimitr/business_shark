@@ -1,5 +1,4 @@
-﻿using System.Linq;
-using BusinessShark.Core.Divisions;
+﻿using BusinessShark.Core.Divisions;
 using MessagePack;
 
 namespace BusinessShark.Core.CityClasses
@@ -22,15 +21,39 @@ namespace BusinessShark.Core.CityClasses
         public int RentCost { get; set; }
         public int Population { get; set; }
         public int Wealth { get; set; }
+        public int? DivisionId { get; private set; }
 
         public Enums.ResourceType Resource { get; set; }
-        public Dictionary<Enums.ItemType, List<SellIndicator>?> SellInfo { get; set; } = new();
+
+         public Dictionary<Enums.ItemType, List<SellIndicator>?> SellInfo { get; set; } = new();
 
         public override string ToString()
         {
             return $"({X},{Y}) | Land: {LandCost}, Rent: {RentCost}, Pop: {Population}, Wealth: {Wealth}, Res: {Resource}";
         }
 
+        public void SetDivision(int divisionId, bool shouldPopulationEvict)
+        {
+            if (DivisionId.HasValue)
+            {
+                throw new InvalidOperationException($"Cell at ({X},{Y}) already has a division with ID {DivisionId.Value}.");
+            }
+
+            DivisionId = divisionId;
+            if (shouldPopulationEvict) Population = 0;
+        }
+
+        public void DestroyDivision()
+        {
+            DivisionId = null;
+            Population = 0; // Reset population when division is destroyed
+        }
+
+        /// <summary>
+        /// Calculates and distributes the sales levels for each item type in the cell based on the market's item definitions and the cell's population.
+        /// For each item type, determines the total possible sales using the necessity coefficient and delegates the distribution to <see cref="CalculateSalesDistribution"/>.
+        /// </summary>
+        /// <param name="market">The market context containing item definitions and necessity coefficients.</param>
         public void CalculateLevelSale(Market market)
         {
             foreach (var kvp in SellInfo)
@@ -44,15 +67,25 @@ namespace BusinessShark.Core.CityClasses
             }
         }
 
+
+        /// <summary>
+        /// Distributes the total number of sales among the provided <see cref="SellIndicator"/> instances
+        /// based on their attractiveness and maximum sales constraints.
+        /// The distribution is performed in two steps:
+        /// 1. Proportional allocation according to attractiveness, limited by MaxSales.
+        /// 2. Remaining sales are distributed in a round-robin fashion, respecting MaxSales limits.
+        /// </summary>
+        /// <param name="indicators">The list of <see cref="SellIndicator"/> objects to distribute sales to.</param>
+        /// <param name="totalSales">The total number of sales to distribute among the indicators.</param>
         internal void CalculateSalesDistribution(List<SellIndicator> indicators, int totalSales)
         {
+
             int n = indicators.Count;
             var rawSales = new float[n];
             var fulfilled = new bool[n];
 
             // 1. Сумма всех коэффициентов привлекательности
             float totalAttractiveness = indicators.Sum(i => i.Attractiveness);
-
             if (totalAttractiveness == 0)
             {
                 return;
@@ -67,18 +100,15 @@ namespace BusinessShark.Core.CityClasses
                 fulfilled[i] = indicator.CountOfSell >= indicator.MaxSales;
             }
 
-            int assignedTotal = indicators.Sum(i=>i.CountOfSell);
+            int assignedTotal = indicators.Sum(i => i.CountOfSell);
             int remaining = totalSales - assignedTotal;
 
             // 3. Распределяем оставшиеся единицы
             while (remaining > 0)
             {
-                
-
                 if (remaining >= n)
                 {
                     int actuallyAssigned = remaining / n;
-
                     for (int i = 0; i < n; i++)
                     {
                         if (fulfilled[i]) continue; // Пропускаем уже заполненные
@@ -87,7 +117,6 @@ namespace BusinessShark.Core.CityClasses
                         {
                             indicator.CountOfSell += actuallyAssigned;
                             remaining -= actuallyAssigned;
-
                         }
                         else
                         {
@@ -100,7 +129,7 @@ namespace BusinessShark.Core.CityClasses
                 }
                 else
                 {
-                    for(int i = 0; i < n; i++)
+                    for (int i = 0; i < n; i++)
                     {
                         if (fulfilled[i]) continue;
                         var indicator = indicators[i];
@@ -113,13 +142,12 @@ namespace BusinessShark.Core.CityClasses
                 }
 
                 var check = 0;
-                for(int i = 0; i < n; i++)
+                for (int i = 0; i < n; i++)
                 {
                     if (fulfilled[i]) check++;
                 }
-                if (check == n) break; 
+                if (check == n) break;
             }
-
         }
     }
 }

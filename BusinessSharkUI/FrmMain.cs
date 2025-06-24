@@ -67,14 +67,15 @@ namespace BusinessSharkUI
             // For example, you can add some factories or warehouses here.
 
             // Warehouse initialization
-            var newWarehouse = new Warehouse(1, "Warehouse(Main)", new Location(), 222);
+            var newWarehouse = new Warehouse(1, "Warehouse(Main)", new Location(20, 20, currentCity), 222);
             newWarehouse.WarehouseOutput.Add(Enums.ItemType.Wood, new Item(market.ItemDefinitions[Enums.ItemType.Wood], 0, 0, 3456, 2.5f, 0.15f));
             newWarehouse.WarehouseOutput.Add(Enums.ItemType.Leather, new Item(market.ItemDefinitions[Enums.ItemType.Leather], 0, 0, 120, 1.2f, 22.6f));
 
             currentCity.Warehouses.Add(newWarehouse);
 
             // Factory initialization
-            currentFactory = new Factory(2, "Factory(Main)", market.ItemDefinitions[Enums.ItemType.Bed], 2.3f, new Tools(), new Workers(), new Location())
+            currentFactory = new Factory(2, "Factory(Main)", market.ItemDefinitions[Enums.ItemType.Bed], 2.3f,
+                new Tools(), new Workers(), new Location(10, 10, currentCity))
             {
                 ProgressProduction = 0.75f,
                 ProgressQuality = 3.75f,
@@ -87,18 +88,25 @@ namespace BusinessSharkUI
             currentFactory.WarehouseOutput.Add(Enums.ItemType.Bed, new Item(market.ItemDefinitions[Enums.ItemType.Bed], 0, 0, 2, 31.9f, 23.15f));
             currentCity.Factories.Add(currentFactory);
 
-            currentSource = new ResourceExtractor(3, "Wood Source", market.ItemDefinitions[Enums.ItemType.Wood], 1.0f, new Tools(), new Workers(), new Location())
+            currentSource = new ResourceExtractor(3, "Wood Source", market.ItemDefinitions[Enums.ItemType.Wood], 1.0f, new Tools(), new Workers(), new Location(1,1,currentCity))
             {
                 ProgressProduction = 0.5f,
                 ProgressQuality = 2.5f
             };
             currentCity.Sources.Add(currentSource);
 
-            currentStore = (new Store(4, "Store(Main)", new Location(), new List<CityCell>
-            {
-                new CityCell { X = 0, Y = 0, LandCost = 1000, RentCost = 500, Population = 1000, Wealth = 10000, Resource = Enums.ResourceType.Forest },
-                new CityCell { X = 1, Y = 0, LandCost = 1200, RentCost = 600, Population = 1200, Wealth = 12000, Resource = Enums.ResourceType.Agriculture }
-            }));
+            currentStore = (new Store(4, "Store(Main)", new Location(40, 40, currentCity), Enums.SizeType.OneByOne, [
+                new CityCell
+                {
+                    X = 0, Y = 0, LandCost = 1000, RentCost = 500, Population = 1000, Wealth = 10000,
+                    Resource = Enums.ResourceType.Forest
+                },
+                new CityCell
+                {
+                    X = 1, Y = 0, LandCost = 1200, RentCost = 600, Population = 1200, Wealth = 12000,
+                    Resource = Enums.ResourceType.Agriculture
+                }
+            ]));
             currentCity.Stores.Add(currentStore);
         }
 
@@ -357,7 +365,7 @@ namespace BusinessSharkUI
                 var name = warehouseEditor.WarehouseName;
                 var volume = warehouseEditor.Volume;
                 int newId = currentCity.Warehouses.Max(w => w.DivisionId) + 1;
-                currentWarehouse = new Warehouse(newId, name, new Location(), volume);
+                currentWarehouse = new Warehouse(newId, name, new Location(15,5, currentCity), volume);
                 currentCity.Warehouses.Add(currentWarehouse);
                 _bindingSourceWarehouse.ResetBindings(false);
 
@@ -379,7 +387,7 @@ namespace BusinessSharkUI
 
         private void AddFactory()
         {
-            FrmFactoryEditor factoryEditor = new FrmFactoryEditor(market, null);
+            FrmFactoryEditor factoryEditor = new FrmFactoryEditor(market, null, currentCity);
             if (factoryEditor.ShowDialog() == DialogResult.OK)
             {
                 currentCity.Factories.Add(factoryEditor.Factory!);
@@ -389,7 +397,7 @@ namespace BusinessSharkUI
 
         private void EditFactory()
         {
-            FrmFactoryEditor factoryEditor = new FrmFactoryEditor(market, currentFactory);
+            FrmFactoryEditor factoryEditor = new FrmFactoryEditor(market, currentFactory, currentCity);
             if (factoryEditor.ShowDialog() == DialogResult.OK)
             {
                 currentFactory = factoryEditor.Factory;
@@ -614,7 +622,7 @@ namespace BusinessSharkUI
 
                 resource = market.ItemDefinitions[sourceEditor.ResourceType];
 
-                var newSource = new ResourceExtractor(newId, name, resource, 1, new Tools(), new Workers(), new Location());
+                var newSource = new ResourceExtractor(newId, name, resource, 1, new Tools(), new Workers(), new Location(35,10,currentCity));
                 currentCity.Sources.Add(newSource);
 
                 currentSource = newSource;
@@ -723,8 +731,8 @@ namespace BusinessSharkUI
                 var yCoordinate = storeEditor.StoreYCoordinate;
                 var range = storeEditor.StoreRange;
                 int newId = currentCity.Stores.Max(s => s.DivisionId) + 1;
-                Location location = new Location(xCoordinate, yCoordinate);
-                currentStore = new Store(newId, name, location, new List<CityCell>());
+                Location location = new Location(xCoordinate, yCoordinate, currentCity);
+                currentStore = new Store(newId, name, location, Enums.SizeType.OneByOne, new List<CityCell>());
                 currentCity.Stores.Add(currentStore);
             }
         }

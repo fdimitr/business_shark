@@ -1,6 +1,6 @@
-﻿using BusinessShark.Core.CityClasses;
+﻿using BusinessShark.Core;
+using BusinessShark.Core.CityClasses;
 using BusinessShark.Core.Divisions;
-using BusinessShark.Core.Items;
 using BusinessShark.Core.ServiceClasses;
 
 namespace BusinessSharkTests.Core.CityClasses
@@ -14,7 +14,8 @@ namespace BusinessSharkTests.Core.CityClasses
         [SetUp]
         public void SetUp()
         {
-            _store = new Store(1, "Test Store",new Location(), [new CityCell(), new CityCell(), new CityCell()]);
+            _store = new Store(1, "Test Store", new Location(1, 1, new City(String.Empty, 5, 5)), Enums.SizeType.OneByOne,
+                [new CityCell(), new CityCell(), new CityCell()]);
             _cell = new CityCell();
         }
 

@@ -1,6 +1,4 @@
-﻿using System.Drawing;
-using System.Text.Json.Serialization;
-using BusinessShark.Core.ServiceClasses;
+﻿using BusinessShark.Core.ServiceClasses;
 using MessagePack;
 
 namespace BusinessShark.Core.Divisions
@@ -10,7 +8,7 @@ namespace BusinessShark.Core.Divisions
     {
         public int Volume { get; }
 
-        public Warehouse(int divisionId, string name, Location location, int volume) : base(divisionId, name, location)
+        public Warehouse(int divisionId, string name, Location location, int volume) : base(divisionId, name, location, Enums.SizeType.TwoByTwo)
         {
             Volume = volume;
             WarehouseOutput = WarehouseInput;

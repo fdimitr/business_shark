@@ -1,6 +1,7 @@
 ﻿using System.ComponentModel;
 using System.Globalization;
 using BusinessShark.Core;
+using BusinessShark.Core.CityClasses;
 using BusinessShark.Core.Divisions;
 using BusinessShark.Core.ServiceClasses;
 
@@ -14,12 +15,14 @@ namespace BusinessSharkUI
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public Factory? Factory { get; set; }
 
+        private City _city;
 
-        public FrmFactoryEditor(Market market, Factory? factory)
+        public FrmFactoryEditor(Market market, Factory? factory, City city)
         {
             InitializeComponent();
             _market = market;
             Factory = factory;
+            _city = city;
         }
 
         private void btnOK_Click(object sender, EventArgs e)
@@ -50,8 +53,8 @@ namespace BusinessSharkUI
                 txtBoxRentalCost.Text = Factory.RentalCost.ToString("F2");
 
                 // Location
-                UpDownLocationX.Value = Factory.Location.X;
-                UpDownLocationY.Value = Factory.Location.Y;
+                UpDownLocationX.Value = Factory.Location.Position.X;
+                UpDownLocationY.Value = Factory.Location.Position.Y;
 
                 // Workers
                 upDownWorkersQuantity.Value = Factory.Workers.TotalQuantity;
@@ -65,7 +68,7 @@ namespace BusinessSharkUI
 
         private void SaveFactory()
         {
-            var location = new Location((int)UpDownLocationX.Value, (int)UpDownLocationY.Value);
+            var location = new Location((int)UpDownLocationX.Value, (int)UpDownLocationY.Value, _city);
             var workers = new Workers
             {
                 TotalQuantity = (int)upDownWorkersQuantity.Value,

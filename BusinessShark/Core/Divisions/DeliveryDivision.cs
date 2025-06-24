@@ -6,7 +6,7 @@ namespace BusinessShark.Core.Divisions
     [MessagePackObject(keyAsPropertyName: true)]
     [Union(1, typeof(Warehouse))]
     [Union(2, typeof(Factory))]
-    internal abstract class DeliveryDivision(int divisionId, string name, Location location) : Division(divisionId, name, location)
+    internal abstract class DeliveryDivision(int divisionId, string name, Location location, Enums.SizeType sizeType) : Division(divisionId, name, location, sizeType)
     {
         public Dictionary<Enums.ItemType, Items.Item> WarehouseInput = new();  //to
         public Dictionary<Enums.ItemType, Items.Item> WarehouseOutput = new(); //from

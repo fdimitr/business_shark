@@ -1,4 +1,5 @@
 ﻿using System.Diagnostics;
+using BusinessShark.Core;
 using BusinessShark.Core.CityClasses;
 using BusinessShark.Core.Divisions;
 using BusinessShark.Core.ServiceClasses;
@@ -13,7 +14,8 @@ namespace BusinessSharkTests.Performance
         {
             var cell = new CityCell();
             var rand = new Random(42);
-            var store = new Store(1, "Test Store", new Location(), [new CityCell(), new CityCell(), new CityCell()]);
+            var store = new Store(1, "Test Store", new Location(1, 1, new City(string.Empty, 10, 10)),
+                Enums.SizeType.OneByTwo, [new CityCell(), new CityCell(), new CityCell()]);
             var totalRuns = 1_000_000;
             var indicatorsList = new List<List<CityCell.SellIndicator>>(totalRuns);
             var totalSalesList = new int[totalRuns];

@@ -1,18 +1,23 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using BusinessShark.Core;
-using BusinessShark.Core.ServiceClasses;
+﻿using BusinessShark.Core;
+using BusinessShark.Core.CityClasses;
 using BusinessShark.Core.Divisions;
 using BusinessShark.Core.Items;
+using BusinessShark.Core.ServiceClasses;
 
-namespace BusinessSharTests.Core
+namespace BusinessSharkTests.Core.Divisions
 {
     internal partial class FactoryTests
     {
+        private Location _location;
+
+        [SetUp]
+        public void Setup()
+        {
+            // This method is called once before any tests in this class are run.
+            // You can use it to set up any shared resources or configurations needed for the tests.
+            _location = new Location(1, 1, new City("TestCity", 10, 10));
+        }
+
         [Test]
         public void CalculateProductionQuality_ReturnsExpectedQuality_WithValidInputs()
         {
@@ -30,7 +35,7 @@ namespace BusinessSharTests.Core
 
             var tools = new Tools { TechLevel = 2 };
             var workers = new Workers { TechLevel = 3 };
-            var factory = new Factory(1, "TestFactory", productDefinition, 4, tools, workers, new Location());
+            var factory = new Factory(1, "TestFactory", productDefinition, 4, tools, workers, _location);
 
             var qualityItems = new List<Factory.QualityItem>
             {
@@ -43,7 +48,7 @@ namespace BusinessSharTests.Core
 
             // Assert
             // result is = 5*0.2 + 7*0.3 + 4*0.2 + 2*0.2 + 3*0.1 = 1 + 2.1 + 0.8 + 0.4 + 0.3 = 4.6
-            Assert.That(result, Is.EqualTo(4.6).Within(Tolerance));
+            Assert.That(result, Is.EqualTo(4.6).Within(FactoryTests.Tolerance));
         }
 
 
@@ -64,7 +69,7 @@ namespace BusinessSharTests.Core
 
             var tools = new Tools { TechLevel = 2 };
             var workers = new Workers { TechLevel = 3 };
-            var factory = new Factory(1, "TestFactory", productDefinition, 4, tools, workers, new Location());
+            var factory = new Factory(1, "TestFactory", productDefinition, 4, tools, workers, _location);
 
             var qualityItems = new List<Factory.QualityItem>
             {
@@ -77,7 +82,7 @@ namespace BusinessSharTests.Core
 
             // Assert
             // result is = 5*0.2 + 7*0.3 + 4*0 + 2*0 + 3*0.1 = 1 + 2.1 + 0 + 0 + 0.3 = 3.4
-            Assert.That(result, Is.EqualTo(3.4).Within(Tolerance));
+            Assert.That(result, Is.EqualTo(3.4).Within(FactoryTests.Tolerance));
         }
     }
 }

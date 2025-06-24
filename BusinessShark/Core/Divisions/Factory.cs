@@ -13,7 +13,7 @@ namespace BusinessShark.Core.Divisions
             float techLevel,
             Tools toolPark,
             Workers workers,
-            Location location) : base(divisionId, name, location)
+            Location location) : base(divisionId, name, location, Enums.SizeType.TwoByTwo)
         {
             ProductDefinition = productDefinition;
             TechLevel = techLevel;

@@ -35,7 +35,8 @@ namespace BusinessSharkTests.Core.Items
 
         private Store CreateStore(float recognitionLevel = 0.5f, float techLevel = 0.5f)
         {
-            return new Store(1, "TestStore", new Location(0, 0), new List<CityCell>())
+            return new Store(1, "TestStore", new Location(1, 1, new City(String.Empty, 10, 10)), SizeType.OneByOne,
+                new List<CityCell>())
             {
                 RecognitionLevel = recognitionLevel,
                 Workers = new Workers { TechLevel = techLevel }
